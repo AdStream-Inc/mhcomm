@@ -1,0 +1,12 @@
+{
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "gulp": "~3.5.*",
+    "gulp-rename": "~0.2.2",
+    "gulp-autoprefixer": "0.0.4",
+    "gulp-sass": "~0.5.2",
+    "gulp-uglify": "~0.1.0",
+    "gulp-imagemin": "~0.1.4",
+    "gulp-concat": "~2.1.7"
+  }
+}

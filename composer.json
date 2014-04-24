@@ -1,0 +1,42 @@
+{
+	"name": "adstream/cms",
+	"require": {
+		"laravel/framework": "4.1.*",
+		"way/generators": "2.*",
+		"cartalyst/sentry": "2.1.*",
+		"cartalyst/nested-sets": "2.0.*",
+		"cartalyst/composite-config": "1.0.*",
+		"prologue/alerts": "dev-master",
+		"way/database": "dev-master"
+	},
+	"repositories": [{
+		"type": "composer",
+		"url": "http://packages.cartalyst.com"
+	}],
+	"autoload": {
+		"classmap": [
+			"app/commands",
+			"app/extensions",
+			"app/database/migrations",
+			"app/database/seeds",
+			"app/tests/TestCase.php"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"php artisan clear-compiled",
+			"php artisan optimize"
+		],
+		"post-update-cmd": [
+			"php artisan clear-compiled",
+			"php artisan optimize"
+		],
+		"post-create-project-cmd": [
+			"php artisan key:generate"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "stable"
+}
