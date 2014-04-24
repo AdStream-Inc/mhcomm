@@ -31,7 +31,7 @@
           <input name="filter" placeholder="Search" class="form-control" type="text">
           <span class="fa fa-search text-muted form-search-icon"></span>
         </div>
-        <a class="btn btn-success" href="{{ url($adminUrl . '/jobs/create') }}"><span class="fa fa-plus"> Create</a>
+        <a class="btn btn-success" href="{{ route($adminUrl . '.jobs.create') }}"><span class="fa fa-plus"> Create</a>
       {{ Form::close() }}
     </div>
   </div>

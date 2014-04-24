@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('brandon-GA-770TA-UD3'),
+	'local' => array('brandon-GA-770TA-UD3', 'David-PC'),
 
 ));
 

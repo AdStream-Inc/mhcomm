@@ -60,8 +60,5 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
     });
 
   // temp default frontend route
-  Route::get('/', function()
-  {
-  	return View::make('hello');
-  });
+  Route::controller('jobs', 'JobCOntorller');
 });
