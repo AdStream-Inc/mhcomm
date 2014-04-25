@@ -35,7 +35,7 @@ class AuthController extends BaseController {
         Sentry::authenticate($credentials, false);
       }
 
-      return Redirect::to($this->adminUrl . '/settings');
+      return Redirect::to($this->adminUrl);
 
     } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
       Alert::error('Email field is required.')->flash();

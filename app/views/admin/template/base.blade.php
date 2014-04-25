@@ -21,7 +21,45 @@
     </script>
   </head>
   <body>
-    @yield('nav.append')
+    <div id="header">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url($adminUrl) }}">{{ $siteTitle }}</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="main-nav-collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="#"><span class="fa fa-map-marker"></span> Communities</a></li>
+              <li><a href="#"><span class="fa fa-file"></span> Pages</a></li>
+              <li @if(Request::is($adminUrl . '/jobs*')) class="active" @endif>
+                <a href="{{ route($adminUrl . '.jobs.index') }}"><span class="fa fa-briefcase"></span> Jobs</a>
+              </li>
+              @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
+                <li @if(Request::is($adminUrl . '/users*')) class="active" @endif>
+                  <a href="{{ route($adminUrl . '.users.index') }}"><span class="fa fa-users"></span> Users</a>
+                </li>
+              @endif
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              @if ($user->hasAccess('settings'))
+                <li @if(Request::is($adminUrl . '/settings')) class="active" @endif>
+                  <a href="{{ url($adminUrl . '/settings') }}"><span class="fa fa-gears"></span> Settings</a>
+                </li>
+              @endif
+              <li><a href="{{ url('/') }}"><span class="fa fa-home"></span> Preview</a></li>
+              <li><a href="{{ url($adminUrl . '/auth/logout') }}"><span class="fa fa-sign-out"></span> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
     <div id="main">
       <div class="container">
           @yield('main.prepend')

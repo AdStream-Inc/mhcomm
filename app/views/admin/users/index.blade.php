@@ -49,8 +49,8 @@
         @foreach ($users as $user)
           <tr>
             <td><input type="checkbox"></td>
-            <td class="col-md-4"><a href="{{ route($adminUrl . '.users.edit', $user->id) }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
-            <td class="col-md-4">{{ $user->email }}</td>
+            <td class="col-md-4"><a href="{{ route($adminUrl . '.users.edit', $user->id) }}">{{ $user->email }}</a></td>
+            <td class="col-md-4">{{ $user->first_name }} {{ $user->last_name }}</td>
             <td class="col-md-2">{{ $user->last_login }}</td>
             <td class="col-md-2">{{ $user->created_at }}</td>
           </tr>

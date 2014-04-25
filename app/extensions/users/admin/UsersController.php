@@ -10,8 +10,8 @@ use Adstream\Controllers\BaseController;
 class UsersController extends BaseController {
 
     private $tableFields = array(
-        'Name',
         'Email',
+        'Name',
         'Last Login',
         'Created On'
     );
@@ -37,7 +37,7 @@ class UsersController extends BaseController {
     public function edit($id)
     {
         $user = Sentry::findUserById($id);
-        $userGroups = $user->getGroups()->lists('id', 'name');
+        $userGroups = $user->getGroups();
 
         $groupsCollection = Sentry::findAllGroups();
         $groups = array();
@@ -50,6 +50,9 @@ class UsersController extends BaseController {
 
     public function store()
     {
+        /**
+         * TODO:: find a better way to handle additional validation
+         */
         try {
             $user = Sentry::createUser(array(
                 'email'     => Input::get('email'),
@@ -59,17 +62,23 @@ class UsersController extends BaseController {
                 'activated' => true,
             ));
 
-            $this->assignGroup($user, Input::get('user_group'));
+            if ($user) {
+                $this->assignGroup($user, Input::get('user_group'));
+                Alert::success('User successfully added!')->flash();
+                return Redirect::route($this->adminUrl . '.users.index');
+            }
 
-        } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
-            Alert::error('Login field is required.')->flash();
             return Redirect::back()->withInput()->withErrors($user->getErrors());
-        } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+
+        } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            Alert::error('Email field is required.')->flash();
+            return Redirect::to($this->adminUrl . '/users/create')->withInput();
+        } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
             Alert::error('Password field is required.')->flash();
-            return Redirect::back()->withInput()->withErrors($user->getErrors());
-        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
+            return Redirect::to($this->adminUrl . '/users/create')->withInput();
+        } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {
             Alert::error('A user with this email already exists.')->flash();
-            return Redirect::back()->withInput()->withErrors($user->getErrors());
+            return Redirect::to($this->adminUrl . '/users/create')->withInput();
         }
     }
 

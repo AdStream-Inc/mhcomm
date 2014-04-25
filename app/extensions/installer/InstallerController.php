@@ -40,7 +40,7 @@ class InstallerController extends BaseController {
         'name'        => 'Admin',
         'permissions' => array(
             'admin' => 1,
-            'settings' => 1
+            'settings' => 1,
             'users.create' => 1,
             'users.edit' => 1,
             'users.list' => 1,
@@ -64,7 +64,7 @@ class InstallerController extends BaseController {
         'name'        => 'Super User',
         'permissions' => array(
             'admin' => 1,
-            'settings' => 0
+            'settings' => 0,
             'users.create' => 0,
             'users.edit' => 1,
             'users.list' => 1,
@@ -88,7 +88,7 @@ class InstallerController extends BaseController {
         'name'        => 'Super Manager',
         'permissions' => array(
             'admin' => 1,
-            'settings' => 0
+            'settings' => 0,
             'users.create' => 0,
             'users.edit' => 0,
             'users.list' => 0,
@@ -112,7 +112,7 @@ class InstallerController extends BaseController {
         'name'        => 'Manager',
         'permissions' => array(
             'admin' => 1,
-            'settings' => 0
+            'settings' => 0,
             'users.create' => 0,
             'users.edit' => 0,
             'users.list' => 0,
