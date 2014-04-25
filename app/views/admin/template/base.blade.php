@@ -47,14 +47,14 @@
                 </li>
               @endif
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right system-nav">
               @if ($user->hasAccess('settings'))
                 <li @if(Request::is($adminUrl . '/settings')) class="active" @endif>
-                  <a href="{{ url($adminUrl . '/settings') }}"><span class="fa fa-gears"></span> Settings</a>
+                  <a href="{{ url($adminUrl . '/settings') }}" title="Settings"><span class="fa fa-gears"></span></a>
                 </li>
               @endif
-              <li><a href="{{ url('/') }}"><span class="fa fa-home"></span> Preview</a></li>
-              <li><a href="{{ url($adminUrl . '/auth/logout') }}"><span class="fa fa-sign-out"></span> Logout</a></li>
+              <li><a href="{{ url('/') }}" title="Preview"><span class="fa fa-home"></span></a></li>
+              <li><a href="{{ url($adminUrl . '/auth/logout') }}" title="Logout"><span class="fa fa-sign-out"></span></a></li>
             </ul>
           </div>
         </div>
@@ -69,6 +69,7 @@
     </div>
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js') }}
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js') }}
+    {{ HTML::script(asset('assets/admin/js/app.min.js')) }}
     @yield('scripts')
   </body>
 </html>
