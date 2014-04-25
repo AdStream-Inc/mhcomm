@@ -17,11 +17,19 @@ class SettingsController extends BaseController {
     public function store()
     {
         $title = Input::get('title');
+        $adminUrl = Input::get('admin_url');
 
-        Config::getLoader()->set('site.title', $title);
-        Alert::success('Settings successfully updated!')->flash();
+        if ($adminUrl != Config::get('site.admin_url')) {
+            Config::getLoader()->set('site.title', $title);
+            Config::getLoader()->set('site.admin_url', $adminUrl);
 
-        return Redirect::route($this->adminUrl . '.settings.index');
+            // this will log us out and redirect us to new login page
+            return Redirect::to($adminUrl . '/auth/logout');
+        } else {
+            Config::getLoader()->set('site.title', $title);
+            Alert::success('Settings successfully updated!')->flash();
+            return Redirect::route($this->adminUrl . '.settings.index');
+        }
     }
 
 }

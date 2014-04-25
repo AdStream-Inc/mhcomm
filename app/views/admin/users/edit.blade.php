@@ -1,7 +1,7 @@
 @extends('admin.template.base')
 
 @section('content')
-  <h1>Editing User <small>{{ $user->first_name }} {{ $user->last_name }}</small></h1>
+  <h1>Editing User <small>{{ $user->present()->fullName }}</small></h1>
   <div class="panel panel-default">
     {{ Form::model($user, array('route' => array($adminUrl . '.users.update', $user->id), 'class' => 'panel-body', 'method' => 'PUT')) }}
       <div class="form-group">

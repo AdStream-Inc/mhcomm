@@ -4,7 +4,7 @@
   @if (Alert::has('success'))
     <div class="alert alert-success">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <span class="fa fa-check"></span> {{ Alert::first('success') }}
+      {{ Alert::first('success') }}
     </div>
   @endif
 @stop

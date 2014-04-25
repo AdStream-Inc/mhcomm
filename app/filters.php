@@ -46,8 +46,15 @@ Route::filter('auth.basic', function()
 
 Route::filter('install', function() {
   if (!Config::get('site.installed')) return Redirect::to('installer');
-
 });
+
+Route::filter('permissions.users', function()
+{
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('users.create', 'users.delete'))) return Redirect::to(Config::get('site.admin_url'));
+});
+
+Route::when(Config::get('site.admin_url') . '/users*', 'permissions.users');
 
 /*
 |--------------------------------------------------------------------------

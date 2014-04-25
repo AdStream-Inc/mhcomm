@@ -5,6 +5,7 @@ use Input;
 use Redirect;
 use Sentry;
 use Alert;
+use Config;
 use Adstream\Controllers\BaseController;
 
 class AuthController extends BaseController {
@@ -35,7 +36,7 @@ class AuthController extends BaseController {
         Sentry::authenticate($credentials, false);
       }
 
-      return Redirect::to($this->adminUrl . '/settings');
+      return Redirect::to($this->adminUrl);
 
     } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
       Alert::error('Email field is required.')->flash();
@@ -58,7 +59,7 @@ class AuthController extends BaseController {
   public function getLogout()
   {
     Sentry::logout();
-    return Redirect::to($this->adminUrl . '/auth/login');
+    return Redirect::to(Config::get('site.admin_url') . '/auth/login');
   }
 
 }

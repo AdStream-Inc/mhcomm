@@ -1,5 +1,14 @@
 @extends('admin.template.base')
 
+@section('main.prepend')
+  @foreach (Alert::all() as $alert)
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{ $alert }}
+    </div>
+  @endforeach
+@stop
+
 @section('content')
   <h1>Create a User</h1>
   <div class="panel panel-default">
