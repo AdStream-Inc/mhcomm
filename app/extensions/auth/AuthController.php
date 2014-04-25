@@ -5,6 +5,7 @@ use Input;
 use Redirect;
 use Sentry;
 use Alert;
+use Config;
 use Adstream\Controllers\BaseController;
 
 class AuthController extends BaseController {
@@ -58,7 +59,7 @@ class AuthController extends BaseController {
   public function getLogout()
   {
     Sentry::logout();
-    return Redirect::to($this->adminUrl . '/auth/login');
+    return Redirect::to(Config::get('site.admin_url') . '/auth/login');
   }
 
 }

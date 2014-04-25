@@ -11,13 +11,21 @@ class JobsController extends BaseController {
 
     private $model;
 
+    /**
+     * The table fields for our data table
+     * @var array
+     */
     private $tableFields = array(
         'Name',
-        'Enabled',
+        'Available',
         'Created On'
     );
 
-    // this is only necessary if we are using repository pattern
+    /**
+     * Setup Jobs repository and construct BaseController
+     * for additional properties
+     * @param Jobs $jobs Jobs repository
+     */
     public function __construct(Jobs $jobs)
     {
         parent::__construct();

@@ -1,16 +1,12 @@
 <?php namespace Adstream\Models;
 
-use Input;
-use Validator;
 use Cartalyst\Sentry\Users\Eloquent\User as SentryUser;
+use Laracasts\Presenter\PresentableTrait;
 
-class Users extends SentryUser {
+class User extends SentryUser {
 
-    protected static $rules = array(
-      'first_name' => 'required',
-      'last_name' => 'required',
-      'password' => 'required',
-      'email' => 'required|email'
-    );
+  use PresentableTrait;
+
+  protected $presenter = 'UserPresenter';
 
 }

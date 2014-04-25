@@ -5,7 +5,6 @@ use View;
 use Input;
 use Redirect;
 use Alert;
-use Sentry;
 use Adstream\Controllers\BaseController;
 
 class SettingsController extends BaseController {
@@ -24,9 +23,8 @@ class SettingsController extends BaseController {
             Config::getLoader()->set('site.title', $title);
             Config::getLoader()->set('site.admin_url', $adminUrl);
 
-            // we have to logout user so new admin URL can take affect
-            Sentry::logout();
-            return Redirect::to(Config::get('site.admin_url') . '/auth/login');
+            // this will log us out and redirect us to new login page
+            return Redirect::to($adminUrl . '/auth/logout');
         } else {
             Config::getLoader()->set('site.title', $title);
             Alert::success('Settings successfully updated!')->flash();
