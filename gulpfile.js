@@ -12,7 +12,7 @@ var frontendUrl = './app/assets/frontend'
 var adminCss = [adminUrl + '/css/app.scss'];
 var frontendCss = [frontendUrl + '/css/app.scss'];
 
-var adminJs = [adminUrl + '/js/*.js'];
+var adminJs = [adminUrl + '/js/lib/*.js', adminUrl + '/js/shared/*.js', adminUrl + '/js/**/*.js'];
 var frontendJs = [frontendUrl + '/js/*.js'];
 
 gulp.task('adminCss', function() {
@@ -40,7 +40,7 @@ gulp.task('frontendCss', function() {
 gulp.task('adminJs', function() {
   gulp.src(adminJs)
     .pipe(concat('app.min.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('./public/assets/admin/js/'));
 });
 

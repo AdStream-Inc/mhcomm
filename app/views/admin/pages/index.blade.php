@@ -11,6 +11,13 @@
       {{ Alert::first('success') }}
     </div>
   @endif
+
+  @if (Alert::has('error'))
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{ Alert::first('error') }}
+    </div>
+  @endif
 @stop
 
 @section('content')
@@ -68,8 +75,8 @@
               <div id="{{ $identifier }}" class="template-sections">
                 @foreach($template['sections'] as $key => $title)
                   <div class="form-group">
-                    {{ Form::label('templates[' . $key . ']', $title) }}
-                    {{ Form::textarea('templates[' . $key . ']', null, array('class' => 'form-control template-section-content', 'rows' => 4)) }}
+                    {{ Form::label('templates[' . $identifier . '-' . $key . ']', $title) }}
+                    {{ Form::textarea('templates[' . $identifier . '-' . $key . ']', null, array('class' => 'form-control template-section-content', 'rows' => 4, 'id' => $identifier . '-' . $key)) }}
                   </div>
                 @endforeach
               </div>
@@ -88,11 +95,9 @@
   @section('scripts')
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.0/jstree.min.js') }}
     <script>
-      // need to fix this still
-      var pageTree = $('#tree').jstree({
+      $('#tree').jstree({
         plugins: ['wholerow'],
       }).on('changed.jstree open_node.jstree', function() {
-        console.log('test');
         replaceIcons();
       });
 

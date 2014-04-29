@@ -68,12 +68,39 @@ class PagesController extends BaseController {
     {
         $page = $this->model->find($id);
         $page->slug = Str::slug(Input::get('name'));
+        $parentId = Input::get('parent_id');
+
+        $children = array();
+        $findChildren = function($pageId) use (&$parentId, &$findChildren, &$children) {
+            $childrenPages = $this->model->where('parent_id', $pageId)->get();
+            if (count($childrenPages)) {
+                foreach ($childrenPages as $child) {
+                    if ($child->id == $parentId) {
+                       $children[] = $child->id;
+                    }
+
+                    $findChildren($child->id);
+                }
+            }
+
+            return $children;
+        };
+
+        if (count($findChildren($page->id))) {
+            Alert::error('Cannot assign a parent page to a child page.')->flash();
+            return Redirect::back()->withInput();
+        }
 
         if ($page->update(Input::all())) {
 
             $sections = Input::get('templates');
             foreach ($sections as $slug => $value) {
                 $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
+                if (!$section) {
+                    $section = new $this->sections();
+                    $section->slug = $slug;
+                    $section->page_id = $page->id;
+                }
                 $section->content = $value;
                 $section->save();
             }
@@ -126,8 +153,7 @@ class PagesController extends BaseController {
         };
 
         $select = $printDropdown($this->tree);
-
-        array_unshift($select, '-- No Parent --');
+        $select = array(0 => '[ No Parent ]') + $select;
 
         return $select;
     }

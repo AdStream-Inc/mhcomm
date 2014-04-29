@@ -31,24 +31,21 @@ class Pages extends Model {
     /**
      * Auto validation rules for composer package Way/Database
      */
-    protected static $rules = array();
+    protected static $rules = array(
+        'name' => 'required',
+    );
 
     public function section($slug = '')
     {
         $section = PageSections::where('page_id', $this->id)->where('slug', $slug)->first();
 
-        if ($section) return $section->content;
-
-        return '';
+        // send empty string if not found to prevent
+        // php error from throwing
+        return $section ? $section->content : '';
     }
 
     public function sections()
     {
         return $this->hasMany('Adstream\Models\PageSections', 'page_id');
-    }
-
-    public function tree() 
-    {
-      return $this->hasOne('Adstream\Models\PageTree', 'page_id');
     }
 }

@@ -36,21 +36,21 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($users as $user)
+            @foreach ($users as $person)
               <tr>
                 <td><input type="checkbox"></td>
                 <td class="col-md-4">
                   @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
-                    <a href="{{ route($adminUrl . '.users.edit', $user->id) }}">
+                    <a href="{{ route($adminUrl . '.users.edit', $person->id) }}">
                   @endif
-                  {{ $user->email }}
+                  {{ $person->email }}
                   @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
                     </a>
                   @endif
                 </td>
-                <td class="col-md-4">{{ $user->present()->fullName }}</td>
-                <td class="col-md-2">{{ $user->present()->lastLogin }}</td>
-                <td class="col-md-2">{{ $user->present()->createdOn }}</td>
+                <td class="col-md-4">{{ $person->present()->fullName }}</td>
+                <td class="col-md-2">{{ $person->present()->lastLogin }}</td>
+                <td class="col-md-2">{{ $person->present()->createdOn }}</td>
               </tr>
             @endforeach
           </tbody>

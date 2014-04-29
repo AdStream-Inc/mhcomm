@@ -21,7 +21,7 @@ return array(
       'jobs.create' => 1,
       'jobs.edit' => 1,
       'jobs.list' => 1,
-      'jobs.delete' => 1,
+      'jobs.delete' => 1
     ),
   ),
 
