@@ -180,7 +180,7 @@ class PagesController extends BaseController {
             return $html;
         };
 
-        $html = $printTree($this->tree);
+        $html = count($this->tree) ? $printTree($this->tree) : '';
 
         return $html;
     }
