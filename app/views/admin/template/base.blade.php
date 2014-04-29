@@ -71,8 +71,8 @@
           @yield('main.append')
       </div>
     </div>
-    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js') }}
-    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js') }}
+    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
+    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/tinymce/4.0.21/tinymce.min.js') }}
     {{ HTML::script(asset('assets/admin/js/app.min.js')) }}
     @yield('scripts')
   </body>
