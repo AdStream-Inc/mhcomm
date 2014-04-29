@@ -6,7 +6,7 @@ Form::macro('bootwrapped', function($name, $label, $callback) use ($errors)
 {
   return sprintf(
     '<div class="form-group %s">
-      <label class="control-label">%s</label>
+      <label for="' . $name . '" class="control-label">%s</label>
       %s
       %s
     </div>',

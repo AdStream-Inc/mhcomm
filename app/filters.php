@@ -51,10 +51,30 @@ Route::filter('install', function() {
 Route::filter('permissions.users', function()
 {
 	$user = Sentry::getUser();
-	if (!$user->hasAnyAccess(array('users.create', 'users.delete'))) return Redirect::to(Config::get('site.admin_url'));
+	if (!$user->hasAnyAccess(array('users.create', 'users.delete'))) return Redirect::route(Config::get('site.admin_url') . '.users.index');
 });
 
-Route::when(Config::get('site.admin_url') . '/users*', 'permissions.users');
+Route::when(Config::get('site.admin_url') . '/users/create', 'permissions.users');
+
+Route::filter('permissions.pages', function()
+{
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
+});
+
+Route::when(Config::get('site.admin_url') . '/pages*', 'permissions.pages');
+
+Route::filter('permissions.jobs', function()
+{
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
+});
+
+Route::when(Config::get('site.admin_url') . '/jobs*', 'permissions.jobs');
 
 /*
 |--------------------------------------------------------------------------

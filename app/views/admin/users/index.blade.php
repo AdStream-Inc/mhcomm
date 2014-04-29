@@ -10,7 +10,11 @@
 @stop
 
 @section('content')
-  <h1>Users <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.users.create') }}"><span class="fa fa-plus"> Create</a></h1>
+  <h1>Users
+    @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
+      <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.users.create') }}"><span class="fa fa-plus"> Create</a>
+    @endif
+  </h1>
   @if (count($users))
     <div class="panel panel-default">
       <div class="panel-body">
@@ -35,7 +39,15 @@
             @foreach ($users as $user)
               <tr>
                 <td><input type="checkbox"></td>
-                <td class="col-md-4"><a href="{{ route($adminUrl . '.users.edit', $user->id) }}">{{ $user->email }}</a></td>
+                <td class="col-md-4">
+                  @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
+                    <a href="{{ route($adminUrl . '.users.edit', $user->id) }}">
+                  @endif
+                  {{ $user->email }}
+                  @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
+                    </a>
+                  @endif
+                </td>
                 <td class="col-md-4">{{ $user->present()->fullName }}</td>
                 <td class="col-md-2">{{ $user->present()->lastLogin }}</td>
                 <td class="col-md-2">{{ $user->present()->createdOn }}</td>

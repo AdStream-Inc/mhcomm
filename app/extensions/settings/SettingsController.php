@@ -16,17 +16,20 @@ class SettingsController extends BaseController {
 
     public function store()
     {
-        $title = Input::get('title');
-        $adminUrl = Input::get('admin_url');
+        $settings = Input::all();
 
-        if ($adminUrl != Config::get('site.admin_url')) {
-            Config::getLoader()->set('site.title', $title);
-            Config::getLoader()->set('site.admin_url', $adminUrl);
+        if (isset($settings['admin_url']) && $settings['admin_url'] != Config::get('site.admin_url')) {
+            foreach ($settings as $key => $setting) {
+                Config::getLoader()->set('site.' . $key, $setting);
+            }
 
             // this will log us out and redirect us to new login page
-            return Redirect::to($adminUrl . '/auth/logout');
+            return Redirect::to($settings['admin_url'] . '/auth/logout');
         } else {
-            Config::getLoader()->set('site.title', $title);
+            foreach ($settings as $key => $setting) {
+                Config::getLoader()->set('site.' . $key, $setting);
+            }
+
             Alert::success('Settings successfully updated!')->flash();
             return Redirect::route($this->adminUrl . '.settings.index');
         }

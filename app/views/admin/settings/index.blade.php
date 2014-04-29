@@ -17,11 +17,11 @@
         {{ Form::label('title', 'Site Title', array('class' => 'control-label')) }}
         {{ Form::text('title', $siteTitle, array('class' => 'form-control')) }}
       </div>
-       <div class="form-group">
+      <!-- <div class="form-group">
         {{ Form::label('admin_url', 'Admin Url', array('class' => 'control-label')) }}
         {{ Form::text('admin_url', $adminUrl, array('class' => 'form-control')) }}
         <span class="help-block">* Requires logout.</span>
-      </div>
+      </div> -->
       <hr />
       {{ Form::submit('Save Settings', array('class' => 'btn btn-success pull-right')) }}
     {{ Form::close() }}
