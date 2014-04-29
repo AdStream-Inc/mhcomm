@@ -1,0 +1,12 @@
+.template-sections {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+#form-update,
+.page-create {
+  display: none;
+}

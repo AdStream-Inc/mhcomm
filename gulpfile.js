@@ -9,8 +9,8 @@ var concat = require('gulp-concat');
 var adminUrl = './app/assets/admin';
 var frontendUrl = './app/assets/frontend'
 
-var adminCss = [adminUrl + '/css/*.scss', adminUrl + '/css/**/*.scss'];
-var frontendCss = [frontendUrl + '/css/*.scss', frontendUrl + '/css/**/*.scss'];
+var adminCss = [adminUrl + '/css/app.scss'];
+var frontendCss = [frontendUrl + '/css/app.scss'];
 
 var adminJs = [adminUrl + '/js/*.js'];
 var frontendJs = [frontendUrl + '/js/*.js'];
@@ -58,8 +58,8 @@ gulp.task('frontendJs', function() {
 });*/
 
 gulp.task('watch', function() {
-  gulp.watch(adminCss, ['adminCss']);
-  gulp.watch(frontendCss, ['frontendCss']);
+  gulp.watch([adminCss, adminUrl + '/css/**/*.scss'], ['adminCss']);
+  gulp.watch([frontendCss, frontendUrl + '/css/**/*.scss'], ['frontendCss']);
   gulp.watch(adminJs, ['adminJs']);
   gulp.watch(frontendJs, ['frontendJs']);
 });
