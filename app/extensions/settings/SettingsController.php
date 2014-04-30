@@ -20,14 +20,14 @@ class SettingsController extends BaseController {
 
         if (isset($settings['admin_url']) && $settings['admin_url'] != Config::get('site.admin_url')) {
             foreach ($settings as $key => $setting) {
-                Config::getLoader()->set('site.' . $key, $setting);
+                Config::getLoader()->set('site.' . $key, $setting, '*');
             }
 
             // this will log us out and redirect us to new login page
             return Redirect::to($settings['admin_url'] . '/auth/logout');
         } else {
             foreach ($settings as $key => $setting) {
-                Config::getLoader()->set('site.' . $key, $setting);
+                Config::getLoader()->set('site.' . $key, $setting, '*');
             }
 
             Alert::success('Settings successfully updated!')->flash();

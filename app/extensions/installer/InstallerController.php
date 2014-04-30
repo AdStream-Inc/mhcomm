@@ -51,9 +51,9 @@ class InstallerController extends BaseController {
         'activated' => true,
     ))->addGroup($adminGroup);
 
-    Config::getLoader()->set('site.title', Input::get('title'));
-    Config::getLoader()->set('site.admin_url', Input::get('admin_url'));
-    Config::getLoader()->set('site.installed', 1);
+    Config::getLoader()->set('site.title', Input::get('title'), '*');
+    Config::getLoader()->set('site.admin_url', Input::get('admin_url'), '*');
+    Config::getLoader()->set('site.installed', 1, '*');
 
     return Redirect::to(Input::get('admin_url'));
   }

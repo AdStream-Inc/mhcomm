@@ -7,7 +7,7 @@
     this.sections = $('.template-sections');
     this.template = $('#template');
     this.activeTemplate = $('#template').val();
-    this.createButton = $('.page-create');
+    this.createButton = $('#page-create');
     this.saveButton = $('#form-save');
     this.updateButton = $('#form-update');
     this.form = $('#pages-form');
@@ -125,9 +125,12 @@
   }
 
   Pages.prototype.resetPageData = function() {
+    var self = this;
     $.each(this.pageInputs, function(selector, obj) {
       $(selector).val(obj.defaultVal);
     });
+
+    this.setActiveTemplate(this.activeTemplate);
   }
 
   Pages.prototype.loadSectionData = function(template, data) {
@@ -157,7 +160,7 @@
     this.updateButton.show()
     this.createButton.show();
 
-    var method = '<input type="hidden" id="form-method" name="_method" value="PUT" />';
+    var method = '<input type="hidden" name="_method" value="PUT" />';
 
     this.form
       .attr('action', URL.current + '/' + id)
@@ -175,7 +178,7 @@
 
     this.setActiveTemplate(this.activeTemplate);
 
-    $('#form-method').remove();
+    $('input[name="_method"]').remove();
     $('select[name="parent_id"] option').removeAttr('disabled');
 
     this.form

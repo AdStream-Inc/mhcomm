@@ -33,7 +33,7 @@
       <div class="well tree-outer">
         <div class="tree-inner">
           <div class="clearfix push-half-bottom">
-            <button class="btn btn-sm btn-block btn-success pull-right page-create"><span class="fa fa-plus"> Create</button>
+            <button class="btn btn-sm btn-block btn-success pull-right @if(isset($lastUpdated)) is-visible @endif" id="page-create"><span class="fa fa-plus"> Create</button>
           </div>
           <div id="tree">
             @if ($pagesTree)
@@ -112,23 +112,11 @@
     <script>
       (function($, window, document, undefined) {
         $('#tree').jstree({
-          plugins: ['wholerow'],
-        }).on('changed.jstree open_node.jstree', function() {
+          plugins: ['wholerow', 'state'],
+        }).on('ready.jstree changed.jstree open_node.jstree', function() {
           replaceIcons();
-        }).on('ready.jstree', function() {
-          $('#tree').jstree('select_node', '#j1_2', true);
-        });
+        })
 
-        $(window).on('load', function() {
-          var container = $('#tree').jstree('get_container');
-          var activeNode = $('#tree').jstree('get_node', $('.last-active'));
-          console.log(activeNode);
-        });
-
-          // var nodeId = $('a[data-id="' + LAST_UPDATED_ID + '"]', $('#tree')).closest('li').attr('id');
-          // console.log(nodeId);
-          // console.log($('#tree').jstree('get_node', $('a[data-id="' + LAST_UPDATED_ID + '"]').closest('li')));
-          // $('#tree').jstree('open_node', $('#' + nodeId));
 
         replaceIcons();
 

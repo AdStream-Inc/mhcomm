@@ -37,21 +37,20 @@ class UpdateGroups extends Command {
 	 */
 	public function fire()
 	{
-		$adminGroup = Sentry::findGroupByName('Admin');
-		$adminGroup->permissions = Config::get('groups.admin.permissions');
-		$adminGroup->save();
+		foreach (Config::get('groups') as $groupData) {
+			try {
+				$group = Sentry::findGroupByName($groupData['name']);
+				$group->permissions = $groupData['permissions'];
+				$group->save();
+			} catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
+				Sentry::createGroup(array(
+		        'name' => $groupData['name'],
+		        'permissions' => $groupData['permissions'],
+		    ));
 
-    $superUserGroup = Sentry::findGroupByName('Super User');
-    $superUserGroup->permissions = Config::get('groups.superuser.permissions');
-    $superUserGroup->save();
-
-    $superManagerGroup = Sentry::findGroupByName('Super Manager');
-    $superManagerGroup->permissions = Config::get('groups.supermanager.permissions');
-    $superManagerGroup->save();
-
-    $managerGroup = Sentry::findGroupByName('Manager');
-    $managerGroup->permissions = Config::get('groups.manager.permissions');
-    $managerGroup->save();
+		    $this->info('Adding new group [' . $groupData['name'] . ']');
+			}
+		}
 	}
 
 	/**

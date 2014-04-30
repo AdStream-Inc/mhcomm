@@ -41,7 +41,15 @@
                   <a href="{{ route($adminUrl . '.pages.index') }}"><span class="fa fa-file"></span> Pages</a>
                 </li>
               @endif
-              <li><a href="#"><span class="fa fa-map-marker"></span> Communities</a></li>
+              <li class="dropdown @if(Request::is($adminUrl . '/specials*') || Request::is($adminUrl . '/communities*')) active @endif">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span class="fa fa-map-marker"></span> Community Manager <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Communities</a></li>
+                  <li><a @if(Request::is($adminUrl . '/specials*') class="active" @endif href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
+                </ul>
+              </li>
               @if ($user->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
                 <li @if(Request::is($adminUrl . '/jobs*')) class="active" @endif>
                   <a href="{{ route($adminUrl . '.jobs.index') }}"><span class="fa fa-briefcase"></span> Jobs</a>
@@ -72,7 +80,6 @@
       </div>
     </div>
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
-    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/tinymce/4.0.21/tinymce.min.js') }}
     {{ HTML::script(asset('assets/admin/js/app.min.js')) }}
     @yield('scripts')
   </body>
