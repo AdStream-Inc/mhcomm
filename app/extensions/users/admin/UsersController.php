@@ -30,6 +30,8 @@ class UsersController extends BaseController {
         foreach ($groupsCollection as $group) {
             $groups[$group->id] = $group->name;
         }
+        $adstreamGroup = Sentry::findGroupByName('Adstream')->id;
+        $groups = array_except($groups, array($adstreamGroup));
 
         return View::make('admin.users.create', compact('groups'));
     }

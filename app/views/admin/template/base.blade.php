@@ -47,7 +47,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="#">Communities</a></li>
-                  <li><a @if(Request::is($adminUrl . '/specials*') class="active" @endif href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
+                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
                 </ul>
               </li>
               @if ($user->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
