@@ -124,6 +124,7 @@ return array(
 		'Cartalyst\CompositeConfig\CompositeConfigServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Prologue\Alerts\AlertsServiceProvider',
+		'Sebklaus\Profiler\Providers\ProfilerServiceProvider',
 	),
 
 	/*

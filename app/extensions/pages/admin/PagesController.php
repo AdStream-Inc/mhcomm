@@ -8,6 +8,7 @@ use Config;
 use Str;
 use Response;
 use Request;
+use Cache;
 use Adstream\Models\Pages;
 use Adstream\Models\PageSections;
 use Adstream\Controllers\BaseController;
@@ -17,6 +18,8 @@ class PagesController extends BaseController {
     private $model;
 
     private $tree;
+
+    private $lastUpdated;
 
     /**
      * Setup Pages repository and construct BaseController
@@ -39,7 +42,16 @@ class PagesController extends BaseController {
         $pagesDropdown = $this->getPagesDropdown();
         $templatesDropdown = $this->getTemplatesDropdown();
 
-        return View::make('admin.pages.index', compact('templates', 'templatesDropdown', 'pagesDropdown', 'pagesTree'));
+        if (!$this->model->count()) {
+            Cache::forget('lastUpdated');
+        }
+
+        if (Cache::has('lastUpdated')) {
+            $lastUpdated = Cache::get('lastUpdated');
+        } else {
+            $lastUpdated = null;
+        }
+        return View::make('admin.pages.index', compact('templates', 'templatesDropdown', 'pagesDropdown', 'pagesTree', 'lastUpdated'));
     }
 
     public function store()
@@ -57,7 +69,9 @@ class PagesController extends BaseController {
                 $template->save();
             }
 
-            Alert::success('Page successfully added!')->flash();
+            $this->setLastUpdated($page->id);
+
+            Alert::success('Page [' . $page->name . '] successfully added!')->flash();
             return Redirect::route($this->adminUrl . '.pages.index');
         }
 
@@ -105,11 +119,31 @@ class PagesController extends BaseController {
                 $section->save();
             }
 
-            Alert::success('Job successfully updated!')->flash();
+            $this->setLastUpdated($page->id);
+
+            Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
             return Redirect::route($this->adminUrl . '.pages.index');
         }
 
         return Redirect::back()->withInput()->withErrors($page->getErrors());
+    }
+
+    private function setLastUpdated($id)
+    {
+        Cache::forget('lastUpdated');
+
+        $lastUpdated = $this->model->find($id);
+        $sections = array();
+        foreach($lastUpdated->sections as $section) {
+            $sections['sections'][$section->slug] = $section->content;
+        }
+
+        $lastUpdated = $lastUpdated->toArray();
+        $lastUpdated = array_merge($lastUpdated, $sections);
+
+        Cache::add('lastUpdated', $lastUpdated, 2);
+
+        return $lastUpdated;
     }
 
     public function show($id)
@@ -166,7 +200,17 @@ class PagesController extends BaseController {
             $html .= '<ul class="tree-list">';
 
             foreach($tree as $node) {
-                $html .= '<li><a href="#" data-id="' . $node['id'] . '">';
+                if (Cache::has('lastUpdated')) {
+                    $lastUpdated = Cache::get('lastUpdated');
+                    if ($lastUpdated['id'] == $node['id']) {
+                        $html .= '<li class="last-active">';
+                    } else {
+                        $html .= '<li>';
+                    }
+                } else {
+                    $html .= '<li>';
+                }
+                $html .= '<a href="#" data-id="' . $node['id'] . '">';
                 $html .= $node['name'];
                 $html .= '</a>';
                 if (count($node['children'])) {
@@ -185,7 +229,8 @@ class PagesController extends BaseController {
         return $html;
     }
 
-    private function parsePageTree($pages, $parentId = 0) {
+    private function parsePageTree($pages, $parentId = 0)
+    {
         $tree = array();
 
         foreach ($pages as $page) {

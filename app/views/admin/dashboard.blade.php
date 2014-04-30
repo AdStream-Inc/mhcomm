@@ -7,7 +7,7 @@
     <div class="col-md-6">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Recent Pages <small>{{ $pagesCount }} Page(s) total</small></h3>
+          <h3 class="panel-title">Recent Pages &nbsp;&nbsp;<small>{{ $pagesCount }} Page(s) total</small></h3>
         </div>
         @if (count($recentPages))
           <table class="table table-striped table-hover">
@@ -37,7 +37,7 @@
       </div>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Recent Jobs <small>{{ $jobsCount }} Jobs(s) total</small></h3>
+          <h3 class="panel-title">Recent Jobs &nbsp;&nbsp;<small>{{ $jobsCount }} Jobs(s) total</small></h3>
         </div>
         @if (count($recentJobs))
           <table class="table table-striped table-hover">
@@ -67,7 +67,7 @@
       </div>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Recent Users <small>{{ $usersCount }} User(s) total</small></h3>
+          <h3 class="panel-title">Recent Users &nbsp;&nbsp;<small>{{ $usersCount }} User(s) total</small></h3>
         </div>
         @if (count($recentUsers))
           <table class="table table-striped table-hover">

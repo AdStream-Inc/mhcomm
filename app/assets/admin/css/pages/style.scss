@@ -7,6 +7,11 @@
 }
 
 #form-update,
+#form-save,
 .page-create {
   display: none;
+
+  &.is-visible {
+    display: inline-block;
+  }
 }
