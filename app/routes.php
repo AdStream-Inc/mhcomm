@@ -20,9 +20,7 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::resource('pages', 'PagesController');
 
       // temp dashboard route
-      Route::get('/', function() {
-        return View::make('admin.dashboard');
-      });
+      Route::get('/', 'DashboardController@getIndex');
     });
 
   // temp default frontend route
