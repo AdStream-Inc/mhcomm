@@ -6,7 +6,7 @@ class SpecialsPresenter extends Presenter {
 
   public function createdOn()
   {
-    return date('M d, Y', strtotime($this->created_at));
+    return date('g:i A, M d, Y', strtotime($this->created_at));
   }
 
   public function isEnabled()

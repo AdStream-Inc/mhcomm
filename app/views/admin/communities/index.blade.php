@@ -35,9 +35,10 @@
             @foreach ($communities as $community)
               <tr>
                 <td><input type="checkbox"></td>
-                <td class="col-md-6"><a href="{{ route($adminUrl . '.communities.edit', $job->id) }}">{{ $community->name }}</a></td>
-                <td class="col-md-3">{{ $community->present()->available }}</td>
-                <td class="col-md-3">{{ $community->present()->createdOn }}</td>
+                <td class="col-md-6"><a href="{{ route($adminUrl . '.communities.edit', $community->id) }}">{{ $community->name }}</a></td>
+                <td class="col-md-2">{{ $community->email }}</td>
+                <td class="col-md-2">{{ $community->present()->createdOn }}</td>
+                <td class="col-md-2">{{ $community->present()->lastUpdated }}</td>
               </tr>
             @endforeach
           </tbody>

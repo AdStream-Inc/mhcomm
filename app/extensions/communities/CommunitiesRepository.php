@@ -25,15 +25,20 @@ class Communities extends Model {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'description', 'enabled', 'qualifications');
+    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled');
 
     /**
      * Auto validation rules for composer package Way/Database
      */
     protected static $rules = array(
       'name' => 'required',
-      'description' => 'required',
-      'qualifications' => 'required'
+	  'address' => 'required',
+	  'city' => 'required',
+	  'state' => 'required',
+	  'zip' => 'required',
+	  'phone' => 'required',
+	  'email' => 'required|email',
+	  'description' => 'required',
     );
 	
 	public function specials(){

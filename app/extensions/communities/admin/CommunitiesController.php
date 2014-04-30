@@ -16,9 +16,10 @@ class CommunitiesController extends BaseController {
      * @var array
      */
     private $tableFields = array(
-        'Name',
-        'Available',
-        'Created On'
+        'Community Name',
+        'Email',
+		'Created At',
+        'Last Updated'
     );
 
     /**
@@ -58,7 +59,7 @@ class CommunitiesController extends BaseController {
 
         if ($community->save()) {
             Alert::success('Community successfully added!')->flash();
-            return Redirect::route($this->adminUrl . '.community.index');
+            return Redirect::route($this->adminUrl . '.communities.index');
         }
 
         return Redirect::back()->withInput()->withErrors($community->getErrors());
@@ -70,7 +71,7 @@ class CommunitiesController extends BaseController {
 
         if ($community->update(Input::all())) {
             Alert::success('Community successfully updated!')->flash();
-            return Redirect::route($this->adminUrl . '.community.index');
+            return Redirect::route($this->adminUrl . '.communities.index');
         }
 
         return Redirect::back()->withInput()->withErrors($community->getErrors());

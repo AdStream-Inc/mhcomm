@@ -43,10 +43,10 @@
               @endif
               <li class="dropdown @if(Request::is($adminUrl . '/specials*') || Request::is($adminUrl . '/communities*')) active @endif">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-map-marker"></span> Community Manager <b class="caret"></b>
+                  <span class="fa fa-map-marker"></span> Manage Communities <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Communities</a></li>
+                  <li><a href="{{ route($adminUrl . '.communities.index') }}">Communities</a></li>
                   <li><a href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
                 </ul>
               </li>
