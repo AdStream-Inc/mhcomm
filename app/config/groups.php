@@ -1,6 +1,13 @@
 <?php
 
 return array(
+  'adstream' => array(
+    'name' => 'Adstream',
+    'permissions' => array(
+      'superuser' => 1
+    )
+  ),
+
   'admin' => array(
     'name'        => 'Admin',
     'permissions' => array(

@@ -18,7 +18,7 @@ class UsersController extends BaseController {
 
     public function index()
     {
-        $users = Sentry::findAllUsers();
+        $users = Sentry::where('first_name', '!=', 'Adstream')->get();
         $fields = $this->tableFields;
         return View::make('admin.users.index', compact('users', 'fields'));
     }
@@ -30,6 +30,8 @@ class UsersController extends BaseController {
         foreach ($groupsCollection as $group) {
             $groups[$group->id] = $group->name;
         }
+        $adstreamGroup = Sentry::findGroupByName('Adstream')->id;
+        $groups = array_except($groups, array($adstreamGroup));
 
         return View::make('admin.users.create', compact('groups'));
     }

@@ -10,8 +10,8 @@
 @stop
 
 @section('content')
-  <h1>Jobs <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.jobs.create') }}"><span class="fa fa-plus"> Create</a></h1>
-  @if (count($jobs))
+  <h1>Specials <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.specials.create') }}"><span class="fa fa-plus"> Create</a></h1>
+  @if (count($specials))
     <div class="panel panel-default">
       <div class="panel-body">
         {{ Form::open() }}
@@ -32,12 +32,12 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($jobs as $job)
+            @foreach ($specials as $special)
               <tr>
                 <td><input type="checkbox"></td>
-                <td class="col-md-6"><a href="{{ route($adminUrl . '.jobs.edit', $job->id) }}">{{ $job->name }}</a></td>
-                <td class="col-md-3">{{ $job->present()->available }}</td>
-                <td class="col-md-3">{{ $job->present()->createdOn }}</td>
+                <td class="col-md-6"><a href="{{ route($adminUrl . '.specials.edit', $special->id) }}">{{ $special->name }}</a></td>
+                <td class="col-md-3">{{ $special->present()->isEnabled }}</td>
+                <td class="col-md-3">{{ $special->present()->createdOn }}</td>
               </tr>
             @endforeach
           </tbody>
@@ -45,6 +45,6 @@
       </div>
     </div>
   @else
-    <p>Looks like no jobs have been added.</p>
+    <p>Looks like no specials have been added.</p>
   @endif
 @stop

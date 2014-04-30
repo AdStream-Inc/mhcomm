@@ -12,13 +12,13 @@
       </div>
       <div class="form-group">
         {{ Form::bootwrapped('description', 'Description', function($name){
-            return Form::textarea($name, null, array('class' => 'form-control', 'rows' => '4'));
+            return Form::textarea($name, null, array('class' => 'form-control wysiwyg', 'rows' => '4'));
           })
         }}
       </div>
       <div class="form-group">
         {{ Form::bootwrapped('qualifications', 'Qualifications', function($name){
-            return Form::textarea($name, null, array('class' => 'form-control', 'rows' => '4'));
+            return Form::textarea($name, null, array('class' => 'form-control wysiwyg', 'rows' => '4'));
           })
         }}
       </div>

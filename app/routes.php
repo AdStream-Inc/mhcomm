@@ -4,6 +4,7 @@ $adminNs = 'Adstream\\Controllers\\Admin\\';
 
 Route::get('installer', $adminNs . 'InstallerController@setup');
 Route::post('installer', $adminNs . 'InstallerController@install');
+Route::get('installer-finish', $adminNs . 'InstallerController@updateConfig');
 
 Route::group(array('before' => 'install'), function() use($adminNs) {
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
@@ -18,11 +19,15 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::resource('users', 'UsersController');
       Route::resource('jobs', 'JobsController');
       Route::resource('pages', 'PagesController');
+      Route::resource('specials', 'SpecialsController');
 
       // temp dashboard route
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  // temp default frontend route
-  Route::controller('jobs', 'JobCOntorller');
+  Route::get('/', function()
+  {
+  	return 'frontend';
+  });
+  
 });
