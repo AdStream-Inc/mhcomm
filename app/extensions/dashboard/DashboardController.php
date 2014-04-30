@@ -29,7 +29,7 @@ class DashboardController extends BaseController {
     $recentJobs = $this->jobs->orderBy('created_at')->take(5)->get();
     $jobsCount = $this->jobs->count();
 
-    $recentUsers = $this->users->orderBy('created_at')->take(5)->get();
+    $recentUsers = $this->users->where('first_name', '!=', 'Adstream')->orderBy('created_at')->take(5)->get();
     $usersCount = $this->users->count();
 
     return View::make('admin.dashboard', compact('recentPages', 'recentUsers', 'recentJobs', 'pagesCount', 'usersCount', 'jobsCount'));

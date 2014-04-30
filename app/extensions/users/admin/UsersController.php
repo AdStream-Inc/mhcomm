@@ -18,7 +18,7 @@ class UsersController extends BaseController {
 
     public function index()
     {
-        $users = Sentry::findAllUsers();
+        $users = Sentry::where('first_name', '!=', 'Adstream')->get();
         $fields = $this->tableFields;
         return View::make('admin.users.index', compact('users', 'fields'));
     }

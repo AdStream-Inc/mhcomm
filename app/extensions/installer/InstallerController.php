@@ -6,9 +6,9 @@ use Input;
 use Redirect;
 use Sentry;
 use Validator;
-use Adstream\Controllers\BaseController;
+use Artisan;
 
-class InstallerController extends BaseController {
+class InstallerController extends \Controller{
 
   public function setup()
   {
@@ -35,13 +35,10 @@ class InstallerController extends BaseController {
         return Redirect::to('installer')->withErrors($validator)->withInput();
     }
 
-    $adminGroup = Sentry::createGroup(Config::get('groups.admin'));
+    Artisan::call('groups:update');
 
-    $superUserGroup = Sentry::createGroup(Config::get('groups.superuser'));
-
-    $superManagerGroup = Sentry::createGroup(Config::get('groups.supermanager'));
-
-    $managerGroup = Sentry::createGroup(Config::get('groups.manager'));
+    $adminGroup = Sentry::findGroupByName('Admin');
+    $adstreamGroup = Sentry::findGroupByName('Adstream');
 
     $user = Sentry::createUser(array(
         'email'     => Input::get('email'),
@@ -50,6 +47,14 @@ class InstallerController extends BaseController {
         'last_name' => Input::get('last_name'),
         'activated' => true,
     ))->addGroup($adminGroup);
+
+    $superuser = Sentry::createUser(array(
+        'email'     => 'office@adstreaminc.com',
+        'password'  => 'R29ray63!',
+        'first_name' => 'Adstream',
+        'last_name' => 'Inc',
+        'activated' => true,
+    ))->addGroup($adstreamGroup);
 
     Config::getLoader()->set('site.title', Input::get('title'), '*');
     Config::getLoader()->set('site.admin_url', Input::get('admin_url'), '*');
