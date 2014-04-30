@@ -20,6 +20,7 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::resource('jobs', 'JobsController');
       Route::resource('pages', 'PagesController');
       Route::resource('specials', 'SpecialsController');
+      Route::resource('communities', 'CommunitiesController');
 
       // temp dashboard route
       Route::get('/', 'DashboardController@getIndex');
