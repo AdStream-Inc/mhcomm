@@ -50,18 +50,17 @@
     this.watchTemplate();
     this.watchTreeNode();
     this.watchCreateButton();
+    this.watchSubmitButton();
   }
 
   Pages.prototype.initWysiwyg = function() {
     this.editors = $('.template-section-content').editable({
       inlineMode: false,
-      autosave: true,
       borderColor: '#dce4ec',
       buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'sep', 'html'],
       height: 150,
       spellcheck: true,
-      paragraphy: false,
-      shortcuts: true
+      paragraphy: false
     });
   }
 
@@ -99,10 +98,26 @@
     });
   }
 
-  /**
-   * Update the page data (does not affect sections)
-   * @param  {object} data Our ajax page data
-   */
+  Pages.prototype.watchSubmitButton = function() {
+    this.saveButton.on('click', function() {
+      $('.template-section-content').editable('sync');
+    });
+
+    this.updateButton.on('click', function() {
+      $('.template-section-content').editable('sync');
+    });
+  }
+
+  Pages.prototype.watchCreateButton = function() {
+    var self = this;
+    this.createButton.on('click', function() {
+      $('.jstree-wholerow-clicked').removeClass('jstree-wholerow-clicked');
+      self.makeCreateForm();
+      self.resetPageData();
+      self.resetSectionData();
+    });
+  }
+
   Pages.prototype.loadPageData = function(data) {
     $.each(this.pageInputs, function(selector, obj) {
       $(selector).val(data[obj.ajaxKey]);
@@ -166,16 +181,6 @@
     this.form
       .attr('action', URL.current)
       .addClass('fadeInRight');
-  }
-
-  Pages.prototype.watchCreateButton = function() {
-    var self = this;
-    this.createButton.on('click', function() {
-      $('.jstree-wholerow-clicked').removeClass('jstree-wholerow-clicked');
-      self.makeCreateForm();
-      self.resetPageData();
-      self.resetSectionData();
-    });
   }
 
   new Pages();

@@ -48,4 +48,5 @@ class Pages extends Model {
     {
         return $this->hasMany('Adstream\Models\PageSections', 'page_id');
     }
+
 }
