@@ -19,4 +19,9 @@ class UserPresenter extends Presenter {
     return date('M d, Y', strtotime($this->last_login));
   }
 
+  public function group()
+  {
+    return Sentry::findUserById($this->id)->getGroups()->first()->name;
+  }
+
 }
