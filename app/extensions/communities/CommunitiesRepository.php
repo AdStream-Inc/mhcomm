@@ -40,11 +40,11 @@ class Communities extends Model {
 	  'email' => 'required|email',
 	  'description' => 'required',
     );
-	
+
 	public function specials(){
-		
+
 		return $this->hasMany('Specials', 'community_id');
-		
+
 	}
-	
+
 }
