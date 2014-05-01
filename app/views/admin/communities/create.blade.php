@@ -26,6 +26,7 @@
                 }}
               </div>
           </div>
+          
           <div class="col-sm-4">
               <div class="form-group">
                 {{ Form::bootwrapped('state', 'State', function($name){
