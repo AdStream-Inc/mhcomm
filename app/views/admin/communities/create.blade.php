@@ -85,13 +85,13 @@
       </div>
       <div class="form-group">
         {{ Form::bootwrapped('benefits', 'Benefits', function($name){
-            return Form::textarea($name, null, array('class' => 'form-control has-note', 'rows' => '6', 'data-content' => 'Enter one feature per line.));
+            return Form::textarea($name, null, array('class' => 'form-control has-note', 'rows' => '6', 'data-content' => 'Enter one feature per line.'));
           })
         }}
       </div>
       <div class="form-group">
         {{ Form::bootwrapped('points_of_interest', 'Points of Interest', function($name){
-            return Form::textarea($name, null, array('class' => 'form-control has-note', 'rows' => '6', 'data-content' => 'Enter one feature per line.));
+            return Form::textarea($name, null, array('class' => 'form-control has-note', 'rows' => '6', 'data-content' => 'Enter one feature per line.'));
           })
         }}
       </div>
