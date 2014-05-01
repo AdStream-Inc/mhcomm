@@ -5,6 +5,7 @@ $adminNs = 'Adstream\\Controllers\\Admin\\';
 Route::get('installer', $adminNs . 'InstallerController@setup');
 Route::post('installer', $adminNs . 'InstallerController@install');
 Route::get('installer-finish', $adminNs . 'InstallerController@updateConfig');
+Route::post('wysiwyg-upload', 'Adstream\Controllers\WysiwygController@postIndex');
 
 Route::group(array('before' => 'install'), function() use($adminNs) {
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
@@ -30,5 +31,5 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
   {
   	return 'frontend';
   });
-  
+
 });

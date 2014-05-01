@@ -27,7 +27,7 @@
         })
       }}
       <hr />
-      {{ Form::submit('Add Job', array('class' => 'btn btn-success pull-right')) }}
+      {{ Form::submit('Add Special', array('class' => 'btn btn-success pull-right')) }}
     {{ Form::close() }}
   </div>
 @stop
