@@ -10,10 +10,13 @@
       }}
       <div class="row">
         <div class="col-md-6">
-          {{ Form::bootwrapped('communities[]', 'Community', function($name) use($communities) {
-              return Form::select($name, $communities, null, array('class' => 'form-control', 'multiple'));
-            })
-          }}
+          <div class="form-group">
+            <div class="clearfix">
+            {{ Form::label('communities[]', 'Community') }}
+            <a href="#" class="select-all pull-right">Select All</a>
+            </div>
+            {{ Form::select('communities[]', $communities, null, array('class' => 'form-control', 'multiple')) }}
+          </div>
         </div>
         <div class="col-md-6">
           {{ Form::bootwrapped('enabled', 'Enabled', function($name){

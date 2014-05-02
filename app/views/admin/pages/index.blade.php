@@ -2,12 +2,6 @@
 
 @section('styles')
   {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.0/themes/default/style.min.css') }}
-
-  @if (isset($lastUpdated))
-    <script>
-      var LAST_UPDATED_ID = {{ $lastUpdated['id'] }};
-    </script>
-  @endif
 @stop
 
 @section('main.prepend')
@@ -62,22 +56,22 @@
           }}
           <div class="row">
             <div class="col-md-3">
-              <div class="form-group">
-                {{ Form::label('enabled', 'Active?') }}
-                {{ Form::select('enabled', array('1' => 'Yes', '0' => 'No'), $lastUpdated['enabled'] ?: null, array('class' => 'form-control')) }}
-              </div>
+              {{ Form::bootwrapped('enabled', 'Active?', function($name) use($pagesDropdown, $lastUpdated){
+                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), $lastUpdated['enabled'] ?: null, array('class' => 'form-control'));
+                })
+              }}
             </div>
             <div class="col-md-4">
-              <div class="form-group">
-                {{ Form::label('auth_only', 'Visible To') }}
-                {{ Form::select('auth_only', array('0' => 'All', '1' => 'Logged In User'), $lastUpdated['auth_only'] ?: null, array('class' => 'form-control')) }}
-              </div>
+              {{ Form::bootwrapped('auth_only', 'Visible To', function($name) use($lastUpdated){
+                  return Form::select($name, array('0' => 'All', '1' => 'Logged In User'), $lastUpdated['auth_only'] ?: null, array('class' => 'form-control'));
+                })
+              }}
             </div>
             <div class="col-md-5">
-              <div class="form-group">
-                {{ Form::label('template', 'Template') }}
-                {{ Form::select('template', $templatesDropdown, $lastUpdated['template'] ?: null, array('class' => 'form-control')) }}
-              </div>
+              {{ Form::bootwrapped('template', 'Template', function($name) use($templatesDropdown, $lastUpdated){
+                  return Form::select($name, $templatesDropdown, $lastUpdated['template'] ?: null, array('class' => 'form-control', 'id' => 'template'));
+                })
+              }}
             </div>
           </div>
           @foreach($templates as $identifier => $template)
@@ -111,16 +105,22 @@
       (function($, window, document, undefined) {
         $('#tree').jstree({
           plugins: ['wholerow', 'state'],
+          defaults: {
+            state: {
+              ttl: (1000 * 60) * 2
+            }
+          }
         }).on('ready.jstree changed.jstree open_node.jstree', function() {
-          replaceIcons();
-        })
-
-
-        replaceIcons();
-
-        function replaceIcons() {
           $('.jstree-anchor .jstree-icon').css('background', 'none').addClass('fa fa-file');
-        }
+        });
+
+        $('#form-save').on('click', function(e) {
+          $('#tree').jstree('clear_state');
+        });
+
+        @if (empty($lastUpdated))
+          $('#tree').jstree('clear_state');
+        @endif
       })(jQuery, window, document);
     </script>
   @stop

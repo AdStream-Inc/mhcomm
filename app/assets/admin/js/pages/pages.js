@@ -89,6 +89,7 @@
        */
       $('select[name="parent_id"] option').removeAttr('disabled');
       $('select[name="parent_id"] option[value="' + $(this).attr('data-id') + '"]').attr('disabled', 'disabled');
+      self.clearValidation();
 
       $.get(url, function(res) {
         self.loadPageData(res.page);
@@ -115,6 +116,7 @@
       self.makeCreateForm();
       self.resetPageData();
       self.resetSectionData();
+      self.clearValidation();
     });
   }
 
@@ -184,6 +186,11 @@
     this.form
       .attr('action', URL.current)
       .addClass('fadeInRight');
+  }
+
+  Pages.prototype.clearValidation = function()
+  {
+    $('input[name="name"]').closest('.form-group').removeClass('has-error').find('.help-block').remove();
   }
 
   new Pages();
