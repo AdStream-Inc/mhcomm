@@ -51,55 +51,53 @@
       @else
         {{ Form::open(array('route' => $adminUrl . '.pages.store', 'id' => 'pages-form')) }}
       @endif
-        <div class="panel panel-default">
-          <div class="panel-body">
-            {{ Form::bootwrapped('name', 'Name', function($name) use($lastUpdated){
-                return Form::text($name, $lastUpdated['name'] ?: null, array('class' => 'form-control'));
-              })
-            }}
-            {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $lastUpdated){
-                return Form::select($name, $pagesDropdown, $lastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
-              })
-            }}
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  {{ Form::label('enabled', 'Active?') }}
-                  {{ Form::select('enabled', array('1' => 'Yes', '0' => 'No'), $lastUpdated['enabled'] ?: null, array('class' => 'form-control')) }}
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  {{ Form::label('auth_only', 'Visible To') }}
-                  {{ Form::select('auth_only', array('0' => 'All', '1' => 'Logged In User'), $lastUpdated['auth_only'] ?: null, array('class' => 'form-control')) }}
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div class="form-group">
-                  {{ Form::label('template', 'Template') }}
-                  {{ Form::select('template', $templatesDropdown, $lastUpdated['template'] ?: null, array('class' => 'form-control')) }}
-                </div>
+        <div class="well clearfix">
+          {{ Form::bootwrapped('name', 'Name', function($name) use($lastUpdated){
+              return Form::text($name, $lastUpdated['name'] ?: null, array('class' => 'form-control'));
+            })
+          }}
+          {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $lastUpdated){
+              return Form::select($name, $pagesDropdown, $lastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
+            })
+          }}
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                {{ Form::label('enabled', 'Active?') }}
+                {{ Form::select('enabled', array('1' => 'Yes', '0' => 'No'), $lastUpdated['enabled'] ?: null, array('class' => 'form-control')) }}
               </div>
             </div>
-            @foreach($templates as $identifier => $template)
-              <div id="{{ $identifier }}" class="template-sections">
-                @foreach($template['sections'] as $key => $title)
-                  <div class="form-group">
-                    {{ Form::label('templates[' . $identifier . '-' . $key . ']', $title) }}
-                    {{ Form::textarea(
-                        'templates[' . $identifier . '-' . $key . ']',
-                        isset($lastUpdated['sections'][$identifier . '-' . $key]) ? $lastUpdated['sections'][$identifier . '-' . $key] : null,
-                        array('class' => 'form-control template-section-content', 'rows' => 4, 'id' => $identifier . '-' . $key)
-                      )
-                    }}
-                  </div>
-                @endforeach
+            <div class="col-md-4">
+              <div class="form-group">
+                {{ Form::label('auth_only', 'Visible To') }}
+                {{ Form::select('auth_only', array('0' => 'All', '1' => 'Logged In User'), $lastUpdated['auth_only'] ?: null, array('class' => 'form-control')) }}
               </div>
-            @endforeach
-            <hr />
-            <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($lastUpdated)) is-visible @endif" value="Create Page" />
-            <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($lastUpdated)) is-visible @endif" value="Update Page" />
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                {{ Form::label('template', 'Template') }}
+                {{ Form::select('template', $templatesDropdown, $lastUpdated['template'] ?: null, array('class' => 'form-control')) }}
+              </div>
+            </div>
           </div>
+          @foreach($templates as $identifier => $template)
+            <div id="{{ $identifier }}" class="template-sections">
+              @foreach($template['sections'] as $key => $title)
+                <div class="form-group">
+                  {{ Form::label('templates[' . $identifier . '-' . $key . ']', $title) }}
+                  {{ Form::textarea(
+                      'templates[' . $identifier . '-' . $key . ']',
+                      isset($lastUpdated['sections'][$identifier . '-' . $key]) ? $lastUpdated['sections'][$identifier . '-' . $key] : null,
+                      array('class' => 'form-control template-section-content', 'rows' => 4, 'id' => $identifier . '-' . $key)
+                    )
+                  }}
+                </div>
+              @endforeach
+            </div>
+          @endforeach
+          <hr />
+          <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($lastUpdated)) is-visible @endif" value="Create Page" />
+          <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($lastUpdated)) is-visible @endif" value="Update Page" />
         </div>
       {{ Form::close() }}
     </div>

@@ -25,7 +25,7 @@ class Specials extends Model {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'content', 'enabled', 'sort_order', 'community_id');
+    protected $fillable = array('name', 'content', 'enabled', 'sort_order');
 
     /**
      * Auto validation rules for composer package Way/Database
@@ -34,4 +34,9 @@ class Specials extends Model {
       'name' => 'required',
       'content' => 'required'
     );
+
+    public function communities()
+    {
+        return $this->belongsToMany('Adstream\Models\Communities', 'communities_specials');
+    }
 }

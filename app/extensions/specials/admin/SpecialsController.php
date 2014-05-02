@@ -33,8 +33,7 @@ class SpecialsController extends BaseController {
 
   public function create()
   {
-    $communities = array('0' => '[ Assign To All Communities ]');
-    $communities += $this->communities->lists('id', 'name');
+    $communities = $this->communities->lists('name', 'id');
 
     return View::make('admin.specials.create', compact('communities'));
   }
@@ -44,6 +43,7 @@ class SpecialsController extends BaseController {
     $special = new $this->model(Input::all());
 
     if ($special->save()) {
+      $special->communities()->sync(Input::get('communities'));
       Alert::success('Special successfully added!')->flash();
       return Redirect::route($this->adminUrl . '.specials.index');
     }
@@ -53,10 +53,10 @@ class SpecialsController extends BaseController {
 
   public function edit($id)
   {
-    $communities = array('0' => '[ Assign To All Communities ]');
-    $communities += $this->communities->lists('id', 'name');
+    $communities = $this->communities->lists('name', 'id');
     $special = $this->model->find($id);
-    return View::make('admin.specials.edit', compact('special', 'communities'));
+    $activeCommunities = $special->communities()->lists('id');
+    return View::make('admin.specials.edit', compact('special', 'communities', 'activeCommunities'));
   }
 
   public function update($id)
@@ -64,6 +64,7 @@ class SpecialsController extends BaseController {
     $special = $this->model->find($id);
 
     if ($special->update(Input::all())) {
+      $special->communities()->sync(Input::get('communities'));
       Alert::success('Special successfully updated!')->flash();
       return Redirect::route($this->adminUrl . '.specials.index');
     }
