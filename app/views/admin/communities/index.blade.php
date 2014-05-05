@@ -12,7 +12,9 @@
 @section('content')
   <h1>
     Communities
-    <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.communities.create') }}"><span class="fa fa-plus"></span> Create</a>
+    @if ($authUser->hasAnyAccess(array('communities.create')))
+      <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.communities.create') }}"><span class="fa fa-plus"></span> Create</a>
+    @endif
   </h1>
   @if (count($communities))
     <div id="datatable"></div>

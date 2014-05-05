@@ -6,12 +6,16 @@ use Redirect;
 use Alert;
 use Request;
 use Response;
+use Sentry;
 use Adstream\Models\Communities;
+use Adstream\Models\User;
 use Adstream\Controllers\BaseController;
 
 class CommunitiesController extends BaseController {
 
     private $model;
+
+    private $users;
 
     /**
      * The table fields for our data table
@@ -57,9 +61,10 @@ class CommunitiesController extends BaseController {
      * for additional properties
      * @param Communities $communities Communities repository
      */
-    public function __construct(Communities $communities)
+    public function __construct(Communities $communities, User $users)
 	{
         parent::__construct();
+        $this->users = $users;
         $this->model = $communities;
     }
 
@@ -72,13 +77,23 @@ class CommunitiesController extends BaseController {
 
     public function listData()
     {
-        $communities = $this->model->all();
         $columns = $this->tableFields;
+        $user = Sentry::getUser();
+        $manager = Sentry::findGroupByName('Manager');
 
-        foreach ($communities as &$community) {
-            $community->name = '<a href="' . route($this->adminUrl . '.communities.edit', $community->id) . '">' . $community->name . '</a>';
-            $community->created_on = $community->present()->createdOn;
-            $community->last_updated = $community->present()->lastUpdated;
+        if ($user->inGroup($manager)) {
+            $communities = $user->community->first();
+            $communities->name = '<a href="' . route($this->adminUrl . '.communities.edit', $communities->id) . '">' . $communities->name . '</a>';
+            $communities->created_on = $communities->present()->createdOn;
+            $communities->last_updated = $communities->present()->lastUpdated;
+        } else {
+            $communities = $this->model->all();
+
+            foreach ($communities as &$community) {
+                $community->name = '<a href="' . route($this->adminUrl . '.communities.edit', $community->id) . '">' . $community->name . '</a>';
+                $community->created_on = $community->present()->createdOn;
+                $community->last_updated = $community->present()->lastUpdated;
+            }
         }
 
         return Response::json(array('data' => $communities->toArray(), 'columns' => $columns));
@@ -86,13 +101,30 @@ class CommunitiesController extends BaseController {
 
     public function create()
     {
-        return View::make('admin.communities.create');
+        $group = Sentry::findGroupByName('Manager');
+        $usersCollection = Sentry::findAllUsersInGroup($group);
+        $managers = array();
+
+        foreach ($usersCollection as $user) {
+            $managers[$user->id] = $user->present()->fullName;
+        }
+
+        return View::make('admin.communities.create', compact('managers'));
     }
 
     public function edit($id)
     {
         $community = $this->model->find($id);
-        return View::make('admin.communities.edit', compact('community'));
+
+        $group = Sentry::findGroupByName('Manager');
+        $usersCollection = Sentry::findAllUsersInGroup($group);
+        $managers = array();
+
+        foreach ($usersCollection as $user) {
+            $managers[$user->id] = $user->present()->fullName;
+        }
+
+        return View::make('admin.communities.edit', compact('community', 'managers'));
     }
 
     public function store()

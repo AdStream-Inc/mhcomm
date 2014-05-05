@@ -52,10 +52,20 @@
           }}
         </div>
       </div>
-      {{ Form::bootwrapped('email', 'Email Address', function($name){
-          return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'Form submissions will be delivered to this email address. Seperate multiple email addresses with a comma.'));
-        })
-      }}
+      <div class="row">
+        <div class="col-sm-6">
+          {{ Form::bootwrapped('email', 'Email Address', function($name){
+              return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'Form submissions will be delivered to this email address. Seperate multiple email addresses with a comma.'));
+            })
+          }}
+        </div>
+        <div class="col-sm-6">
+          {{ Form::bootwrapped('manager_id', 'Manager', function($name) use ($managers, $community) {
+              return Form::select($name, $managers, $community->manager_id, array('class' => 'form-control'));
+            })
+          }}
+        </div>
+      </div>
       <hr />
       {{ Form::bootwrapped('description', 'Description', function($name){
           return Form::textarea($name, null, array('class' => 'form-control wysiwyg', 'rows' => '6'));

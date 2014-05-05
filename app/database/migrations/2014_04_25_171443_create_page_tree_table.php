@@ -12,7 +12,7 @@ class CreatePageTreeTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::drop('menus');
+		Schema::dropIfExists('menus');
 
 		Schema::create('page_tree', function(Blueprint $table) {
 			$table->increments('id');

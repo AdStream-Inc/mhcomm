@@ -1,7 +1,9 @@
 <?php namespace Adstream\Models;
 
+use Sentry;
 use Laracasts\Presenter\PresentableTrait;
 use Way\Database\Model;
+use Adstream\Models\User;
 
 /**
  * Model is the class used for auto validation
@@ -25,7 +27,7 @@ class Communities extends Model {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address');
+    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id');
 
     /**
      * Auto validation rules for composer package Way/Database
@@ -44,6 +46,33 @@ class Communities extends Model {
 	public function specials()
     {
         return $this->belongsToMany('Adstream\Models\Specials', 'communities_specials');
+    }
+
+    public function manager()
+    {
+        $user = Sentry::getUser();
+        $manager = Sentry::findGroupByName('Manager');
+
+        if ($user->inGroup($manager)) {
+          return $this->belongsTo('User', 'manager_id');
+        }
+    }
+
+    /**
+     * Todo still
+     */
+    public static function boot() {
+        parent::boot();
+
+        $user = Sentry::getUser();
+        $manager = Sentry::findGroupByName('Manager');
+
+        if ($user->inGroup($manager)) {
+            static::saving(function($model) {
+                dd('test');
+                return false;
+            });
+        }
     }
 
 }
