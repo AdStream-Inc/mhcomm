@@ -105,9 +105,9 @@
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th class="col-md-6">Name</th>
+                <th class="col-md-5">Name</th>
                 <th class="col-md-3">Group</th>
-                <th class="col-md-3">Created On</th>
+                <th class="col-md-4">Created On</th>
               </tr>
             </thead>
             <tbody>
