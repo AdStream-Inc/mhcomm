@@ -38,7 +38,7 @@ class DashboardController extends BaseController {
     $jobsCount = $this->jobs->count();
 
     $recentUsers = $this->users->where('first_name', '!=', 'Adstream')->orderBy('created_at')->take(5)->get();
-    $usersCount = $this->users->count();
+    $usersCount = $this->users->count() - 1; // take into account adstream user
 
     $recentCommunities = $this->communities->orderBy('created_at')->take(5)->get();
     $communitiesCount = $this->communities->count();
