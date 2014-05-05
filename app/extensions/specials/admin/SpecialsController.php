@@ -54,6 +54,12 @@ class SpecialsController extends BaseController {
   public function index()
   {
     $specials = $this->model->all();
+    return View::make('admin.specials.index', compact('specials'));
+  }
+
+  public function listData()
+  {
+    $specials = $this->model->all();
     $columns = $this->tableFields;
 
     foreach ($specials as &$special) {
@@ -62,11 +68,7 @@ class SpecialsController extends BaseController {
         $special->is_enabled = $special->present()->isEnabled;
     }
 
-    if (Request::ajax()) {
-        return Response::json(array('data' => $specials->toArray(), 'columns' => $columns));
-    }
-
-    return View::make('admin.specials.index', compact('specials'));
+    return Response::json(array('data' => $specials->toArray(), 'columns' => $columns));
   }
 
   public function create()

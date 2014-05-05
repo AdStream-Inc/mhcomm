@@ -63,7 +63,15 @@ class CommunitiesController extends BaseController {
         $this->model = $communities;
     }
 
-    public function index(){
+    public function index()
+    {
+        $communities = $this->model->all();
+
+        return View::make('admin.communities.index', compact('communities'));
+    }
+
+    public function listData()
+    {
         $communities = $this->model->all();
         $columns = $this->tableFields;
 
@@ -73,11 +81,7 @@ class CommunitiesController extends BaseController {
             $community->last_updated = $community->present()->lastUpdated;
         }
 
-        if (Request::ajax()) {
-            return Response::json(array('data' => $communities->toArray(), 'columns' => $columns));
-        }
-
-        return View::make('admin.communities.index', compact('communities'));
+        return Response::json(array('data' => $communities->toArray(), 'columns' => $columns));
     }
 
     public function create()

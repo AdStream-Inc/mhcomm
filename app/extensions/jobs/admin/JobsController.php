@@ -54,6 +54,12 @@ class JobsController extends BaseController {
     public function index()
     {
         $jobs = $this->model->all();
+        return View::make('admin.jobs.index', compact('jobs'));
+    }
+
+    public function listData()
+    {
+        $jobs = $this->model->all();
         $columns = $this->tableFields;
 
         foreach ($jobs as &$job) {
@@ -62,11 +68,7 @@ class JobsController extends BaseController {
             $job->created_on = $job->present()->createdOn;
         }
 
-        if (Request::ajax()) {
-            return Response::json(array('data' => $jobs->toArray(), 'columns' => $columns));
-        }
-
-        return View::make('admin.jobs.index', compact('jobs'));
+        return Response::json(array('data' => $jobs->toArray(), 'columns' => $columns));
     }
 
     public function create()

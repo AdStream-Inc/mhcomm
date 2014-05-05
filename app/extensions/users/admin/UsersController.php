@@ -53,6 +53,12 @@ class UsersController extends BaseController {
     public function index()
     {
         $users = Sentry::where('first_name', '!=', 'Adstream')->get();
+        return View::make('admin.users.index', compact('users'));
+    }
+
+    public function listData()
+    {
+        $users = Sentry::where('first_name', '!=', 'Adstream')->get();
         $columns = $this->tableFields;
 
         foreach ($users as &$user) {
@@ -62,11 +68,7 @@ class UsersController extends BaseController {
             $user->login_last = $user->present()->lastLogin;
         }
 
-        if (Request::ajax()) {
-            return Response::json(array('data' => $users->toArray(), 'columns' => $columns));
-        }
-
-        return View::make('admin.users.index', compact('users'));
+        return Response::json(array('data' => $users->toArray(), 'columns' => $columns));
     }
 
     public function create()

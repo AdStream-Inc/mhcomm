@@ -12,7 +12,7 @@
       last: "Last",
     };
 
-    $.get(URL.current, function(res) {
+    $.get(URL.current + '/list', function(res) {
       self.datatable = new webix.ui({
         view: 'datatable',
         container: 'datatable',

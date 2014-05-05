@@ -17,12 +17,20 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       'before' => 'auth'
     ),
     function() {
-      Route::resource('settings', 'SettingsController');
+      Route::get('users/list', 'UsersController@listData');
       Route::resource('users', 'UsersController');
+
+      Route::get('jobs/list', 'JobsController@listData');
       Route::resource('jobs', 'JobsController');
-      Route::resource('pages', 'PagesController');
+
+      Route::get('specials/list', 'SpecialsController@listData');
       Route::resource('specials', 'SpecialsController');
+
+      Route::get('communities/list', 'CommunitiesController@listData');
       Route::resource('communities', 'CommunitiesController');
+
+      Route::resource('pages', 'PagesController');
+      Route::resource('settings', 'SettingsController');
 
       // temp dashboard route
       Route::get('/', 'DashboardController@getIndex');

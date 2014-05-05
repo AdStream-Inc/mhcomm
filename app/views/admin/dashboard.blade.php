@@ -152,8 +152,8 @@
           </table>
         @else
           <div class="panel-body">
-            <p>No users found.</p>
-            <a href="{{ route($adminUrl . '.users.create') }}" class="btn btn-sm btn-success">Create a User</a>
+            <p>No specials found.</p>
+            <a href="{{ route($adminUrl . '.specials.create') }}" class="btn btn-sm btn-success">Create a Special</a>
           </div>
         @endif
       </div>
