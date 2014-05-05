@@ -20,26 +20,30 @@ class InstallerController extends \Controller{
   {
 
     $rules = array(
-        'admin_url' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'title' => 'required',
         'email' => 'required|email',
         'password' => 'required'
     );
 
     $validator = Validator::make(Input::all(), $rules);
 
-    if ($validator->fails())
-    {
+    if ($validator->fails()) {
         return Redirect::to('installer')->withErrors($validator)->withInput();
     }
 
-    Artisan::call('groups:update');
+    try {
+        Artisan::call('migrate', array('--package'=>'cartalyst/sentry'));
+        Artisan::call('migrate', array('--package'=>'cartalyst/composite-config'));
+        Artisan::call('migrate');
+        Artisan::call('groups:update');
+    } catch (Exception $e) {
+        Response::make($e->getMessage(), 500);
+    }
 
     $adminGroup = Sentry::findGroupByName('Admin');
     $adstreamGroup = Sentry::findGroupByName('Adstream');
-	
+
     $user = Sentry::createUser(array(
         'email'     => Input::get('email'),
         'password'  => Input::get('password'),
@@ -55,6 +59,27 @@ class InstallerController extends \Controller{
         'last_name' => 'Inc',
         'activated' => true,
     ))->addGroup($adstreamGroup);
+
+    return Redirect::to('installer-finish');
+  }
+
+  public function setupConfig()
+  {
+    return View::make('installer.config');
+  }
+
+  public function setConfig()
+  {
+    $rules = array(
+        'admin_url' => 'required',
+        'title' => 'required',
+    );
+
+    $validator = Validator::make(Input::all(), $rules);
+
+    if ($validator->fails()) {
+        return Redirect::to('installer-finish')->withErrors($validator)->withInput();
+    }
 
     Config::getLoader()->set('site.title', Input::get('title'), '*');
     Config::getLoader()->set('site.admin_url', Input::get('admin_url'), '*');

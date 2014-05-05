@@ -11,12 +11,12 @@ class UserPresenter extends Presenter {
 
   public function createdOn()
   {
-    return date('M d, Y', strtotime($this->created_at));
+    return date('g:i A, M d, Y', strtotime($this->created_at));
   }
 
   public function lastLogin()
   {
-    return date('M d, Y', strtotime($this->last_login));
+    return date('g:i A, M d, Y', strtotime($this->last_login));
   }
 
   public function group()

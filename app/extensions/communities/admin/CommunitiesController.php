@@ -4,6 +4,8 @@ use View;
 use Input;
 use Redirect;
 use Alert;
+use Request;
+use Response;
 use Adstream\Models\Communities;
 use Adstream\Controllers\BaseController;
 
@@ -16,10 +18,38 @@ class CommunitiesController extends BaseController {
      * @var array
      */
     private $tableFields = array(
-        'Community Name',
-        'Email',
-		'Created At',
-        'Last Updated'
+        array(
+            'id' => 'name',
+            'header' => array(
+                array('text' => 'Name'),
+                array('content' => 'textFilter')
+            ),
+            'adjust' => true,
+            'fillspace' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'email',
+            'header' => array(
+                array('text' => 'Email'),
+                array('content' => 'textFilter'),
+            ),
+            'adjust' => true,
+            'fillspace' => true,
+            'sort' => 'string'
+        ),
+		array(
+            'id' => 'created_on',
+            'header' => 'Created On',
+            'adjust' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'last_updated',
+            'header' => 'Last Updated',
+            'adjust' => true,
+            'sort' => 'string'
+        )
     );
 
     /**
@@ -29,17 +59,25 @@ class CommunitiesController extends BaseController {
      */
     public function __construct(Communities $communities)
 	{
-		
         parent::__construct();
         $this->model = $communities;
-		
     }
 
     public function index(){
-		
         $communities = $this->model->all();
-        $fields = $this->tableFields;
-        return View::make('admin.communities.index', compact('communities', 'fields'));
+        $columns = $this->tableFields;
+
+        foreach ($communities as &$community) {
+            $community->name = '<a href="' . route($this->adminUrl . '.communities.edit', $community->id) . '">' . $community->name . '</a>';
+            $community->created_on = $community->present()->createdOn;
+            $community->last_updated = $community->present()->lastUpdated;
+        }
+
+        if (Request::ajax()) {
+            return Response::json(array('data' => $communities->toArray(), 'columns' => $columns));
+        }
+
+        return View::make('admin.communities.index', compact('communities'));
     }
 
     public function create()

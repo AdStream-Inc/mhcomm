@@ -5,22 +5,68 @@ use Input;
 use Redirect;
 use Alert;
 use Sentry;
+use Request;
+use Response;
 use Adstream\Controllers\BaseController;
 
 class UsersController extends BaseController {
 
+    /**
+     * The table fields for our data table
+     * @var array
+     */
     private $tableFields = array(
-        'Email',
-        'Name',
-        'Last Login',
-        'Created On'
+        array(
+            'id' => 'email',
+            'header' => array(
+                array('text' => 'Email'),
+                array('content' => 'textFilter')
+            ),
+            'adjust' => true,
+            'fillspace' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'name',
+            'header' => array(
+                array('text' => 'Name'),
+                array('content' => 'textFilter'),
+            ),
+            'adjust' => true,
+            'fillspace' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'login_last',
+            'header' => 'Last Login',
+            'adjust' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'created_on',
+            'header' => 'Created On',
+            'adjust' => true,
+            'sort' => 'string'
+        )
     );
 
     public function index()
     {
         $users = Sentry::where('first_name', '!=', 'Adstream')->get();
-        $fields = $this->tableFields;
-        return View::make('admin.users.index', compact('users', 'fields'));
+        $columns = $this->tableFields;
+
+        foreach ($users as &$user) {
+            $user->email = '<a href="' . route($this->adminUrl . '.users.edit', $user->id) . '">' . $user->email . '</a>';
+            $user->name = $user->present()->fullName;
+            $user->created_on = $user->present()->createdOn;
+            $user->login_last = $user->present()->lastLogin;
+        }
+
+        if (Request::ajax()) {
+            return Response::json(array('data' => $users->toArray(), 'columns' => $columns));
+        }
+
+        return View::make('admin.users.index', compact('users'));
     }
 
     public function create()

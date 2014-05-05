@@ -4,6 +4,8 @@ use View;
 use Input;
 use Redirect;
 use Alert;
+use Request;
+use Response;
 use Adstream\Models\Specials;
 use Adstream\Models\Communities;
 use Adstream\Controllers\BaseController;
@@ -14,7 +16,32 @@ class SpecialsController extends BaseController {
 
   private $communities;
 
-  private $tableFields = array('Name', 'Enabled', 'Created On');
+  private $tableFields = array(
+    array(
+      'id' => 'name',
+      'header' => array(
+          array('text' => 'Name'),
+          array('content' => 'textFilter')
+      ),
+      'adjust' => true,
+      'fillspace' => true,
+      'sort' => 'string'
+    ),
+    array(
+      'id' => 'is_enabled',
+      'header' => array(
+          array('text' => 'Available'),
+          array('content' => 'selectFilter')
+      ),
+      'sort' => 'string'
+    ),
+    array(
+      'id' => 'created_on',
+      'header' => 'Created On',
+      'adjust' => true,
+      'sort' => 'string'
+    )
+  );
 
   public function __construct(Specials $specials, Communities $communities)
   {
@@ -27,8 +54,19 @@ class SpecialsController extends BaseController {
   public function index()
   {
     $specials = $this->model->all();
-    $fields = $this->tableFields;
-    return View::make('admin.specials.index', compact('specials', 'fields'));
+    $columns = $this->tableFields;
+
+    foreach ($specials as &$special) {
+        $special->name = '<a href="' . route($this->adminUrl . '.specials.edit', $special->id) . '">' . $special->name . '</a>';
+        $special->created_on = $special->present()->createdOn;
+        $special->is_enabled = $special->present()->isEnabled;
+    }
+
+    if (Request::ajax()) {
+        return Response::json(array('data' => $specials->toArray(), 'columns' => $columns));
+    }
+
+    return View::make('admin.specials.index', compact('specials'));
   }
 
   public function create()

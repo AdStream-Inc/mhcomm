@@ -4,6 +4,8 @@ use View;
 use Input;
 use Redirect;
 use Alert;
+use Response;
+use Request;
 use Adstream\Models\Jobs;
 use Adstream\Controllers\BaseController;
 
@@ -11,14 +13,31 @@ class JobsController extends BaseController {
 
     private $model;
 
-    /**
-     * The table fields for our data table
-     * @var array
-     */
     private $tableFields = array(
-        'Name',
-        'Available',
-        'Created On'
+        array(
+            'id' => 'name',
+            'header' => array(
+                array('text' => 'Name'),
+                array('content' => 'textFilter')
+            ),
+            'adjust' => true,
+            'fillspace' => true,
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'enabled',
+            'header' => array(
+                array('text' => 'Available'),
+                array('content' => 'selectFilter')
+            ),
+            'sort' => 'string'
+        ),
+        array(
+            'id' => 'created_on',
+            'header' => 'Created On',
+            'adjust' => true,
+            'sort' => 'string'
+        )
     );
 
     /**
@@ -35,8 +54,19 @@ class JobsController extends BaseController {
     public function index()
     {
         $jobs = $this->model->all();
-        $fields = $this->tableFields;
-        return View::make('admin.jobs.index', compact('jobs', 'fields'));
+        $columns = $this->tableFields;
+
+        foreach ($jobs as &$job) {
+            $job->name = '<a href="' . route($this->adminUrl . '.jobs.edit', $job->id) . '">' . $job->name . '</a>';
+            $job->enabled = $job->present()->available;
+            $job->created_on = $job->present()->createdOn;
+        }
+
+        if (Request::ajax()) {
+            return Response::json(array('data' => $jobs->toArray(), 'columns' => $columns));
+        }
+
+        return View::make('admin.jobs.index', compact('jobs'));
     }
 
     public function create()

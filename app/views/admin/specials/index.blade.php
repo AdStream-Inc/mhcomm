@@ -12,39 +12,15 @@
 @section('content')
   <h1>Specials <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.specials.create') }}"><span class="fa fa-plus"> Create</a></h1>
   @if (count($specials))
-    <div class="panel panel-default">
-      <div class="panel-body">
-        {{ Form::open() }}
-          <div class="form-search">
-            <input name="filter" placeholder="Search" class="form-control" type="text">
-            <span class="fa fa-search text-muted form-search-icon"></span>
-          </div>
-        {{ Form::close() }}
-      </div>
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th><input type="checkbox"></th>
-              @foreach ($fields as $field)
-                <th>{{ $field }}</th>
-              @endforeach
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($specials as $special)
-              <tr>
-                <td><input type="checkbox"></td>
-                <td class="col-md-6"><a href="{{ route($adminUrl . '.specials.edit', $special->id) }}">{{ $special->name }}</a></td>
-                <td class="col-md-3">{{ $special->present()->isEnabled }}</td>
-                <td class="col-md-3">{{ $special->present()->createdOn }}</td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div id="datatable"></div>
+    <div id="datatable-pager"></div>
   @else
     <p>Looks like no specials have been added.</p>
   @endif
+@stop
+
+@section('scripts')
+  <script>
+    new Datatable();
+  </script>
 @stop

@@ -5,6 +5,8 @@ use Adstream\Controllers\BaseController;
 use Adstream\Models\User;
 use Adstream\Models\Pages;
 use Adstream\Models\Jobs;
+use Adstream\Models\Communities;
+use Adstream\Models\Specials;
 
 class DashboardController extends BaseController {
 
@@ -14,11 +16,17 @@ class DashboardController extends BaseController {
 
   protected $jobs;
 
-  public function __construct(Pages $pages, User $users, Jobs $jobs)
+  protected $communities;
+
+  protected $specials;
+
+  public function __construct(Pages $pages, User $users, Jobs $jobs, Communities $communities, Specials $specials)
   {
     $this->pages = $pages;
     $this->users = $users;
     $this->jobs = $jobs;
+    $this->communities = $communities;
+    $this->specials = $specials;
   }
 
   public function getIndex()
@@ -32,7 +40,24 @@ class DashboardController extends BaseController {
     $recentUsers = $this->users->where('first_name', '!=', 'Adstream')->orderBy('created_at')->take(5)->get();
     $usersCount = $this->users->count();
 
-    return View::make('admin.dashboard', compact('recentPages', 'recentUsers', 'recentJobs', 'pagesCount', 'usersCount', 'jobsCount'));
+    $recentCommunities = $this->communities->orderBy('created_at')->take(5)->get();
+    $communitiesCount = $this->communities->count();
+
+    $recentSpecials = $this->specials->orderBy('created_at')->take(5)->get();
+    $specialsCount = $this->specials->count();
+
+    return View::make('admin.dashboard', compact(
+      'recentPages',
+      'recentUsers',
+      'recentJobs',
+      'pagesCount',
+      'usersCount',
+      'jobsCount',
+      'communitiesCount',
+      'recentCommunities',
+      'recentSpecials',
+      'specialsCount'
+    ));
   }
 
 }
