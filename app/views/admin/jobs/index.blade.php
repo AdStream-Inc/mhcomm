@@ -10,7 +10,11 @@
 @stop
 
 @section('content')
-  <h1>Jobs <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.jobs.create') }}"><span class="fa fa-plus"> Create</a></h1>
+  <h1>Jobs
+    @if ($authUser->hasAnyAccess(array('jobs.create')))
+      <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.jobs.create') }}"><span class="fa fa-plus"> Create</a>
+    @endif
+  </h1>
   @if (count($jobs))
     <div id="datatable"></div>
     <div id="datatable-pager"></div>

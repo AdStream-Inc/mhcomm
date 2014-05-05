@@ -11,7 +11,7 @@
 
 @section('content')
   <h1>Users
-    @if ($user->hasAnyAccess(array('users.create', 'users.delete')))
+    @if ($authUser->hasAnyAccess(array('users.create')))
       <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.users.create') }}"><span class="fa fa-plus"> Create</a>
     @endif
   </h1>

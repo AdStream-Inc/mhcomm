@@ -5,7 +5,7 @@ View::composer('*', function($view) {
   $view->with('siteTitle', Config::get('site.title'));
   if (Config::get('site.installed')) {
     if (Sentry::getUser()) {
-      $view->with('user', Sentry::getUser());
+      $view->with('authUser', Sentry::getUser());
     }
   }
 });

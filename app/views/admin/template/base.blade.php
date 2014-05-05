@@ -36,7 +36,7 @@
 
           <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-              @if ($user->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list')))
+              @if ($authUser->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list')))
                 <li @if(Request::is($adminUrl . '/pages*')) class="active" @endif>
                   <a href="{{ route($adminUrl . '.pages.index') }}"><span class="fa fa-file"></span> Pages</a>
                 </li>
@@ -50,7 +50,7 @@
                   <li><a href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
                 </ul>
               </li>
-              @if ($user->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
+              @if ($authUser->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
                 <li @if(Request::is($adminUrl . '/jobs*')) class="active" @endif>
                   <a href="{{ route($adminUrl . '.jobs.index') }}"><span class="fa fa-briefcase"></span> Jobs</a>
                 </li>
@@ -60,7 +60,7 @@
               </li>
             </ul>
             <ul class="nav navbar-nav navbar-right system-nav">
-              @if ($user->hasAccess('settings'))
+              @if ($authUser->hasAccess('settings'))
                 <li @if(Request::is($adminUrl . '/settings')) class="active" @endif>
                   <a href="{{ url($adminUrl . '/settings') }}" title="Settings"><span class="fa fa-gears"></span> <span class="visible-xs">Settings</span></a>
                 </li>
