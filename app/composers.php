@@ -13,14 +13,23 @@ View::composer('*', function($view) {
       $managers = Sentry::findGroupByName('Manager');
       $users = Sentry::findAllUsersInGroup($managers)->lists('id');
   
-      $specialsRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Specials')
-                                ->where('approved', false)
-                                ->whereIn('user_id', $users)
-                                ->count();
-      $communitiesRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
-                                ->where('approved', false)
-                                ->whereIn('user_id', $users)
-                                ->count();
+  	if (!empty($users)){
+  
+		  $specialsRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Specials')
+									->where('approved', false)
+									->whereIn('user_id', $users)
+									->count();
+		  $communitiesRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
+									->where('approved', false)
+									->whereIn('user_id', $users)
+									->count();
+								
+	} else {
+		
+		$specialsRevisionCount = 0;
+		$communitiesRevisionCount = 0;
+		
+	}
 
       $view->with('communityRevisions', $communitiesRevisionCount);
       $view->with('specialsRevisions', $specialsRevisionCount);
