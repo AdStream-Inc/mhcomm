@@ -17,6 +17,9 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       'before' => 'auth'
     ),
     function() {
+      Route::get('revisions/{grouphash}/edit', 'RevisionsController@edit');
+      Route::put('revisions/{grouphash}', 'RevisionsController@update');
+
       Route::get('users/list', 'UsersController@listData');
       Route::resource('users', 'UsersController');
 
@@ -24,9 +27,13 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::resource('jobs', 'JobsController');
 
       Route::get('specials/list', 'SpecialsController@listData');
+      Route::get('specials/revisions', 'RevisionsController@index');
+      Route::get('specials/revisions/list', 'RevisionsController@listSpecialsData');
       Route::resource('specials', 'SpecialsController');
 
       Route::get('communities/list', 'CommunitiesController@listData');
+      Route::get('communities/revisions', 'RevisionsController@index');
+      Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
       Route::resource('communities', 'CommunitiesController');
 
       Route::resource('pages', 'PagesController');

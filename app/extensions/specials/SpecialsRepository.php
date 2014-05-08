@@ -1,13 +1,11 @@
 <?php namespace Adstream\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use Way\Database\Model;
+use Sentry;
 
-/**
- * Model is the class used for auto validation
- * See https://github.com/JeffreyWay/Laravel-Model-Validation
- */
-class Specials extends Model {
+class Specials extends BaseRepository {
+
+    protected $isRevisionable = true;
 
     use PresentableTrait;
 
@@ -28,7 +26,7 @@ class Specials extends Model {
     protected $fillable = array('name', 'content', 'enabled', 'sort_order');
 
     /**
-     * Auto validation rules for composer package Way/Database
+     * Auto validation rules
      */
     protected static $rules = array(
       'name' => 'required',
@@ -38,5 +36,19 @@ class Specials extends Model {
     public function communities()
     {
         return $this->belongsToMany('Adstream\Models\Communities', 'communities_specials');
+    }
+
+    public function revisions()
+    {
+        return $this->morphMany('Adstream\Models\Revisions', 'revisionable');
+    }
+
+    public function managerRevisions()
+    {
+      $managerGroup = Sentry::findGroupByName('Manager');
+      $managers = Sentry::findAllUsersInGroup($managerGroup)->lists('id');
+      return $this->morphMany('Adstream\Models\Revisions', 'revisionable')
+        ->where('approved', false)
+        ->whereIn('user_id', $managers);
     }
 }

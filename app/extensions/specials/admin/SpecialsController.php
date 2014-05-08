@@ -6,6 +6,7 @@ use Redirect;
 use Alert;
 use Request;
 use Response;
+use Sentry;
 use Adstream\Models\Specials;
 use Adstream\Models\Communities;
 use Adstream\Controllers\BaseController;
@@ -53,19 +54,27 @@ class SpecialsController extends BaseController {
 
   public function index()
   {
-    $specials = $this->model->all();
+    $specials = $this->model->count();
+
     return View::make('admin.specials.index', compact('specials'));
   }
 
   public function listData()
   {
-    $specials = $this->model->all();
     $columns = $this->tableFields;
+    $user = Sentry::getUser();
+    $manager = Sentry::findGroupByName('Manager');
+
+    if ($user->inGroup($manager)) {
+      $specials = $user->community->specials;
+    } else {
+      $specials = $this->model->all();
+    }
 
     foreach ($specials as &$special) {
-        $special->name = '<a href="' . route($this->adminUrl . '.specials.edit', $special->id) . '">' . $special->name . '</a>';
-        $special->created_on = $special->present()->createdOn;
-        $special->is_enabled = $special->present()->isEnabled;
+      $special->name = '<a href="' . route($this->adminUrl . '.specials.edit', $special->id) . '">' . $special->name . '</a>';
+      $special->created_on = $special->present()->createdOn;
+      $special->is_enabled = $special->present()->isEnabled;
     }
 
     return Response::json(array('data' => $specials->toArray(), 'columns' => $columns));

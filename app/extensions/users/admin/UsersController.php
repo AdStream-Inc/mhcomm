@@ -52,7 +52,7 @@ class UsersController extends BaseController {
 
     public function index()
     {
-        $users = Sentry::where('first_name', '!=', 'Adstream')->get();
+        $users = Sentry::where('first_name', '!=', 'Adstream')->count();
         return View::make('admin.users.index', compact('users'));
     }
 

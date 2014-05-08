@@ -19,7 +19,7 @@
         columns: res.columns,
         data: res.data,
         autoheight:true,
-        width: $('#main .container').width(),
+        autoWidth: true,
         scrollX: false,
         pager: {
           container: 'datatable-pager',

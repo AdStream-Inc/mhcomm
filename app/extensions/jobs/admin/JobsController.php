@@ -53,7 +53,7 @@ class JobsController extends BaseController {
 
     public function index()
     {
-        $jobs = $this->model->all();
+        $jobs = $this->model->count();
         return View::make('admin.jobs.index', compact('jobs'));
     }
 

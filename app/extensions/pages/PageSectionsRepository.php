@@ -1,13 +1,8 @@
 <?php namespace Adstream\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use Way\Database\Model;
 
-/**
- * Model is the class used for auto validation
- * See https://github.com/JeffreyWay/Laravel-Model-Validation
- */
-class PageSections extends Model {
+class PageSections extends BaseRepository {
 
     /**
      * Explicitly tell laravel what table to look for
@@ -21,7 +16,7 @@ class PageSections extends Model {
     protected $fillable = array('content', 'slug', 'page_id');
 
     /**
-     * Auto validation rules for composer package Way/Database
+     * Auto validation rules
      */
     protected static $rules = array();
 

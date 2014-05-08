@@ -9,8 +9,7 @@
 		"prologue/alerts": "dev-master",
 		"way/database": "dev-master",
 		"laracasts/presenter": "0.1.*",
-		"sebklaus/profiler" : "dev-master",
-		"venturecraft/revisionable": "1.*"
+		"sebklaus/profiler" : "dev-master"
 	},
 	"repositories": [{
 		"type": "composer",

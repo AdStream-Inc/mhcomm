@@ -1,13 +1,8 @@
 <?php namespace Adstream\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use Way\Database\Model;
 
-/**
- * Model is the class used for auto validation
- * See https://github.com/JeffreyWay/Laravel-Model-Validation
- */
-class Jobs extends Model {
+class Jobs extends BaseRepository {
 
     use PresentableTrait;
 
@@ -28,7 +23,7 @@ class Jobs extends Model {
     protected $fillable = array('name', 'description', 'enabled', 'qualifications');
 
     /**
-     * Auto validation rules for composer package Way/Database
+     * Auto validation rules
      */
     protected static $rules = array(
       'name' => 'required',

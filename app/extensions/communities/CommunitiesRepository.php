@@ -2,14 +2,11 @@
 
 use Sentry;
 use Laracasts\Presenter\PresentableTrait;
-use Way\Database\Model;
 use Adstream\Models\User;
 
-/**
- * Model is the class used for auto validation
- * See https://github.com/JeffreyWay/Laravel-Model-Validation
- */
-class Communities extends Model {
+class Communities extends BaseRepository {
+
+    protected $isRevisionable = true;
 
     use PresentableTrait;
 
@@ -58,21 +55,17 @@ class Communities extends Model {
         }
     }
 
-    /**
-     * Todo still
-     */
-    public static function boot() {
-        parent::boot();
-
-        $user = Sentry::getUser();
-        $manager = Sentry::findGroupByName('Manager');
-
-        if ($user->inGroup($manager)) {
-            static::saving(function($model) {
-                dd('test');
-                return false;
-            });
-        }
+    public function revisions()
+    {
+      return $this->morphMany('Adstream\Models\Revisions', 'revisionable');
     }
 
+    public function managerRevisions()
+    {
+      $managerGroup = Sentry::findGroupByName('Manager');
+      $managers = Sentry::findAllUsersInGroup($managerGroup)->lists('id');
+      return $this->morphMany('Adstream\Models\Revisions', 'revisionable')
+        ->where('approved', false)
+        ->whereIn('user_id', $managers);
+    }
 }

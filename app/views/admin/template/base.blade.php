@@ -14,9 +14,10 @@
 
     <script>
        var URL = {
-         'base' : '{{ URL::to('/') }}',
-         'current' : '{{ URL::current() }}',
-         'full' : '{{ URL::full() }}'
+         base: '{{ url('/') }}',
+         current: '{{ URL::current() }}',
+         full: '{{ URL::full() }}',
+         admin: '{{ url(Config::get('site.admin_url')) }}'
        };
     </script>
   </head>
@@ -41,13 +42,26 @@
                   <a href="{{ route($adminUrl . '.pages.index') }}"><span class="fa fa-file"></span> Pages</a>
                 </li>
               @endif
-              <li class="dropdown @if(Request::is($adminUrl . '/specials*') || Request::is($adminUrl . '/communities*')) active @endif">
+              <li class="dropdown @if(Request::is($adminUrl . '/communities*')) active @endif">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-map-marker"></span> Manage Communities <b class="caret"></b>
+                  <span class="fa fa-map-marker"></span> Communities <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route($adminUrl . '.communities.index') }}">Communities</a></li>
-                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Specials</a></li>
+                  <li><a href="{{ route($adminUrl . '.communities.index') }}">Manage Communities</a></li>
+                  @if ($communityRevisions && $authUser->hasAccess('revisions.list'))
+                    <li><a href="{{ url($adminUrl . '/communities/revisions') }}"> Revisions <span class="revision-label label pull-right label-danger">{{ $communityRevisions }}</span></a></li>
+                  @endif
+                </ul>
+              </li>
+              <li class="dropdown @if(Request::is($adminUrl . '/specials*')) active @endif">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <span class="fa fa-asterisk"></span> Specials <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
+                  @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
+                    <li><a href="{{ url($adminUrl . '/specials/revisions') }}"> Revisions <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
+                  @endif
                 </ul>
               </li>
               @if ($authUser->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
@@ -55,9 +69,11 @@
                   <a href="{{ route($adminUrl . '.jobs.index') }}"><span class="fa fa-briefcase"></span> Jobs</a>
                 </li>
               @endif
-              <li @if(Request::is($adminUrl . '/users*')) class="active" @endif>
-                <a href="{{ route($adminUrl . '.users.index') }}"><span class="fa fa-users"></span> Users</a>
-              </li>
+              @if ($authUser->hasAnyAccess(array('users.create', 'users.delete', 'users.edit', 'users.list')))
+                <li @if(Request::is($adminUrl . '/users*')) class="active" @endif>
+                  <a href="{{ route($adminUrl . '.users.index') }}"><span class="fa fa-users"></span> Users</a>
+                </li>
+              @endif
             </ul>
             <ul class="nav navbar-nav navbar-right system-nav">
               @if ($authUser->hasAccess('settings'))
@@ -78,6 +94,13 @@
           @yield('content')
           @yield('main.append')
       </div>
+      <div class="container-wide clearfix">
+        @yield('wide-content')
+      </div>
+    </div>
+    <div id="footer" class="clearfix">
+        <span class="pull-left text-muted">{{ Config::get('site.title') }}</span>
+        <span class="pull-right text-muted"><a href="http://adstreaminc.com">Adstream</a> Admin Version {{ Config::get('site.version') }}</span>
     </div>
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
     {{ HTML::script(asset('assets/admin/js/app.min.js')) }}

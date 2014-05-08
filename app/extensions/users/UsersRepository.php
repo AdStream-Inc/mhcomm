@@ -15,4 +15,9 @@ class User extends SentryUser {
     return $this->hasOne('\Adstream\Models\Communities', 'manager_id');
   }
 
+  public function specials()
+  {
+    return $this->community->with('specials');
+  }
+
 }

@@ -28,7 +28,8 @@ return array(
       'jobs.create' => 1,
       'jobs.edit' => 1,
       'jobs.list' => 1,
-      'jobs.delete' => 1
+      'jobs.delete' => 1,
+      'revisions.list' => 1
     ),
   ),
 
@@ -53,6 +54,7 @@ return array(
         'jobs.edit' => 0,
         'jobs.list' => 0,
         'jobs.delete' => 0,
+        'revisions.list' => 1
     ),
   ),
 
