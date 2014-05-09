@@ -50,12 +50,15 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  Route::group(array('prefix' => 'community'), function() {
-    Route::get('{community}', function($community) {
+  Route::group(array('prefix' => 'communities'), function() {
+    Route::get('{community}.html', function($community) {
       return $community;
     });
 
-    Route::get('{community}/{slug?}', function($community, $slug) {
+    Route::get('{community}/{slug?}.html', function($community, $slug) {
+		
+		$pieces = explode('/', $slug);
+		
       return $slug;
     })->where('slug', '.*');
   });
