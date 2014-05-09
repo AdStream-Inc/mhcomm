@@ -40,7 +40,7 @@ gulp.task('frontendCss', function() {
 gulp.task('adminJs', function() {
   gulp.src(adminJs)
     .pipe(concat('app.min.js'))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./public/assets/admin/js/'));
 });
 
