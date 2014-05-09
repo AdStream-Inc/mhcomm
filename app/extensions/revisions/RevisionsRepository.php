@@ -20,11 +20,6 @@ class Revisions extends BaseRepository {
         return $this->morphTo();
     }
 
-    public function getKeyAttribute($value)
-    {
-      return ucfirst(str_replace('-', ' ', Str::slug($value)));
-    }
-
     public function user()
     {
       return $this->belongsTo('Adstream\Models\User', 'user_id');

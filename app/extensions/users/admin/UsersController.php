@@ -87,13 +87,15 @@ class UsersController extends BaseController {
     public function edit($id)
     {
         $user = Sentry::findUserById($id);
-        $userGroups = $user->getGroups();
+        $userGroups = $user->getGroups()[0]->id;
 
         $groupsCollection = Sentry::findAllGroups();
         $groups = array();
         foreach ($groupsCollection as $group) {
             $groups[$group->id] = $group->name;
         }
+        $adstreamGroup = Sentry::findGroupByName('Adstream')->id;
+        $groups = array_except($groups, array($adstreamGroup));
 
         return View::make('admin.users.edit', compact('user', 'groups', 'userGroups'));
     }

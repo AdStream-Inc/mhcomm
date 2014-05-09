@@ -9,4 +9,9 @@ class RevisionsPresenter extends Presenter {
     return date('g:i A, M d, Y', strtotime($this->created_at));
   }
 
+  public function presentableKey()
+  {
+    return ucfirst(str_replace('-', ' ', Str::slug($this->key)));
+  }
+
 }

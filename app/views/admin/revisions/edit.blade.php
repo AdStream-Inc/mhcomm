@@ -11,7 +11,7 @@
   {{ Form::open(array('method' => 'PUT', 'url' => $adminUrl . '/revisions/' . $revisions[0]->group_hash)) }}
     @foreach ($revisions as $revision)
       <div class="well clearfix">
-        <h4 class="list-group-item-heading">{{ $revision->user->present()->fullName }} changed field <code>{{ $revision->key }}</code> on {{ $revision->present()->createdOn}}</h4>
+        <h4 class="list-group-item-heading">{{ $revision->user->present()->fullName }} changed field <code>{{ $revision->present()->presentableKey }}</code> on {{ $revision->present()->createdOn}}</h4>
         <hr />
 <p>From:</p>
 <pre class="panel">{{$revision->old_value}}</pre>

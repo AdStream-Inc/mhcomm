@@ -82,7 +82,7 @@ class CommunitiesController extends BaseController {
         $manager = Sentry::findGroupByName('Manager');
 
         if ($user->inGroup($manager)) {
-            $communities = $user->community->first();
+            $communities = $user->community;
             $communities->name = '<a href="' . route($this->adminUrl . '.communities.edit', $communities->id) . '">' . $communities->name . '</a>';
             $communities->created_on = $communities->present()->createdOn;
             $communities->last_updated = $communities->present()->lastUpdated;
