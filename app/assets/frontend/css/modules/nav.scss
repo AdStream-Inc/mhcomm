@@ -1,0 +1,22 @@
+.main-navbar {
+  margin-bottom: 0;
+  padding: 20px 0;
+
+  .navbar-nav > li > a {
+    color: #444;
+
+    &:hover {
+      color: $brand-main;
+    }
+  }
+
+  .navbar-form {
+    margin-left: 15px;
+    padding-right: 0;
+  }
+
+  .navbar-brand img {
+    position: relative;
+    bottom: 6px;
+  }
+}
