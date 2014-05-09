@@ -7,6 +7,7 @@ use Alert;
 use Request;
 use Response;
 use Sentry;
+use Str;
 use Adstream\Models\Communities;
 use Adstream\Models\User;
 use Adstream\Controllers\BaseController;
@@ -133,6 +134,7 @@ class CommunitiesController extends BaseController {
     public function store()
     {
         $community = new $this->model(Input::all());
+        $community->slug = Str::slug(Input::get('name'));
 
         if ($community->save()) {
             Alert::success('Community successfully added!')->flash();
@@ -146,6 +148,7 @@ class CommunitiesController extends BaseController {
     public function update($id)
     {
         $community = $this->model->find($id);
+        $community->slug = Str::slug(Input::get('name'));
 
         if ($community->update(Input::all())) {
             if ($this->isManager) {

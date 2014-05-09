@@ -13,7 +13,10 @@ var adminCss = [adminUrl + '/css/app.scss'];
 var frontendCss = [frontendUrl + '/css/app.scss'];
 
 var adminJs = [adminUrl + '/js/lib/*.js', adminUrl + '/js/shared/*.js', adminUrl + '/js/**/*.js'];
-var frontendJs = [frontendUrl + '/js/*.js'];
+var frontendJs = [frontendUrl + '/js/lib/*.js', frontendUrl + '/js/shared/*.js', frontendUrl + '/js/**/*.js'];
+
+var adminImages = [adminUrl + '/images/**.*'];
+var frontendImages = [frontendUrl + '/images/**.*'];
 
 gulp.task('adminCss', function() {
   gulp.src(adminCss)
@@ -51,11 +54,17 @@ gulp.task('frontendJs', function() {
     .pipe(gulp.dest('./public/assets/frontend/js/'));
 });
 
-/*gulp.task('images', function() {
-  gulp.src(imagePath)
+gulp.task('frontendImages', function() {
+  gulp.src(frontendImages)
     .pipe(imagemin())
-    .pipe(gulp.dest('./public/images/'));
-});*/
+    .pipe(gulp.dest('./public/assets/frontend/images/'));
+});
+
+gulp.task('adminImages', function() {
+  gulp.src(adminImages)
+    .pipe(imagemin())
+    .pipe(gulp.dest('./public/assets/admin/images/'));
+});
 
 gulp.task('watch', function() {
   gulp.watch([adminCss, adminUrl + '/css/**/*.scss'], ['adminCss']);
@@ -64,4 +73,16 @@ gulp.task('watch', function() {
   gulp.watch(frontendJs, ['frontendJs']);
 });
 
-gulp.task('default', ['adminCss', 'frontendCss', 'adminJs', 'frontendJs', 'watch']);
+gulp.task('watch-admin', function() {
+  gulp.watch([adminCss, adminUrl + '/css/**/*.scss'], ['adminCss']);
+  gulp.watch(adminJs, ['adminJs']);
+});
+
+gulp.task('watch-frontend', function() {
+  gulp.watch([frontendCss, frontendUrl + '/css/**/*.scss'], ['frontendCss']);
+  gulp.watch(frontendJs, ['frontendJs']);
+});
+
+gulp.task('frontend', ['frontendCss', 'frontendJs', 'frontendImages', 'watch-frontend']);
+gulp.task('admin', ['adminCss', 'adminJs', 'adminImages', 'watch-admin']);
+gulp.task('default', ['adminCss', 'frontendCss', 'adminJs', 'frontendJs', 'adminImages', 'frontendImages', 'watch']);

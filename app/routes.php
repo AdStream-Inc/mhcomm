@@ -1,6 +1,7 @@
 <?php
 
 $adminNs = 'Adstream\\Controllers\\Admin\\';
+$frontendNs  = 'Adstream\\Controllers\\Frontend\\';
 
 Route::get('installer', $adminNs . 'InstallerController@setup');
 Route::post('installer', $adminNs . 'InstallerController@install');
@@ -8,7 +9,7 @@ Route::get('installer-finish', $adminNs . 'InstallerController@setupConfig');
 Route::post('installer-finish', $adminNs . 'InstallerController@setConfig');
 Route::post('wysiwyg-upload', 'Adstream\Controllers\WysiwygController@postIndex');
 
-Route::group(array('before' => 'install'), function() use($adminNs) {
+Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs) {
 
   // Login
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
@@ -50,23 +51,24 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  Route::group(array('prefix' => 'communities'), function() {
+  Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {
+    Route::get('/', 'CommunitiesController@index');
+    Route::get('/list', 'CommunitiesController@getList');
+
     Route::get('{community}.html', function($community) {
       return $community;
     });
 
-    Route::get('{community}/{slug?}.html', function($community, $slug) {
-		
-		$pieces = explode('/', $slug);
-		
-      return $slug;
-    })->where('slug', '.*');
+    // Route::get('{community}/{slug?}.html', function($community, $slug) {
+		  // $pieces = explode('/', $slug);
+    //   return $slug;
+    // })->where('slug', '.*');
   });
 
   // Frontend
   Route::get('/', function()
   {
-  	return 'frontend';
+  	return View::make('frontend.static.home');
   });
 
 });

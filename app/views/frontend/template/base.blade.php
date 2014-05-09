@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') | MHCOMM</title>
 
-
+    {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.1.1-1/css/flatly/bootstrap.min.css') }}
     {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css') }}
     {{ HTML::style(asset('assets/frontend/css/app.min.css')) }}
     @yield('styles')
@@ -20,6 +20,9 @@
     </script>
   </head>
   <body>
+    @yield('header')
+    @yield('main')
+    @yield('footer')
 
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
     {{ HTML::script(asset('assets/frontend/js/app.min.js')) }}
