@@ -145,7 +145,11 @@ class CommunitiesController extends BaseController {
         $community = $this->model->find($id);
 
         if ($community->update(Input::all())) {
-            Alert::success('Community successfully updated!')->flash();
+            if ($this->isManager) {
+                Alert::success('Your changes are pending approval from an administrator.')->flash();
+            } else {
+                Alert::success('Community successfully updated!')->flash();
+            }
             return Redirect::route($this->adminUrl . '.communities.index');
         }
 

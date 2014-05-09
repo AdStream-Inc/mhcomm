@@ -21,13 +21,21 @@
 @stop
 
 @section('content')
-  <h1>Pages</h1>
+  <h1>Community Pages</h1>
   <div class="row">
     <div class="col-md-4">
+      <div class="well">
+        @if ($community)
+          <label class="text-muted small">Current Community:</label>
+          <h4 class="list-group-item-heading push-bottom">{{ $community->name }}</h4>
+        @endif
+        <button type="button" class="btn btn-primary btn-sm btn-block" id="community-change">Change Community</button>
+      </div>
+      <hr />
       <div class="well tree-outer">
         <div class="tree-inner">
           <div class="clearfix push-half-bottom">
-            <button class="btn btn-sm btn-block btn-success pull-right @if(isset($lastUpdated)) is-visible @endif" id="page-create"><span class="fa fa-plus"> Create</button>
+            <button class="btn btn-sm btn-block btn-success pull-right @if(isset($communityLastUpdated)) is-visible @endif" id="page-create"><span class="fa fa-plus"> Create</button>
           </div>
           <div id="tree">
             @if ($pagesTree)
@@ -40,36 +48,39 @@
       </div>
     </div>
     <div class="col-md-8">
-      @if (isset($lastUpdated))
-        {{ Form::open(array('route' => array($adminUrl . '.pages.update', $lastUpdated['id']), 'id' => 'pages-form', 'method' => 'PUT')) }}
+      @if (isset($communityLastUpdated))
+        {{ Form::open(array('route' => array($adminUrl . '.community-pages.update', $communityLastUpdated['id']), 'id' => 'pages-form', 'method' => 'PUT')) }}
       @else
-        {{ Form::open(array('route' => $adminUrl . '.pages.store', 'id' => 'pages-form')) }}
+        {{ Form::open(array('route' => $adminUrl . '.community-pages.store', 'id' => 'pages-form')) }}
       @endif
         <div class="well clearfix">
-          {{ Form::bootwrapped('name', 'Name', function($name) use($lastUpdated){
-              return Form::text($name, $lastUpdated['name'] ?: null, array('class' => 'form-control'));
+          {{ Form::bootwrapped('name', 'Name', function($name) use($communityLastUpdated){
+              return Form::text($name, $communityLastUpdated['name'] ?: null, array('class' => 'form-control'));
             })
           }}
-          {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $lastUpdated){
-              return Form::select($name, $pagesDropdown, $lastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
+          {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $communityLastUpdated){
+              return Form::select($name, $pagesDropdown, $communityLastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
             })
           }}
+
+          {{ Form::hidden('community_id', Input::get('community_id'), array('class' => 'form-control')) }}
+
           <div class="row">
             <div class="col-md-3">
-              {{ Form::bootwrapped('enabled', 'Active?', function($name) use($pagesDropdown, $lastUpdated){
-                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), $lastUpdated['enabled'] ?: null, array('class' => 'form-control'));
+              {{ Form::bootwrapped('enabled', 'Active?', function($name) use($pagesDropdown, $communityLastUpdated){
+                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), $communityLastUpdated['enabled'] ?: null, array('class' => 'form-control'));
                 })
               }}
             </div>
             <div class="col-md-4">
-              {{ Form::bootwrapped('auth_only', 'Visible To', function($name) use($lastUpdated){
-                  return Form::select($name, array('0' => 'All', '1' => 'Logged In User'), $lastUpdated['auth_only'] ?: null, array('class' => 'form-control'));
+              {{ Form::bootwrapped('auth_only', 'Visible To', function($name) use($communityLastUpdated){
+                  return Form::select($name, array('0' => 'All', '1' => 'Logged In User'), $communityLastUpdated['auth_only'] ?: null, array('class' => 'form-control'));
                 })
               }}
             </div>
             <div class="col-md-5">
-              {{ Form::bootwrapped('template', 'Template', function($name) use($templatesDropdown, $lastUpdated){
-                  return Form::select($name, $templatesDropdown, $lastUpdated['template'] ?: null, array('class' => 'form-control', 'id' => 'template'));
+              {{ Form::bootwrapped('template', 'Template', function($name) use($templatesDropdown, $communityLastUpdated){
+                  return Form::select($name, $templatesDropdown, $communityLastUpdated['template'] ?: null, array('class' => 'form-control', 'id' => 'template'));
                 })
               }}
             </div>
@@ -81,7 +92,7 @@
                   {{ Form::label('templates[' . $identifier . '-' . $key . ']', $title) }}
                   {{ Form::textarea(
                       'templates[' . $identifier . '-' . $key . ']',
-                      isset($lastUpdated['sections'][$identifier . '-' . $key]) ? $lastUpdated['sections'][$identifier . '-' . $key] : null,
+                      isset($communityLastUpdated['sections'][$identifier . '-' . $key]) ? $communityLastUpdated['sections'][$identifier . '-' . $key] : null,
                       array('class' => 'form-control template-section-content', 'rows' => 4, 'id' => $identifier . '-' . $key)
                     )
                   }}
@@ -90,16 +101,39 @@
             </div>
           @endforeach
           <hr />
-          <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($lastUpdated)) is-visible @endif" value="Create Page" />
-          <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($lastUpdated)) is-visible @endif" value="Update Page" />
+          <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($communityLastUpdated)) is-visible @endif" value="Create Page" />
+          <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Update Page" />
         </div>
       {{ Form::close() }}
     </div>
   </div>
+
+  <div class="modal fade" id="community_select">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select a community to add pages to</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::select('community_select', $communitiesDropdown, Input::get('community_id'), array('class' => 'form-control')) }}
+        </div>
+        <div class="modal-footer">
+          @if (Input::get('community_id'))
+            <button type="button" class="btn btn-default" id="community-select-cancel">Cancel</button>
+          @endif
+          <button type="button" class="btn btn-primary" id="community-select-submit">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @stop
 
-@if ($pagesTree)
-  @section('scripts')
+@section('scripts')
+  <script>
+    new CommunityPages();
+  </script>
+
+  @if($pagesTree)
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.0/jstree.min.js') }}
     <script>
       (function($, window, document, undefined) {
@@ -118,10 +152,10 @@
           $('#tree').jstree('clear_state');
         });
 
-        @if (empty($lastUpdated))
+        @if (empty($communityLastUpdated))
           $('#tree').jstree('clear_state');
         @endif
       })(jQuery, window, document);
     </script>
-  @stop
-@endif
+  @endif
+@stop

@@ -38,8 +38,14 @@
           <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
               @if ($authUser->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list')))
-                <li @if(Request::is($adminUrl . '/pages*')) class="active" @endif>
-                  <a href="{{ route($adminUrl . '.pages.index') }}"><span class="fa fa-file"></span> Pages</a>
+                <li class="dropdown" @if(Request::is($adminUrl . '/pages*')) class="active" @endif>
+                  <a data-toggle="dropdown" href="{{ route($adminUrl . '.pages.index') }}">
+                    <span class="fa fa-file"></span> Pages <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{ route($adminUrl . '.pages.index') }}">Site Pages</a></li>
+                    <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+                  </ul>
                 </li>
               @endif
               <li class="dropdown @if(Request::is($adminUrl . '/communities*')) active @endif">

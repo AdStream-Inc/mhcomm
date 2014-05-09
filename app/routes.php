@@ -9,7 +9,11 @@ Route::post('installer-finish', $adminNs . 'InstallerController@setConfig');
 Route::post('wysiwyg-upload', 'Adstream\Controllers\WysiwygController@postIndex');
 
 Route::group(array('before' => 'install'), function() use($adminNs) {
+
+  // Login
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
+
+  // Admin
   Route::group(
     array(
       'prefix' => Config::get('site.admin_url'),
@@ -37,12 +41,26 @@ Route::group(array('before' => 'install'), function() use($adminNs) {
       Route::resource('communities', 'CommunitiesController');
 
       Route::resource('pages', 'PagesController');
+
+      Route::resource('community-pages', 'CommunityPagesController');
+
       Route::resource('settings', 'SettingsController');
 
       // temp dashboard route
       Route::get('/', 'DashboardController@getIndex');
     });
 
+  Route::group(array('prefix' => 'community'), function() {
+    Route::get('{community}', function($community) {
+      return $community;
+    });
+
+    Route::get('{community}/{slug?}', function($community, $slug) {
+      return $slug;
+    })->where('slug', '.*');
+  });
+
+  // Frontend
   Route::get('/', function()
   {
   	return 'frontend';

@@ -11,8 +11,12 @@
   {{ Form::open(array('method' => 'PUT', 'url' => $adminUrl . '/revisions/' . $revisions[0]->group_hash)) }}
     @foreach ($revisions as $revision)
       <div class="well clearfix">
-        <h4 class="list-group-item-heading">{{ $revision->user->present()->fullName }} changed field <code>{{ $revision->key }}</code> on {{ $revision->present()->createdOn}} to:</h4>
-  <pre class="panel">{{$revision->new_value}}</pre>
+        <h4 class="list-group-item-heading">{{ $revision->user->present()->fullName }} changed field <code>{{ $revision->key }}</code> on {{ $revision->present()->createdOn}}</h4>
+        <hr />
+<p>From:</p>
+<pre class="panel">{{$revision->old_value}}</pre>
+<p>To:</p>
+<pre class="panel">{{$revision->new_value}}</pre>
         <div class="btn-group pull-right" data-toggle="buttons">
           <label class="btn btn-sm btn-default">
             <input type="radio" name="deny[{{ $revision->id }}]" value="{{ $revision->id }}"> Deny

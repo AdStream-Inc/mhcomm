@@ -12,6 +12,10 @@ class BaseController extends \Controller {
   public function __construct()
   {
     $this->adminUrl = Config::get('site.admin_url');
-    $this->user = Sentry::getUser();
+    if (Sentry::getUser()) {
+      $this->user = Sentry::getUser();
+      $managerGroup = Sentry::findGroupByName('Manager');
+      $this->isManager = $this->user->inGroup($managerGroup);
+    }
   }
 }

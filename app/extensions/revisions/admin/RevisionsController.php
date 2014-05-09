@@ -86,9 +86,11 @@ class RevisionsController extends BaseController {
         $model = $this->findModel($revision);
         $key = $revision->key;
         $value = $revision->new_value;
+
+        $model->$key = $value;
         $revision->approved = 1;
 
-        $model->update(array($key => $value));
+        $model->save();
         $revision->save();
       }
     }

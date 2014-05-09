@@ -193,6 +193,6 @@
     $('input[name="name"]').closest('.form-group').removeClass('has-error').find('.help-block').remove();
   }
 
-  new Pages();
+  window.Pages = Pages;
 
 })(jQuery, window, document);

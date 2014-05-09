@@ -21,7 +21,7 @@
 @stop
 
 @section('content')
-  <h1>Pages</h1>
+  <h1>Site Pages</h1>
   <div class="row">
     <div class="col-md-4">
       <div class="well tree-outer">
@@ -98,8 +98,12 @@
   </div>
 @stop
 
-@if ($pagesTree)
-  @section('scripts')
+@section('scripts')
+  <script>
+      new Pages();
+  </script>
+
+  @if ($pagesTree)
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.0/jstree.min.js') }}
     <script>
       (function($, window, document, undefined) {
@@ -123,5 +127,5 @@
         @endif
       })(jQuery, window, document);
     </script>
-  @stop
-@endif
+  @endif
+@stop

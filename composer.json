@@ -4,12 +4,10 @@
 		"laravel/framework": "4.1.*",
 		"way/generators": "2.*",
 		"cartalyst/sentry": "2.1.*",
-		"cartalyst/nested-sets": "2.0.*",
 		"cartalyst/composite-config": "1.0.*",
 		"prologue/alerts": "dev-master",
-		"way/database": "dev-master",
 		"laracasts/presenter": "0.1.*",
-		"sebklaus/profiler" : "dev-master"
+		"barryvdh/laravel-debugbar": "1.*"
 	},
 	"repositories": [{
 		"type": "composer",

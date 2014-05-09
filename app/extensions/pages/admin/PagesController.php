@@ -70,6 +70,8 @@ class PagesController extends BaseController {
             }
 
             $this->setLastUpdated($page->id);
+            $page->url = $this->parsePageUrl($page);
+            $page->save();
 
             Alert::success('Page [' . $page->name . '] successfully added!')->flash();
             return Redirect::route($this->adminUrl . '.pages.index');
@@ -82,6 +84,7 @@ class PagesController extends BaseController {
     {
         $page = $this->model->find($id);
         $page->slug = Str::slug(Input::get('name'));
+
         $parentId = Input::get('parent_id');
 
         $children = array();
@@ -120,6 +123,8 @@ class PagesController extends BaseController {
             }
 
             $this->setLastUpdated($page->id);
+            $page->url = $this->parsePageUrl($page);
+            $page->save();
 
             Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
             return Redirect::route($this->adminUrl . '.pages.index');
@@ -227,6 +232,28 @@ class PagesController extends BaseController {
         $html = count($this->tree) ? $printTree($this->tree) : '';
 
         return $html;
+    }
+
+    private function parsePageUrl($root) {
+        $url = array();
+
+        $generateUrl = function($pages, $base) use (&$generateUrl, &$url) {
+
+            array_unshift($url, $base->slug);
+
+            foreach ($pages as $page) {
+                if ($base->parent_id == $page->id) {
+                    array_unshift($url, $page->slug);
+                    $generateUrl($pages, $page);
+                }
+            }
+
+            return $url;
+        };
+
+        $url = array_unique($generateUrl($this->model->all(), $root));
+
+        return implode($url, '/');
     }
 
     private function parsePageTree($pages, $parentId = 0)

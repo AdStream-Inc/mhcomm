@@ -120,11 +120,10 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider',
-		'Cartalyst\NestedSets\NestedSetsServiceProvider',
 		'Cartalyst\CompositeConfig\CompositeConfigServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Prologue\Alerts\AlertsServiceProvider',
-		'Sebklaus\Profiler\Providers\ProfilerServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
 	),
 
 	/*
@@ -192,6 +191,6 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Sentry' 					=> 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Alert' 					=> 'Prologue\Alerts\Facades\Alert',
-		'Model' 					=> 'Way\Database\Model'
+		'Debugbar' 				=> 'Barryvdh\Debugbar\Facade',
 	),
 );
