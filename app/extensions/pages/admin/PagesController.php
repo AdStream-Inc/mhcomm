@@ -59,22 +59,22 @@ class PagesController extends BaseController {
         $page = new $this->model(Input::all());
         $page->slug = Str::slug($page->name);
 
-        if ($page->save()) {
+        if ($this->validateName($page)) {
+            if ($page->save()) {
 
-            foreach (Input::get('templates') as $slug => $content) {
-                $template = new $this->sections();
-                $template->page_id = $page->id;
-                $template->slug = $slug;
-                $template->content = $content;
-                $template->save();
+                foreach (Input::get('templates') as $slug => $content) {
+                    $template = new $this->sections();
+                    $template->page_id = $page->id;
+                    $template->slug = $slug;
+                    $template->content = $content;
+                    $template->save();
+                }
+
+                $this->setLastUpdated($page->id);
+
+                Alert::success('Page [' . $page->name . '] successfully added!')->flash();
+                return Redirect::route($this->adminUrl . '.pages.index');
             }
-
-            $this->setLastUpdated($page->id);
-            $page->url = $this->parsePageUrl($page);
-            $page->save();
-
-            Alert::success('Page [' . $page->name . '] successfully added!')->flash();
-            return Redirect::route($this->adminUrl . '.pages.index');
         }
 
         return Redirect::back()->withInput()->withErrors($page->getErrors());
@@ -108,29 +108,57 @@ class PagesController extends BaseController {
             return Redirect::back()->withInput();
         }
 
-        if ($page->update(Input::all())) {
+        if ($this->validateName($page)) {
+            if ($page->update(Input::all())) {
 
-            $sections = Input::get('templates');
-            foreach ($sections as $slug => $value) {
-                $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
-                if (!$section) {
-                    $section = new $this->sections();
-                    $section->slug = $slug;
-                    $section->page_id = $page->id;
+                $sections = Input::get('templates');
+                foreach ($sections as $slug => $value) {
+                    $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
+                    if (!$section) {
+                        $section = new $this->sections();
+                        $section->slug = $slug;
+                        $section->page_id = $page->id;
+                    }
+                    $section->content = $value;
+                    $section->save();
                 }
-                $section->content = $value;
-                $section->save();
+
+                $this->setLastUpdated($page->id);
+
+                Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
+                return Redirect::route($this->adminUrl . '.pages.index');
             }
-
-            $this->setLastUpdated($page->id);
-            $page->url = $this->parsePageUrl($page);
-            $page->save();
-
-            Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
-            return Redirect::route($this->adminUrl . '.pages.index');
         }
 
         return Redirect::back()->withInput()->withErrors($page->getErrors());
+    }
+
+    public function show($id)
+    {
+        if (Request::ajax()) {
+            $data = array();
+            $page = $this->model->find($id);
+            $sections = $page->sections()->get();
+
+            $data['page'] = $page->toArray();
+            $data['sections'] = $sections->toArray();
+
+            return Response::json($data);
+        }
+    }
+
+    private function validateName($page) {
+        $parentId = $page->parent_id;
+        $name = $page->name;
+
+        foreach ($this->model->where('parent_id', $parentId)->get() as $page) {
+            if ($page->name == $name) {
+                Alert::error('Cannot have two pages with the same name under the same parent page.')->flash();
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function setLastUpdated($id)
@@ -149,20 +177,6 @@ class PagesController extends BaseController {
         Cache::add('lastUpdated', $lastUpdated, 2);
 
         return $lastUpdated;
-    }
-
-    public function show($id)
-    {
-        if (Request::ajax()) {
-            $data = array();
-            $page = $this->model->find($id);
-            $sections = $page->sections()->get();
-
-            $data['page'] = $page->toArray();
-            $data['sections'] = $sections->toArray();
-
-            return Response::json($data);
-        }
     }
 
     private function getTemplatesDropdown()
@@ -234,6 +248,9 @@ class PagesController extends BaseController {
         return $html;
     }
 
+    /**
+     * Deprecated
+     */
     private function parsePageUrl($root) {
         $url = array();
 

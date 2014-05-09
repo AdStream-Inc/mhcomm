@@ -9,14 +9,12 @@
         })
       }}
       <div class="row">
-        @if (!$isManager)
-          <div class="col-md-6">
-            {{ Form::bootwrapped('communities[]', 'Community', function($name) use($communities, $activeCommunities) {
-                return Form::select($name, $communities, $activeCommunities, array('class' => 'form-control' , 'multiple'));
-              })
-            }}
-          </div>
-        @endif
+        <div class="col-md-6 @if($isManager) invisible @endif">
+          {{ Form::bootwrapped('communities[]', 'Community', function($name) use($communities, $activeCommunities) {
+              return Form::select($name, $communities, $activeCommunities, array('class' => 'form-control' , 'multiple'));
+            })
+          }}
+        </div>
         <div class="col-md-6">
           {{ Form::bootwrapped('enabled', 'Enabled', function($name){
               return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));

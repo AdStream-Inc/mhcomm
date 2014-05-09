@@ -70,7 +70,7 @@ class CommunitiesController extends BaseController {
 
     public function index()
     {
-        $communities = $this->model->all();
+        $communities = $this->model->count();
 
         return View::make('admin.communities.index', compact('communities'));
     }
@@ -83,9 +83,12 @@ class CommunitiesController extends BaseController {
 
         if ($user->inGroup($manager)) {
             $communities = $user->community;
-            $communities->name = '<a href="' . route($this->adminUrl . '.communities.edit', $communities->id) . '">' . $communities->name . '</a>';
-            $communities->created_on = $communities->present()->createdOn;
-            $communities->last_updated = $communities->present()->lastUpdated;
+
+            foreach ($communities as &$community) {
+                $community->name = '<a href="' . route($this->adminUrl . '.communities.edit', $community->id) . '">' . $community->name . '</a>';
+                $community->created_on = $community->present()->createdOn;
+                $community->last_updated = $community->present()->lastUpdated;
+            }
         } else {
             $communities = $this->model->all();
 

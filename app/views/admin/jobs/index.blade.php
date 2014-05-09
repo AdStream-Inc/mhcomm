@@ -15,7 +15,7 @@
       <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.jobs.create') }}"><span class="fa fa-plus"> Create</a>
     @endif
   </h1>
-  @if (count($jobs))
+  @if ($jobs)
     <div id="datatable"></div>
     <div id="datatable-pager"></div>
   @else

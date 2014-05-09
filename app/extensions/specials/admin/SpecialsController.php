@@ -7,6 +7,7 @@ use Alert;
 use Request;
 use Response;
 use Sentry;
+use DB;
 use Adstream\Models\Specials;
 use Adstream\Models\Communities;
 use Adstream\Controllers\BaseController;
@@ -66,7 +67,9 @@ class SpecialsController extends BaseController {
     $manager = Sentry::findGroupByName('Manager');
 
     if ($user->inGroup($manager)) {
-      $specials = $user->community->specials;
+      $communities = $user->community->lists('id');
+      $pivotIds = DB::table('communities_specials')->whereIn('communities_id', $communities)->lists('specials_id');
+      $specials = $this->model->whereIn('id', $pivotIds)->get();
     } else {
       $specials = $this->model->all();
     }

@@ -12,7 +12,7 @@ class User extends SentryUser {
 
   public function community()
   {
-    return $this->hasOne('\Adstream\Models\Communities', 'manager_id');
+    return $this->hasMany('\Adstream\Models\Communities', 'manager_id');
   }
 
   public function specials()

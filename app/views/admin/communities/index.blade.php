@@ -16,7 +16,7 @@
       <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.communities.create') }}"><span class="fa fa-plus"></span> Create</a>
     @endif
   </h1>
-  @if (count($communities))
+  @if ($communities)
     <div id="datatable"></div>
     <div id="datatable-pager"></div>
   @else

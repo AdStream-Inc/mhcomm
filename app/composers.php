@@ -19,12 +19,16 @@ View::composer('*', function($view) {
 		    $specialsRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Specials')
 									->where('approved', false)
 									->whereIn('user_id', $users)
+                  ->groupBy('group_hash')
+                  ->get()
 									->count();
 
 		    $communitiesRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
 									->where('approved', false)
 									->whereIn('user_id', $users)
-									->count();
+                  ->groupBy('group_hash')
+                  ->get()
+                  ->count();
   	  } else {
   		  $specialsRevisionCount = 0;
   		  $communitiesRevisionCount = 0;

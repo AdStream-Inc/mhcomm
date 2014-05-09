@@ -44,13 +44,20 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a href="{{ route($adminUrl . '.pages.index') }}">Site Pages</a></li>
-                    <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+                    @if (Adstream\Models\CommunityPages::count())
+                      <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+                    @endif
                   </ul>
                 </li>
               @endif
               <li class="dropdown @if(Request::is($adminUrl . '/communities*')) active @endif">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-map-marker"></span> Communities <b class="caret"></b>
+                  <span class="fa fa-map-marker"></span>
+                  Communities
+                  <b class="caret"></b>
+                  @if ($communityRevisions && $authUser->hasAccess('revisions.list'))
+                    <span class="push-half-left label label-danger">{{ $communityRevisions }}</span>
+                  @endif
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ route($adminUrl . '.communities.index') }}">Manage Communities</a></li>
@@ -61,7 +68,12 @@
               </li>
               <li class="dropdown @if(Request::is($adminUrl . '/specials*')) active @endif">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-asterisk"></span> Specials <b class="caret"></b>
+                  <span class="fa fa-asterisk"></span>
+                  Specials
+                  <b class="caret"></b>
+                  @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
+                    <span class="push-half-left label label-danger">{{ $specialsRevisions }}</span>
+                  @endif
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
