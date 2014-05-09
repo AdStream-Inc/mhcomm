@@ -55,9 +55,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('/', 'CommunitiesController@index');
     Route::get('/list', 'CommunitiesController@getList');
 
-    Route::get('{community}.html', function($community) {
-      return $community;
-    });
+    Route::get('{community}.html', 'CommunitiesController@show');
 
     // Route::get('{community}/{slug?}.html', function($community, $slug) {
 		  // $pieces = explode('/', $slug);
