@@ -20,9 +20,15 @@
     </script>
   </head>
   <body>
-    @yield('header')
-    @yield('main')
-    @yield('footer')
+  	<section role="header">
+		@yield('header')
+    </section>
+    <section role="main">
+	    @yield('main')
+    </section>
+    <section role="footer">
+    	@yield('footer')
+    </section>
 
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
     {{ HTML::script(asset('assets/frontend/js/app.min.js')) }}

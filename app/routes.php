@@ -55,12 +55,12 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('/', 'CommunitiesController@index');
     Route::get('/list', 'CommunitiesController@getList');
 
-    Route::get('{community}.html', 'CommunitiesController@show');
+    Route::get('{community}.html', 'CommunitiesController@about');
+    Route::get('{community}/specials.html', 'CommunitiesController@specials');
+    Route::get('{community}/map.html', 'CommunitiesController@map');
+    Route::get('{community}/contact.html', 'CommunitiesController@contact');
 
-    // Route::get('{community}/{slug?}.html', function($community, $slug) {
-		  // $pieces = explode('/', $slug);
-    //   return $slug;
-    // })->where('slug', '.*');
+    Route::get('{community}/{slug?}.html', 'CommunitiesController@page')->where('slug', '.*');
   });
 
   // Frontend

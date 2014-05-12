@@ -1,19 +1,7 @@
-@extends('frontend.template.base')
+@extends('frontend.template.base.1-col')
 
 @section('title', 'Home')
 
-@section('header')
-  <div class="header">
-    @include('frontend.modules.header')
-  </div>
-@stop
-
-@section('main')
-  <div class="container">
+@section('content')
     Home page
-  </div>
-@stop
-
-@section('footer')
-
 @stop

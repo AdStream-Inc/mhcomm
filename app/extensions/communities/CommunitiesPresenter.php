@@ -3,7 +3,7 @@
 use Laracasts\Presenter\Presenter;
 
 class CommunitiesPresenter extends Presenter {
-
+  
   public function lastUpdated()
   {
     return date('g:i A, M d, Y', strtotime($this->updated_at));

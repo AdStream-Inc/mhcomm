@@ -47,5 +47,11 @@ class CommunityPages extends BaseRepository {
     {
         return $this->hasMany('Adstream\Models\CommunityPageSections', 'page_id');
     }
+	
+    public function community()
+    {
+        return $this->belongsTo('Adstream\Models\Communities', 'community_id');
+    }
+	
 
 }

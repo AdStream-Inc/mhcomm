@@ -1,14 +1,17 @@
 <?php namespace Adstream\Controllers\Frontend;
 
+use App;
 use View;
 use Response;
 use Str;
 use Adstream\Models\Communities;
+use Adstream\Models\CommunityPages;
 use Adstream\Controllers\BaseController;
 
 class CommunitiesController extends BaseController {
 
   protected $communities;
+  protected $communityPages;
 
   /**
      * The table fields for our data table
@@ -58,9 +61,10 @@ class CommunitiesController extends BaseController {
     ),
   );
 
-  public function __construct(Communities $communities)
+  public function __construct(Communities $communities, CommunityPages $communityPages)
   {
     $this->communities = $communities;
+    $this->communityPages = $communityPages;
   }
 
 
@@ -78,10 +82,58 @@ class CommunitiesController extends BaseController {
     return Response::json(array('data' => $communities->toArray(), 'columns' => $this->tableFields));
   }
 
-  public function show($slug)
-  {
-    $community = $this->communities->where('slug', $slug)->first();
-
-    return View::make('frontend.communities.show', compact('community'));
+  public function show($slug, $content = 'about'){
+	  
+	  $community = $this->communities->where('slug', $slug)->firstOrFail();
+	  
+	  return View::make('frontend.communities.show', compact('community', 'content'));
+	  
   }
+
+  public function about($slug){
+    
+	return $this->show($slug);
+    
+  }
+  
+  public function specials($slug){
+    
+	return $this->show($slug, 'specials');
+    
+  }
+  
+  public function map($slug){
+    
+	return $this->show($slug, 'map');
+    
+  }
+  
+  public function contact($slug){
+    
+	return $this->show($slug, 'contact');
+    
+  }
+  
+  public function page($communitySlug, $pageSlug)
+  {
+	  
+    $community = $this->communities->where('slug', $communitySlug)->first();
+	
+	$pieces = explode('/', $pageSlug);
+	
+	$parentId = 0;
+	
+	foreach ($pieces as $piece){
+		
+		$page = $this->communityPages->select('id')->where('slug', $piece)->where('parent_id', $parentId)->firstOrFail();
+		
+		$parentId = $page->id;
+		
+	}
+	
+	$page = $this->communityPages->where('id', $parentId)->firstOrFail();
+
+    return View::make('frontend.communities.page', compact('community', 'page'));
+  }
+  
 }

@@ -73,4 +73,11 @@ class Communities extends BaseRepository {
     {
         return $this->hasMany('Adstream\Models\CommunityPages', 'community_id');
     }
+	
+	public function getUrl($slug){
+		
+		
+		
+	}
+	
 }
