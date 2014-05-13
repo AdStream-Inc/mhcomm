@@ -1,4 +1,4 @@
-@extends('frontend.template.communities.2-col-right')
+@extends('frontend.template.communities.2-col-left')
 
 @section('body_class')
 @parent
