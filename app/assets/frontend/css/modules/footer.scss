@@ -1,0 +1,30 @@
+/* CSS Document */
+section[role="footer"] {
+	
+	background: #29211F;
+	color: #FFF;
+	padding: 28px 0;
+	
+	ul.navbar-nav {
+		
+		padding: 0;
+		margin: 0;
+		
+		li {
+			
+			list-style: none;
+			margin-right: 20px;
+			
+			&:last-child {
+				margin-right: 0;
+			}
+			
+			a {
+				color: #FFF;
+			}
+			
+		}
+		
+	}
+	
+}

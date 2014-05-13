@@ -141,6 +141,6 @@ return array(
      |
      */
 
-    'inject' => true,
+    'inject' => false,
 
 );

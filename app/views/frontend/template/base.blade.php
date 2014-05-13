@@ -19,7 +19,7 @@
        };
     </script>
   </head>
-  <body>
+  <body class="@yield('body_class')">
   	<section role="header">
 		@yield('header')
     </section>

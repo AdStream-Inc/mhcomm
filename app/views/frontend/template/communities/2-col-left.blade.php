@@ -2,6 +2,6 @@
 
 @section('main')
 	
-    @include('frontend.modules.2-col-left')
+    @include('frontend.template.shared.2-col-left')
 	
 @stop

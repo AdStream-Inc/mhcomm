@@ -1,13 +1,17 @@
 @extends('frontend.template.communities.2-col-right')
 
-@section('title', $community->name)
+@section('body_class')
+@parent
+community-{{ $content }}
+@stop
+
+@section('title', ucwords(str_replace('_', ' ', $content)) . ' - ' . $community->name)
 
 @section('content')
-@include('frontend.modules.communities.h1')
-@include('frontend.modules.communities.gallery')
-@include('frontend.modules.communities.' . $content)
+<h1>{{ ucwords(str_replace('_', ' ', $content)) . ' <span>' . $community->name . '</span>' }}</h1>
+@include('frontend.communities.show.' . $content)
 @stop
 
 @section('sidebar')
-@include('frontend.modules.communities.navigation')
+@include('frontend.communities.show.sidebar')
 @stop
