@@ -13,5 +13,5 @@ community-{{ $content }}
 @stop
 
 @section('sidebar')
-@include('frontend.communities.show.sidebar')
+@include('frontend.communities.show.sidebar', array('content' => $content))
 @stop

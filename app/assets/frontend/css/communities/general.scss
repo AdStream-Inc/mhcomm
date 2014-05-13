@@ -64,22 +64,42 @@
 		
 		ul.navigation {
 			
-			li a {
-				display: block;
-				padding: 2px;
-			}
-			/*
-			li a:after {
-				font-family: FontAwesome;
-				content: "\f054";
-				float: right;
-			}
-			*/
+			margin-bottom: 0;
 			
-			margin-bottom: 25px;
-			
+			li {
+				
+				margin-bottom: 5px;
+				
+				a {
+					border: 1px solid #DDDDDD;
+					display: block;
+					padding: 4px 15px;
+					background-color: #FFF;
+					border-radius: 4px;
+					line-height: 24px;
+					font-weight: bold;
+					
+					
+					&:hover, &.active {
+						border: 1px solid #B22B10;
+						background-color: #C93312;
+						color: #FFF;
+						text-decoration: none;
+					}
+					
+					/*
+					&:after {
+						font-family: FontAwesome;
+						content: "\f105";
+						float: right;
+						margin-top: 1px;
+						font-weight: normal;
+					}
+					*/
+					
+				}
+			}
 		}
-		
 	}
 	
 	.lead {
