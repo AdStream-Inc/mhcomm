@@ -28,18 +28,3 @@ community
       </div>
     </div>
 @stop
-
-@section('footer')
-	<div class="container">
-        <span class="copyright navbar-left">© 2014 <span>mhcomm</span></span>
-        <ul class="navbar-nav navbar-right">
-			<li><a href="#">Privacy Policy</a></li>
-			<li><a href="#">FAQs</a></li>
-			<li><a href="#">Jobs</a></li>
-			<li><a href="#">Communities</a></li>
-			<li><a href="#">Contact</a></li>
-			<li><a href="#">Apply</a></li>
-			<li><a href="#">Pay Online</a></li>
-        </ul>
-    </div>
-@stop

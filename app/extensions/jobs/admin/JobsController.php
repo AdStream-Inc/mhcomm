@@ -5,6 +5,7 @@ use Input;
 use Redirect;
 use Alert;
 use Response;
+use Str;
 use Request;
 use Adstream\Models\Jobs;
 use Adstream\Controllers\BaseController;
@@ -85,6 +86,7 @@ class JobsController extends BaseController {
     public function store()
     {
         $job = new $this->model(Input::all());
+		$job->slug = Str::slug(Input::get('name'));
 
         if ($job->save()) {
             Alert::success('Job successfully added!')->flash();
@@ -97,6 +99,7 @@ class JobsController extends BaseController {
     public function update($id)
     {
         $job = $this->model->find($id);
+		$job->slug = Str::slug(Input::get('name'));
 
         if ($job->update(Input::all())) {
             Alert::success('Job successfully updated!')->flash();

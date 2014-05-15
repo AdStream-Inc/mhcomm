@@ -20,14 +20,35 @@
     </script>
   </head>
   <body class="@yield('body_class')">
-  	<section role="header">
-		@yield('header')
-    </section>
-    <section role="main">
-	    @yield('main')
-    </section>
+  	@yield('body_start')
+    <div class="page">
+        <section role="header">
+            @yield('header')
+        </section>
+        <section role="main">
+            @yield('main')
+        </section>
+        <div class="push"></div>
+    </div>
     <section role="footer">
-    	@yield('footer')
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 pull-right">
+                    <ul class="navbar-nav pull-right">
+                        <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ url('faqs') }}">FAQs</a></li>
+                        <li><a href="{{ url('jobs') }}">Jobs</a></li>
+                        <li><a href="{{ url('communities') }}">Communities</a></li>
+                        <li><a href="{{ url('contact-us') }}">Contact</a></li>
+                        <li><a href="{{ url('apply-now') }}">Apply</a></li>
+                        <li><a href="{{ url('pay-online') }}">Pay Online</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <span class="copyright navbar-left">© 2014 <span>mhcomm</span></span>
+                </div>
+            </div>
+        </div>
     </section>
 
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}

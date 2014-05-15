@@ -3,7 +3,7 @@
   padding: 20px 0;
 
   .navbar-nav > li > a {
-    color: #444;
+    color: #000;
 
     &:hover {
       color: $brand-main;
@@ -19,4 +19,10 @@
     position: relative;
     bottom: 6px;
   }
+}
+
+body.home {
+	.main-navbar .navbar-nav > li > a {
+		color: #FFF;
+	}
 }

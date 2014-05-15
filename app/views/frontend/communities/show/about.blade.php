@@ -4,16 +4,16 @@
     
     <div class="amenities about-section">
         <h2>Amenities</h2>
-        <ul>{{ '<li>' . str_replace("\n", '</li><li>', $community->amenities) . '</li>' }}</ul>
+        {{ nl2br($community->amenities) }}
     </div>
     
     <div class="benefits about-section">
         <h2>Benefits</h2>
-        <ul>{{ '<li>' . str_replace("\n", '</li><li>', $community->benefits) . '</li>' }}</ul>
+        {{ nl2br($community->benefits) }}
     </div>
     
     <div class="points-of-interest about-section">
         <h2>Points of Interest</h2>
-        <ul>{{ '<li>' . str_replace("\n", '</li><li>', $community->points_of_interest) . '</li>' }}</ul>
+        {{ nl2br($community->points_of_interest) }}
     </div>
 </div>

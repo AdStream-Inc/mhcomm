@@ -10,21 +10,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('assets/frontend/images/logo-black.png') }}" /></a>
+          <a class="navbar-brand" href="{{ url('/') }}"><img src="@yield('logo_url', asset('assets/frontend/images/logo-community.png'))" /></a>
         </div>
         <div class="collapse navbar-collapse" id="main-navbar-collapse">
           <div class="navbar-form navbar-right">
-            <a class="btn btn-primary" href="#">Apply Now</a>
+            <a class="btn btn-primary" href="{{ url('apply-now') }}">Apply Now</a>
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url('communities') }}">Communities</a></li>
-            <li><a href="#">Jobs</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{{ url('jobs') }}">Jobs</a></li>
+            <li><a href="{{ url('contact-us') }}">Contact</a></li>
           </ul>
         </div>
       </div>
     </div>
-@stop
-
-@section('footer')
 @stop

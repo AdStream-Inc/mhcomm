@@ -1,6 +1,12 @@
+html {
+	height: 100%;
+}
+
 body {
   background: #f0f0f0;
   padding: 0;
+  height: 100%;
+  font-size: 14px;
 }
 
 a {
@@ -10,13 +16,140 @@ a {
 h1 {
 	color: #333333;
 	font-size: 28px;
+	margin-top: 0;
 }
 h2 {
 	font-size: 24px;
+	margin-top: 0;
 }
 h3 {
 	font-size: 20px;
+	margin-top: 0;
 }
 h4 {
 	font-size: 16px;
+	margin-top: 0;
+}
+
+div.page {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -80px;
+}
+
+div.push {
+	height: 80px;
+}
+.well {
+	padding: 15px;
+	background-color: #FFF;
+	border: 1px solid #DDDDDD;
+}
+.bg-info {
+	background: #D9EDF7;
+	border: 1px solid #B7D8EA;
+}
+
+/*************** Home Page *****************/
+
+body.home {
+	
+	section[role="header"]{
+		height: 426px;
+	}
+	
+	h1 {
+		text-align: center;
+		color: #FFF;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 40px;
+	}
+	
+	section[role="hero"] {
+		
+		.img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			
+			img {
+				width: 100%;
+				z-index: 1;
+			}
+			h1 {
+				width: 100%;
+				position: absolute;
+				bottom: 25%;
+				z-index: 2;
+			}
+			
+		}
+	}
+	
+	section[role="content"] {
+		
+		padding: 40px 0 0;
+		
+		div.toll-free-line {
+			text-align: center;
+			padding: 28px 0;
+			
+			
+			span.phone {
+				font-size: 20px;
+				font-weight: 600;
+			}
+		}
+		
+		p.current-special {
+			padding: 8px 10px;
+			border-radius: 4px;
+			
+			
+			i {
+				float: left;
+				font-size: 38px;
+				margin-top: 2px;
+				margin-right: 12px;
+				color: #B7D8EA;
+			}
+		}
+		
+		.featured-communities {
+			
+			padding: 40px 0;
+			
+			h2 {
+				text-align: center;
+				margin-bottom: 25px;
+			}
+			
+			p.lead {
+				color: $brand-main;
+			}
+			
+			.contact {
+				
+				border-top: 1px solid #DDD;
+				padding-top: 10px;
+				
+				span {
+					margin-right: 20px;
+					color: $brand-main;
+					font-weight: bold;
+				}
+				
+				i {
+					color: #2C3E50;
+					margin-right: 4px;
+				}
+			}
+			
+		}
+		
+	}
+	
 }
