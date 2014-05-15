@@ -52,7 +52,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     });
 
   Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {
-	  
+
     Route::get('/', 'CommunitiesController@index');
     Route::get('/list', 'CommunitiesController@getList');
 
@@ -62,21 +62,23 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('{community}/contact.html', 'CommunitiesController@contact');
 
     Route::get('{community}/{slug?}.html', 'CommunitiesController@page')->where('slug', '.*');
-	
+
   });
 
-  // Frontend
-  Route::get('/', function(){
-	  
-  	return View::make('frontend.static.home');
-	
-  });
-  
   Route::group(array('prefix' => 'jobs', 'namespace' => $frontendNs), function(){
-	 
-	 Route::get('/', 'JobsController@index');
-     Route::get('/{slug}.html', 'JobsController@show')->where('slug', '.*');
-	  
+
+	  Route::get('/', 'JobsController@index');
+    Route::get('/{slug}.html', 'JobsController@show')->where('slug', '.*');
+
+  });
+
+  // Static pages
+  Route::get('/', function(){
+    return View::make('frontend.static.home');
+  });
+
+  Route::get('contact', function(){
+    return View::make('frontend.static.contact');
   });
 
 });

@@ -15,7 +15,7 @@ class JobsController extends BaseController {
 
   public function index()
   {
-	  $jobs = $this->jobs->paginate(1);
+	  $jobs = $this->jobs->paginate(10);
     return View::make('frontend.jobs.index', compact('jobs'));
   }
 
