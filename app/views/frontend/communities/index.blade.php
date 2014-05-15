@@ -4,7 +4,12 @@
 
 @section('content')
   <div class="well">
-    <h1>Our Communities</h1>
+    <div class="clearfix row">
+      <h1 class="pull-left col-sm-10 col-xs-12">Our Communities</h1>
+      <div class="pull-right col-sm-2 col-xs-12">
+        {{ Form::select('state_filter', $communityStates, Input::get('state_filter'), array('class' => 'form-control input-sm', 'id' => 'state-filter')) }}
+      </div>
+    </div>
     <hr />
     <table class="table table-hover table-striped table-bordered flush-bottom">
       <thead>
@@ -29,4 +34,20 @@
       </tbody>
     </table>
   </div>
+@stop
+
+@section('scripts')
+  <script>
+    (function($) {
+      $('#state-filter').on('change', function() {
+        var val = $(this).val();
+
+        if (!val || val == 0) {
+          window.location = URL.base + '/communities';
+        } else {
+          window.location.href = URL.current + '?state_filter=' + val;
+        }
+      });
+    })(jQuery);
+  </script>
 @stop

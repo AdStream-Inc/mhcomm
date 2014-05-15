@@ -4,6 +4,7 @@ use App;
 use View;
 use Response;
 use Str;
+use Input;
 use Adstream\Models\Communities;
 use Adstream\Models\CommunityPages;
 use Adstream\Controllers\BaseController;
@@ -70,8 +71,14 @@ class CommunitiesController extends BaseController {
 
   public function index()
   {
-    $communities = $this->communities->all()->sortBy('name');
-    return View::make('frontend.communities.index', compact('communities'));
+    if (Input::get('state_filter')) {
+      $communities = $this->communities->where('state', Input::get('state_filter'))->get();
+    } else {
+      $communities = $this->communities->all()->sortBy('name');
+    }
+    $communityStates = $this->communities->lists('state', 'state');
+    array_unshift($communityStates, '[ Filter by State ]');
+    return View::make('frontend.communities.index', compact('communities', 'communityStates'));
   }
 
   public function getList()
