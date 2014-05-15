@@ -16,7 +16,7 @@ var adminJs = [adminUrl + '/js/lib/*.js', adminUrl + '/js/shared/*.js', adminUrl
 var frontendJs = [frontendUrl + '/js/lib/*.js', frontendUrl + '/js/shared/*.js', frontendUrl + '/js/**/*.js'];
 
 var adminImages = [adminUrl + '/images/**.*'];
-var frontendImages = [frontendUrl + '/images/**.*'];
+var frontendImages = [frontendUrl + '/images/**'];
 
 gulp.task('adminCss', function() {
   gulp.src(adminCss)

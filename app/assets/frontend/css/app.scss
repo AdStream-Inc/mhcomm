@@ -6,8 +6,11 @@
 @import 'shared/main';
 @import 'shared/header';
 @import 'shared/buttons';
+@import 'shared/helpers';
 
 @import 'communities/general';
 
+@import 'modules/home';
 @import 'modules/nav';
 @import 'modules/footer';
+@import 'modules/pagination';
