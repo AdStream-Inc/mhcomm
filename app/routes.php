@@ -76,8 +76,11 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
   Route::get('/', function(){
     return View::make('frontend.static.home');
   });
-
+  
+  Route::group(array('before' => 'ssl'), function(){
+	Route::controller('apply', 'ApplyController');
+  });
+  
   Route::controller('contact', 'ContactController');
-  Route::controller('apply', 'ApplyController');
 
 });
