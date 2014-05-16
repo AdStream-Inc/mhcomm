@@ -15,7 +15,7 @@ var frontendCss = [frontendUrl + '/css/app.scss'];
 var adminJs = [adminUrl + '/js/lib/*.js', adminUrl + '/js/shared/*.js', adminUrl + '/js/**/*.js'];
 var frontendJs = [frontendUrl + '/js/lib/*.js', frontendUrl + '/js/shared/*.js', frontendUrl + '/js/**/*.js'];
 
-var adminImages = [adminUrl + '/images/**.*'];
+var adminImages = [adminUrl + '/images/**'];
 var frontendImages = [frontendUrl + '/images/**'];
 
 gulp.task('adminCss', function() {

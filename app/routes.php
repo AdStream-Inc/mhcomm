@@ -77,8 +77,6 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     return View::make('frontend.static.home');
   });
 
-  Route::get('contact', function(){
-    return View::make('frontend.static.contact');
-  });
+  Route::controller('contact', 'ContactController');
 
 });

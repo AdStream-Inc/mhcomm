@@ -5,6 +5,7 @@
 @section('main')
   <div class="container">
     <h1>Contact Us</h1>
+    {{ Form::open() }}
     <div class="row">
       <div class="col-md-8">
         <div class="well clearfix">
@@ -84,4 +85,5 @@
       </div>
     </div>
   </div>
+  {{ Form::close() }}
 @stop
