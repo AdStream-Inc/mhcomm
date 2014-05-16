@@ -7,7 +7,7 @@
     <h1>Pre-Qualification Application</h1>
     {{ Form::open() }}
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <div class="well clearfix">
           <div class="row">
             <div class="col-md-6">
@@ -76,42 +76,55 @@
           </div>
           <hr />
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
               {{ Form::bootwrapped('employed', 'Employed full time?', function($name){
-                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
+                  return Form::select($name, array('Yes' => 'Yes', 'No' => 'No'), null, array('class' => 'form-control'));
                 })
               }}
             </div>
-            <div class="col-md-4">
-              {{ Form::bootwrapped('purchase_or_renting', 'Interested in purchasing or renting your own home?', function($name){
-                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
-                })
-              }}
-            </div>
-            <div class="col-md-4">
-              {{ Form::bootwrapped('employed', 'Employed full time?', function($name){
-                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
-                })
-              }}
-            </div>
-            <div class="col-md-3">
-              {{ Form::bootwrapped('income', 'Net Month Income', function($name){
+            <div class="col-md-6">
+              {{ Form::bootwrapped('income', 'Net monthly income', function($name){
                   return Form::text($name, null, array('class' => 'form-control'));
                 })
               }}
             </div>
-            <div class="col-md-4">
-              {{ Form::bootwrapped('income', 'Current monthly housing payment', function($name){
+            <div class="col-md-6">
+              {{ Form::bootwrapped('purchase_or_renting', 'Interested in purchasing, renting, or moving in your own home?', function($name){
+                  return Form::select($name, array('Purchasing' => 'Purchasing', 'Renting' => 'Renting', 'Moving In' => 'Moving In'), null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('financing', 'Will you need financing through the community?', function($name){
+                  return Form::select($name, array('Yes' => 'Yes', 'No' => 'No'), null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('house_payment', 'Current monthly housing payment', function($name){
                   return Form::text($name, null, array('class' => 'form-control'));
                 })
               }}
             </div>
-            <div class="col-md-2">
-            {{ Form::bootwrapped('employed', 'Utilities included?', function($name){
-                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
+            <div class="col-md-6">
+              {{ Form::bootwrapped('down_payment', 'The most you can put down towards a down payment', function($name){
+                  return Form::text($name, null, array('class' => 'form-control'));
                 })
               }}
             </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('co_purchaser', 'Do you have a co-purchaser?', function($name){
+                  return Form::select($name, array('Yes' => 'Yes', 'No' => 'No'), null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('down_payment', 'Co-purchaser monthly net income', function($name){
+                  return Form::text($name, null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+          </div>
           <hr />
           {{ Form::submit('Submit', array('class' => 'btn btn-success pull-right')) }}
         </div>

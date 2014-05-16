@@ -14,7 +14,7 @@
         </div>
         <div class="collapse navbar-collapse" id="main-navbar-collapse">
           <div class="navbar-form navbar-right">
-            <a class="btn btn-primary" href="{{ url('apply-now') }}">Apply Now</a>
+            <a class="btn btn-primary" href="{{ url('apply') }}">Apply Now</a>
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li @if(Request::is('communities*')) class="active" @endif><a href="{{ url('communities') }}">Communities</a></li>
