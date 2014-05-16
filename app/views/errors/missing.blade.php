@@ -1,5 +1,7 @@
 @extends('frontend.template.base.base')
 
+@section('title', 'Page Not Found')
+
 @section('main')
   <div class="container">
     <div class="well">

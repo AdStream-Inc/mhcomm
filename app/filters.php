@@ -33,6 +33,12 @@ App::after(function($request, $response)
 |
 */
 
+Route::filter('ssl', function(){
+	
+	if (!Request::secure() && App::environment('production')) return Redirect::secure(Request::getRequestUri());
+	
+});
+
 Route::filter('auth', function()
 {
 	if (!Sentry::check()) return Redirect::guest(Config::get('site.admin_url') . '/auth/login');
