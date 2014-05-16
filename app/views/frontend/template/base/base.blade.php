@@ -19,7 +19,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li @if(Request::is('communities*')) class="active" @endif><a href="{{ url('communities') }}">Communities</a></li>
             <li @if(Request::is('jobs*')) class="active" @endif><a href="{{ url('jobs') }}">Jobs</a></li>
-            <li @if(Request::is('contact*')) class="active" @endif><a href="{{ url('contact-us') }}">Contact</a></li>
+            <li @if(Request::is('contact*')) class="active" @endif><a href="{{ url('contact') }}">Contact</a></li>
           </ul>
         </div>
       </div>

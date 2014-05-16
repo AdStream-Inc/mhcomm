@@ -2,13 +2,14 @@
 
 use Adstream\Controllers\BaseController;
 
-class ContactController extends BaseController {
+class ApplyController extends BaseController {
 
   public function getIndex() {
-    return View::make('frontend.static.contact');
+    return View::make('frontend.static.apply');
   }
 
   public function postIndex() {
+    dd(Input::all());
     $fields = array_except(Input::all(), array('_token'));
 
     Mail::send('emails.contact', $fields, function($message) use ($fields) {

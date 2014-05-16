@@ -78,5 +78,6 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
   });
 
   Route::controller('contact', 'ContactController');
+  Route::controller('apply', 'ApplyController');
 
 });
