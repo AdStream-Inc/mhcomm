@@ -119,7 +119,7 @@
               }}
             </div>
             <div class="col-md-6">
-              {{ Form::bootwrapped('down_payment', 'Co-purchaser monthly net income', function($name){
+              {{ Form::bootwrapped('co_purchaser_income', 'Co-purchaser monthly net income', function($name){
                   return Form::text($name, null, array('class' => 'form-control'));
                 })
               }}

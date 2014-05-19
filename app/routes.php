@@ -47,16 +47,14 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
 
       Route::resource('settings', 'SettingsController');
 
-      // temp dashboard route
       Route::get('/', 'DashboardController@getIndex');
     });
 
   Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {
 
     Route::get('/', 'CommunitiesController@index');
-    Route::get('/list', 'CommunitiesController@getList');
-
     Route::get('{community}.html', 'CommunitiesController@about');
+    Route::get('{community}/apply.html', 'CommunitiesController@apply');
     Route::get('{community}/specials.html', 'CommunitiesController@specials');
     Route::get('{community}/map.html', 'CommunitiesController@map');
     Route::get('{community}/contact.html', 'CommunitiesController@contact');
@@ -73,14 +71,19 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
   });
 
   // Static pages
-  Route::get('/', function(){
-    return View::make('frontend.static.home');
+  Route::get('/', function() {
+    $featured = \Adstream\Models\Communities::orderBy(DB::raw('RAND()'))->take(2)->get();
+    return View::make('frontend.static.home', compact('featured'));
   });
-  
-  Route::group(array('before' => 'ssl'), function(){
-	Route::controller('apply', 'ApplyController');
+
+  Route::get('home-map', function() {
+    return Response::json(\Adstream\Models\Communities::lists('map_address'));
   });
-  
+
+  Route::group(array('before' => 'ssl'), function() {
+	  Route::controller('apply', 'ApplyController');
+  });
+
   Route::controller('contact', 'ContactController');
 
 });

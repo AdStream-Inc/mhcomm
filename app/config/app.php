@@ -124,6 +124,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Prologue\Alerts\AlertsServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'DaveJamesMiller\Breadcrumbs\ServiceProvider',
 	),
 
 	/*
@@ -192,5 +193,6 @@ return array(
 		'Sentry' 					=> 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Alert' 					=> 'Prologue\Alerts\Facades\Alert',
 		'Debugbar' 				=> 'Barryvdh\Debugbar\Facade',
+		'Breadcrumbs' 	  => 'DaveJamesMiller\Breadcrumbs\Facade',
 	),
 );

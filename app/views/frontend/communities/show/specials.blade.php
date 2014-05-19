@@ -3,8 +3,7 @@
         @foreach ($community->specials as $special)
             <li>
             	<h3>{{ $special->name }}</h3>
-                <p>{{ strip_tags($special->content) }}</p>
-            
+              <p>{{ strip_tags($special->content) }}</p>
             </li>
         @endforeach
     </ul>

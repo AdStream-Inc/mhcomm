@@ -14,54 +14,6 @@ class CommunitiesController extends BaseController {
   protected $communities;
   protected $communityPages;
 
-  /**
-     * The table fields for our data table
-     * @var array
-     */
-  private $tableFields = array(
-    array(
-      'id' => 'name',
-      'header' => array(
-          array('text' => 'Name'),
-          array('content' => 'textFilter')
-      ),
-      'fillspace' => true,
-      'sort' => 'string'
-    ),
-    array(
-      'id' => 'address',
-      'header' => array(
-          array('text' => 'Address'),
-      ),
-      'sort' => 'string',
-      'fillspace' => true,
-    ),
-    array(
-      'id' => 'city',
-      'header' => 'City',
-      'sort' => 'string'
-    ),
-    array(
-      'id' => 'state',
-      'header' => array(
-          array('text' => 'State'),
-          array('content' => 'selectFilter')
-      ),
-      'sort' => 'string',
-    ),
-    array(
-      'id' => 'phone',
-      'header' => 'Phone',
-      'adjust' => true,
-    ),
-    array(
-      'id' => 'view',
-      'header' => '',
-      'css' => 'text-align: center',
-      'adjust' => true,
-    ),
-  );
-
   public function __construct(Communities $communities, CommunityPages $communityPages)
   {
     $this->communities = $communities;
@@ -81,13 +33,9 @@ class CommunitiesController extends BaseController {
     return View::make('frontend.communities.index', compact('communities', 'communityStates'));
   }
 
-  public function getList()
+  public function apply($slug)
   {
-    $communities = $this->communities->all();
-    foreach ($communities as $community) {
-      $community->view = '<a href="' . url('communities/' . Str::slug($community->name)) . '.html">View</a>';
-    }
-    return Response::json(array('data' => $communities->toArray(), 'columns' => $this->tableFields));
+    return $this->show($slug, 'apply');
   }
 
   public function show($slug, $content = 'about'){

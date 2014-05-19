@@ -22,7 +22,7 @@ community
                 <span class="address"><i class="fa fa-map-marker"></i>{{ $community->address . ', ' . $community->city . ', ' . $community->state . ' ' . $community->zip }}</span>
                 <span class="telephone"><i class="fa fa-phone"></i>{{ $community->phone }}</span>
             </div>
-            <a class="btn btn-primary" href="#">Apply Now</a>
+            <a class="btn btn-primary" href="{{ url('communities/' . $community->slug . '/apply.html') }}">Apply Now</a>
           </div>
         </div>
       </div>

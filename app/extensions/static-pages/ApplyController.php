@@ -3,14 +3,12 @@
 use Adstream\Controllers\BaseController;
 
 class ApplyController extends BaseController {
-  
+
   public function getIndex() {
-	  
     return View::make('frontend.static.apply');
   }
 
   public function postIndex() {
-	  
     $fields = array_except(Input::all(), array('_token'));
 
     Mail::send('emails.contact', $fields, function($message) use ($fields) {
