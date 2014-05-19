@@ -31,13 +31,13 @@ class Communities extends BaseRepository {
      */
     protected static $rules = array(
       'name' => 'required',
-	  'address' => 'required',
-	  'city' => 'required',
-	  'state' => 'required',
-	  'zip' => 'required',
-	  'phone' => 'required',
-	  'email' => 'required|email',
-	  'description' => 'required',
+  	  'address' => 'required',
+  	  'city' => 'required',
+  	  'state' => 'required',
+  	  'zip' => 'required',
+  	  'phone' => 'required',
+  	  'email' => 'required',
+  	  'description' => 'required',
     );
 
 	public function specials()
@@ -73,11 +73,11 @@ class Communities extends BaseRepository {
     {
         return $this->hasMany('Adstream\Models\CommunityPages', 'community_id');
     }
-	
+
 	public function getUrl($slug){
-		
-		
-		
+
+
+
 	}
-	
+
 }

@@ -141,8 +141,7 @@ class CommunitiesController extends BaseController {
             return Redirect::route($this->adminUrl . '.communities.index');
         }
 
-        return Redirect::back()->withInput();
-        // return Redirect::back()->withInput()->withErrors($community->getErrors());
+        return Redirect::back()->withInput()->withErrors($community->getErrors());
     }
 
     public function update($id)
@@ -159,8 +158,7 @@ class CommunitiesController extends BaseController {
             return Redirect::route($this->adminUrl . '.communities.index');
         }
 
-        return Redirect::back()->withInput();
-        // return Redirect::back()->withInput()->withErrors($community->getErrors());
+        return Redirect::back()->withInput()->withErrors($community->getErrors());
     }
 
 }

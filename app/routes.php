@@ -58,6 +58,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('{community}/specials.html', 'CommunitiesController@specials');
     Route::get('{community}/map.html', 'CommunitiesController@map');
     Route::get('{community}/contact.html', 'CommunitiesController@contact');
+    Route::post('{community}/contact.html', 'CommunitiesController@contactSubmit');
 
     Route::get('{community}/{slug?}.html', 'CommunitiesController@page')->where('slug', '.*');
 
