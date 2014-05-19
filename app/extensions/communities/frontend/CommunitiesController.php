@@ -39,6 +39,20 @@ class CommunitiesController extends BaseController {
     return $this->show($slug, 'apply');
   }
 
+  public function applySubmit()
+  {
+    $fields = array_except(Input::all(), array('_token'));
+
+    Mail::send('emails.apply', $fields, function($message) use ($fields) {
+      $message
+        ->from('test@mhcomm.com', 'MHCOMM - Community Application Form')
+        ->to('brandon@adstreaminc.com', 'david@adstreaminc.com')
+        ->subject('Community Application Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
+    });
+
+    return View::make('frontend.static.thanks');
+  }
+
   public function show($slug, $content = 'about')
   {
 	  $community = $this->communities->where('slug', $slug)->firstOrFail();

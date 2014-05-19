@@ -12,12 +12,14 @@ class ContactController extends BaseController {
     $this->communities = $communities;
   }
 
-  public function getIndex() {
+  public function getIndex()
+  {
     $communities = $this->communities->lists('name', 'name');
     return View::make('frontend.static.contact', compact('communities'));
   }
 
-  public function postIndex() {
+  public function postIndex()
+  {
     $fields = array_except(Input::all(), array('_token'));
 
     Mail::send('emails.contact', $fields, function($message) use ($fields) {

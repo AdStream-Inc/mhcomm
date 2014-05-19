@@ -55,6 +55,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('/', 'CommunitiesController@index');
     Route::get('{community}.html', 'CommunitiesController@about');
     Route::get('{community}/apply.html', 'CommunitiesController@apply');
+    Route::post('{community}/apply.html', 'CommunitiesController@applySubmit');
     Route::get('{community}/specials.html', 'CommunitiesController@specials');
     Route::get('{community}/map.html', 'CommunitiesController@map');
     Route::get('{community}/contact.html', 'CommunitiesController@contact');
