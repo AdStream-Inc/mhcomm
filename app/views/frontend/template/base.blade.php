@@ -40,9 +40,9 @@
                         <li><a href="{{ url('faqs') }}">FAQs</a></li>
                         <li><a href="{{ url('jobs') }}">Jobs</a></li>
                         <li><a href="{{ url('communities') }}">Communities</a></li>
-                        <li><a href="{{ url('contact-us') }}">Contact</a></li>
-                        <li><a href="{{ url('apply-now') }}">Apply</a></li>
-                        <li><a href="{{ url('pay-online') }}">Pay Online</a></li>
+                        <li><a href="{{ url('contact') }}">Contact</a></li>
+                        <li><a href="{{ url('apply') }}">Apply</a></li>
+                        <li><a href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">Pay Online</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-2">

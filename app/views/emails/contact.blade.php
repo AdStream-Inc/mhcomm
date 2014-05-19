@@ -10,10 +10,12 @@
 
 @section('body-content')
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#FFFFFF; border:1px solid #ddd;">
-      <tr>
-        <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Regarding</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $community }}</td>
-      </tr>
+      @if (isset($community))
+        <tr>
+          <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Regarding</td>
+          <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $community }}</td>
+        </tr>
+      @endif
       <tr>
         <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">First name</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $first_name }}</td>

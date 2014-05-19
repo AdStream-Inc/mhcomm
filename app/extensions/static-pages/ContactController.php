@@ -1,11 +1,20 @@
 <?php
 
 use Adstream\Controllers\BaseController;
+use Adstream\Models\Communities;
 
 class ContactController extends BaseController {
 
+  private $communities;
+
+  public function __construct(Communities $communities)
+  {
+    $this->communities = $communities;
+  }
+
   public function getIndex() {
-    return View::make('frontend.static.contact');
+    $communities = $this->communities->lists('name', 'name');
+    return View::make('frontend.static.contact', compact('communities'));
   }
 
   public function postIndex() {
