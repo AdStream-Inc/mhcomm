@@ -46,7 +46,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a href="{{ route($adminUrl . '.pages.index') }}">Site Pages</a></li>
-                    @if (Adstream\Models\CommunityPages::count())
+                    @if (Adstream\Models\Communities::count())
                       <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
                     @endif
                   </ul>
