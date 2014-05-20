@@ -100,3 +100,7 @@
     {{ Form::close() }}
   </div>
 @stop
+
+@section('scripts')
+  <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.2/jquery.fileupload.min.js"></script>
+@stop
