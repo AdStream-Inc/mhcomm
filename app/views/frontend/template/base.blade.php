@@ -26,6 +26,11 @@
         <section role="header">
             @yield('header')
         </section>
+        <section role="breadcrumbs">
+        	<div class="container">
+	        	@yield('breadcrumbs')
+            </div>
+        </section>
         <section role="main">
             @yield('main')
         </section>

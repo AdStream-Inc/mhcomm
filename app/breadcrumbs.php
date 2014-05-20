@@ -9,7 +9,27 @@ Breadcrumbs::register('communities', function($breadcrumbs) {
   $breadcrumbs->push('Communities', url('communities'));
 });
 
-Breadcrumbs::register('community', function($breadcrumbs, $page) {
+Breadcrumbs::register('community', function($breadcrumbs, $community, $section) {
   $breadcrumbs->parent('communities');
-  $breadcrumbs->push($page->name, url('communities/' . $page->slug . '.html'));
+  $breadcrumbs->push($community->name, url('communities/' . $community->slug . '.html'));
+  $breadcrumbs->push(ucwords(str_replace('_', ' ', $section)), url('communities/' . $community->slug . '/' . $section . '.html'));
+});
+
+Breadcrumbs::register('community_page', function($breadcrumbs, $community, $parents, $page) {
+	
+	$fullPath = $community->slug;
+	
+  $breadcrumbs->parent('communities');
+  $breadcrumbs->push($community->name, url('communities/' . $fullPath . '.html'));
+  
+  foreach ($parents as $parent){
+		
+	  $fullPath .= '/' . $parent->slug;
+		
+	  $breadcrumbs->push($parent->name, url('communities/' . $fullPath . '.html'));
+	  
+  }
+  
+  $breadcrumbs->push($page->name, url('communities/' . $fullPath . '/' . $page->slug . '.html'));
+  
 });

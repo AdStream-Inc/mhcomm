@@ -10,7 +10,7 @@
         var map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 14});
         var geocoder = new google.maps.Geocoder();
 
-        geocoder.geocode({address: '{{ $community->map_address }}'}, function(res) {
+        geocoder.geocode({address: '{{ $community->map_address ? $community->map_address : $community->address . " " . $community->city . " " . $community->state }}'}, function(res) {
           var location = res[0].geometry.location;
 
           new google.maps.Marker({

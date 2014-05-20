@@ -53,5 +53,24 @@ class CommunityPages extends BaseRepository {
         return $this->belongsTo('Adstream\Models\Communities', 'community_id');
     }
 	
+	public function getParents(){
+		
+		$parents = array();
+		
+		$parent = $this->parent_id;
+		
+		while ($parent != 0){
+			
+			$thisParent = CommunityPages::find($parent);
+			
+			$parents[] = $thisParent;
+			$parent = $thisParent->parent_id;
+			
+		}
+		
+		return array_reverse($parents);
+		
+	}
+	
 
 }

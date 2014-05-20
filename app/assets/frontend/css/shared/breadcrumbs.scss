@@ -1,4 +1,7 @@
-.breadcrumb {
-  background: #fff;
-  border: 1px solid #ddd;
+section[role="breadcrumbs"]{
+	
+	.breadcrumb {
+		padding-left: 0;
+	}
+	
 }
