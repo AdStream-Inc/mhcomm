@@ -56,6 +56,7 @@ class CommunitiesController extends BaseController {
   public function show($slug, $content = 'about')
   {
 	  $community = $this->communities->where('slug', $slug)->firstOrFail();
+	  
 	  return View::make('frontend.communities.show', compact('community', 'content'));
   }
 

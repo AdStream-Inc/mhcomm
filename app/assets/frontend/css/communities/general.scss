@@ -3,6 +3,8 @@
 	
 	section[role="header"] {
 		
+		margin-bottom: 0;
+		
 		div.contact {
 			display: inline;
 			margin-bottom: 0;
@@ -60,19 +62,33 @@
 			li {
 				
 				margin-bottom: 5px;
+				border: 1px solid #DDDDDD;
+				background-color: #FFF;
+				border-radius: 4px;
+				
+				ul {
+					padding: 0;
+										
+					li {
+						border: none;
+						list-style: none;
+						
+						&:last-child {
+							margin-bottom: 0;
+						}
+						
+					}
+				}
 				
 				a {
-					border: 1px solid #DDDDDD;
 					display: block;
 					padding: 4px 15px;
-					background-color: #FFF;
-					border-radius: 4px;
 					line-height: 24px;
 					font-weight: bold;
+					border-radius: 4px;
 					
 					
 					&:hover, &.active {
-						border: 1px solid #B22B10;
 						background-color: #C93312;
 						color: #FFF;
 						text-decoration: none;

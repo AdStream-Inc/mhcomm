@@ -8,7 +8,7 @@ community-{{ $content }}
 @section('title', ucwords(str_replace('_', ' ', $content)) . ' - ' . $community->name)
 
 @section('breadcrumbs')
-  {{ Breadcrumbs::render('community', $community) }}
+  {{ Breadcrumbs::render('community', $community, $content) }}
 @stop
 
 @section('content')
