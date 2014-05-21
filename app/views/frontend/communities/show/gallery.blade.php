@@ -24,7 +24,9 @@
   @endif
     @section('scripts')
 	  <script>
-		$('.gallery-image').magnificPopup();
+	  	$(document).ready(function(){
+			$('.gallery-image').magnificPopup({type : 'image'});
+		});
       </script>
     @stop
 </div>
