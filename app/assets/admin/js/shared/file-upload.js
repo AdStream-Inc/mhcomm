@@ -34,12 +34,15 @@
             e.preventDefault();
             var el = $(this);
             var parent = el.closest('.file-row');
-            var oldInput = $('.old-input');
+            var oldInput = $('.old-input', parent);
+            var oldName = oldInput.val();
 
             $('#close-modal .delete-button').on('click', function() {
-                el.closest('.file-row').addClass('faded');
                 $('#close-modal').modal('hide');
+
                 el.remove();
+                parent.addClass('faded');
+                oldInput.prop('disabled', true);
 
                 if (oldInput.length) {
                     var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';

@@ -1,6 +1,12 @@
 @extends('admin.template.base')
 
 @section('content')
+  @foreach (Alert::all() as $alert)
+    <div class="alert alert-danger">
+      {{ $alert }}
+    </div>
+  @endforeach
+
   <div id="confirm-delete-modal" class="modal fade">
     {{ Form::open(array('route' => array($adminUrl . '.users.destroy', $user->id), 'method' => 'DELETE')) }}
     <div class="modal-dialog">

@@ -222,19 +222,21 @@ class CommunitiesController extends BaseController {
         $images = Input::file('images');
         $titles = Input::get('image_titles');
         foreach ($images as $key => $file) {
-            $title = $titles[$key];
-            $slug = Str::slug($title);
+            if (isset($file)) {
+                $title = $titles[$key];
+                $slug = Str::slug($title);
 
-            if (!in_array($file->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
-                continue;
+                if (!in_array($file->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
+                    continue;
+                }
+
+                $image = new CommunityImages();
+                $image->community_id = $community->id;
+                $image->name = $title;
+                $image->slug = $slug;
+                $image->path = $this->saveImage($file, $slug, $community);
+                $image->save();
             }
-
-            $image = new CommunityImages();
-            $image->community_id = $community->id;
-            $image->name = $title;
-            $image->slug = $slug;
-            $image->path = $this->saveImage($file, $slug, $community);
-            $image->save();
         }
     }
 

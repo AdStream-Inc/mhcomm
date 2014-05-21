@@ -11,7 +11,8 @@
     opacity: .2;
     background: #e74c3c;
 
-    &:hover td {
+    &:hover td,
+    &:nth-child(odd) > td {
        background: #e74c3c !important;
     }
 

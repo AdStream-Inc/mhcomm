@@ -136,18 +136,29 @@ class UsersController extends BaseController {
 
     public function update($id)
     {
-        $user = Sentry::findUserById($id);
-        $user->email = Input::get('email');
-        $user->first_name = Input::get('first_name');
-        $user->last_name = Input::get('last_name');
+        try {
+            $user = Sentry::findUserById($id);
+            $user->email = Input::get('email');
+            $user->first_name = Input::get('first_name');
+            $user->last_name = Input::get('last_name');
 
-        $this->assignGroup($user, Input::get('user_group'));
+            $this->assignGroup($user, Input::get('user_group'));
 
-        if ($user->save()) {
-            Alert::success('User successfully updated!')->flash();
-            return Redirect::route($this->adminUrl . '.users.index');
-        } else {
-            return Redirect::back()->withInput()->withErrors($user->getErrors());
+            if ($user->save()) {
+                Alert::success('User successfully updated!')->flash();
+                return Redirect::route($this->adminUrl . '.users.index');
+            } else {
+                return Redirect::back()->withInput()->withErrors($user->getErrors());
+            }
+        } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {
+            Alert::error('A user with this email already exists.')->flash();
+            return Redirect::route($this->adminUrl . '.users.edit', $id)->withInput();
+        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            Alert::error('This user was not found.')->flash();
+            return Redirect::route($this->adminUrl . '.users.edit', $id)->withInput();
+        } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            Alert::error('The email field is required.')->flash();
+            return Redirect::route($this->adminUrl . '.users.edit', $id)->withInput();
         }
     }
 
