@@ -15,7 +15,7 @@
             })
           }}
           {{ Form::bootwrapped('main_image_file', 'Main Image', function($name){
-              return Form::file($name, null, array('class' => 'form-control'));
+              return Form::file($name);
             })
           }}
           <hr />
@@ -78,7 +78,7 @@
           </div>
           <hr />
           {{ Form::bootwrapped('description', 'Description', function($name){
-              return Form::textarea($name, null, array('class' => 'form-control wysiwyg', 'rows' => '6'));
+              return Form::textarea($name, null, array('class' => 'form-control wysiwyg-image', 'rows' => '6'));
             })
           }}
           {{ Form::bootwrapped('amenities', 'Amenities', function($name){

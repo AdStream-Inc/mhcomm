@@ -1,6 +1,8 @@
 <?php namespace Adstream\Controllers\Admin;
 
 use View;
+use Config;
+use Redirect;
 use Adstream\Controllers\BaseController;
 use Adstream\Models\User;
 use Adstream\Models\Pages;
@@ -22,6 +24,7 @@ class DashboardController extends BaseController {
 
   public function __construct(Pages $pages, User $users, Jobs $jobs, Communities $communities, Specials $specials)
   {
+    parent::__construct();
     $this->pages = $pages;
     $this->users = $users;
     $this->jobs = $jobs;
@@ -31,6 +34,10 @@ class DashboardController extends BaseController {
 
   public function getIndex()
   {
+    if ($this->isManager) {
+      return Redirect::route(Config::get('site.admin_url') . '.communities.index');
+    }
+
     $recentPages = $this->pages->orderBy('created_at')->take(5)->get();
     $pagesCount = $this->pages->count();
 

@@ -151,6 +151,15 @@ class UsersController extends BaseController {
         }
     }
 
+    public function destroy($id)
+    {
+        $user = Sentry::findUserById($id);
+        $user->delete();
+
+        Alert::success('User successfully deleted!')->flash();
+        return Redirect::route($this->adminUrl . '.users.index');
+    }
+
     private function assignGroup($user, $group)
     {
         foreach (Sentry::findAllGroups() as $gr) {

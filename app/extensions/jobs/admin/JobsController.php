@@ -109,4 +109,13 @@ class JobsController extends BaseController {
         return Redirect::back()->withInput()->withErrors($job->getErrors());
     }
 
+    public function destroy($id)
+    {
+        $job = $this->model->find($id);
+        $job->delete();
+
+        Alert::success('Job successfully deleted!')->flash();
+        return Redirect::route($this->adminUrl . '.jobs.index');
+    }
+
 }

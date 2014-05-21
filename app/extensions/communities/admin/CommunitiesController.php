@@ -141,7 +141,8 @@ class CommunitiesController extends BaseController {
         $community = new $this->model(Input::all());
         $community->slug = Str::slug(Input::get('name'));
 
-        if (Input::file('main_image_file')) {
+        $mainImage = Input::file('main_image_file');
+        if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
             $community->main_image = $this->saveMainImage($community);
         }
 
@@ -162,7 +163,8 @@ class CommunitiesController extends BaseController {
         $community = $this->model->find($id);
         $community->slug = Str::slug(Input::get('name'));
 
-        if (Input::file('main_image_file')) {
+        $mainImage = Input::file('main_image_file');
+        if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
             $community->main_image = $this->saveMainImage($community);
         }
 
@@ -190,6 +192,14 @@ class CommunitiesController extends BaseController {
         return Redirect::back()->withInput()->withErrors($community->getErrors());
     }
 
+    public function destroy($id) {
+        $community = $this->model->find($id);
+        $community->delete();
+
+        Alert::success('Community successfully deleted!')->flash();
+        return Redirect::route($this->adminUrl . '.communities.index');
+    }
+
     private function saveImage($file, $name, $community)
     {
         $path = public_path() . '/uploads/' . $community->id . '/';
@@ -214,6 +224,10 @@ class CommunitiesController extends BaseController {
         foreach ($images as $key => $file) {
             $title = $titles[$key];
             $slug = Str::slug($title);
+
+            if (!in_array($file->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
+                continue;
+            }
 
             $image = new CommunityImages();
             $image->community_id = $community->id;

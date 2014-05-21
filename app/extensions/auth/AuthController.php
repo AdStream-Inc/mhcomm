@@ -17,6 +17,7 @@ class AuthController extends BaseController {
 
   public function getLogin()
   {
+    // dd( \Hash::check('brandon91', \Adstream\Models\User::find(1)->password) );
     return View::make('admin.auth.login');
   }
 

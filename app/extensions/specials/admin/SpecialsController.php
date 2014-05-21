@@ -124,8 +124,12 @@ class SpecialsController extends BaseController {
     return Redirect::back()->withInput()->withErrors($special->getErrors());
   }
 
-  public function delete($id)
+  public function destroy($id)
   {
+    $special = $this->model->find($id);
+    $special->delete();
 
+    Alert::success('Special successfully deleted!')->flash();
+    return Redirect::route($this->adminUrl . '.specials.index');
   }
 }

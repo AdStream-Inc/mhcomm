@@ -37,14 +37,15 @@
             var oldInput = $('.old-input');
 
             $('#close-modal .delete-button').on('click', function() {
-                el.closest('.file-row').remove();
-                $('#close-modal').modal('hide')
-            });
+                el.closest('.file-row').addClass('faded');
+                $('#close-modal').modal('hide');
+                el.remove();
 
-            if (oldInput.length) {
-                var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';
-                $('#upload-form').append(html);
-            }
+                if (oldInput.length) {
+                    var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';
+                    $('#upload-form').append(html);
+                }
+            });
         });
     }
 

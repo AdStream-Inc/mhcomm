@@ -9,6 +9,8 @@ class BaseController extends \Controller {
 
   public $user;
 
+  public $isManager;
+
   public function __construct()
   {
     $this->adminUrl = Config::get('site.admin_url');

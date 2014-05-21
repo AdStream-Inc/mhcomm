@@ -24,7 +24,7 @@ class Communities extends BaseRepository {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id');
+    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id', 'main_image');
 
     /**
      * Auto validation rules for composer package Way/Database
@@ -38,6 +38,7 @@ class Communities extends BaseRepository {
   	  'phone' => 'required',
   	  'email' => 'required',
   	  'description' => 'required',
+      'main_image_file' => 'mimes:jpeg,png'
     );
 
 	public function specials()
@@ -88,4 +89,13 @@ class Communities extends BaseRepository {
   		return false;
 
   	}
+
+    public function delete()
+    {
+      $this->pages()->delete();
+      $this->images()->delete();
+      $this->revisions()->delete();
+
+      return parent::delete();
+    }
 }

@@ -6,4 +6,17 @@
   #upload-files .close {
     float: none;
   }
+
+  #upload-files .faded {
+    opacity: .2;
+    background: #e74c3c;
+
+    &:hover td {
+       background: #e74c3c !important;
+    }
+
+    * {
+      cursor: not-allowed;
+    }
+  }
 }

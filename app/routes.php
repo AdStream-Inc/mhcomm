@@ -12,6 +12,7 @@ Route::post('wysiwyg-upload', 'Adstream\Controllers\WysiwygController@postIndex'
 Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs) {
 
   // Login
+  Route::controller('password', $adminNs . 'RemindersController');
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
 
   // Admin

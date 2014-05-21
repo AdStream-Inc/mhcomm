@@ -9,7 +9,7 @@
         @foreach ($images as $image)
           <tr class="file-row">
             <td class="col-sm-1 text-center">
-              <img data-toggle="modal" data-target="#preview-modal" class="img-thumbnail img-preview" src="{{ $image->path }}" height="33" width="33" />
+              <img style="cursor: pointer" data-toggle="modal" data-target="#preview-modal" class="img-thumbnail img-preview" src="{{ $image->path }}" height="33" width="33" />
             </td>
             <td>{{ Form::text('old_titles[' . $image->id . ']', $image->name, array('class' => 'form-control input-sm old-input', 'data-id' => $image->id)) }}</td>
             <td class="col-sm-1 text-center"><button data-toggle="modal" data-target="#close-modal" type="button" class="close"  aria-hidden="true">&times;</button></td>

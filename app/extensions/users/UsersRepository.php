@@ -2,9 +2,9 @@
 
 use Cartalyst\Sentry\Users\Eloquent\User as SentryUser;
 use Laracasts\Presenter\PresentableTrait;
-use Sentry;
+use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends SentryUser {
+class User extends SentryUser implements RemindableInterface {
 
   use PresentableTrait;
 
@@ -18,6 +18,11 @@ class User extends SentryUser {
   public function specials()
   {
     return $this->community->with('specials');
+  }
+
+  public function getReminderEmail()
+  {
+      return $this->email;
   }
 
 }

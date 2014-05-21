@@ -5,34 +5,45 @@ use Adstream\Models\Revisions as Revisions;
 View::composer('*', function($view) {
   $view->with('adminUrl', Config::get('site.admin_url'));
   $view->with('siteTitle', Config::get('site.title'));
+});
 
+View::composer(Config::get('site.admin_url') . '*', function($view) {
   if (Config::get('site.installed')) {
     if (Sentry::getUser()) {
-      $view->with('authUser', Sentry::getUser());
+      $user = Sentry::getUser();
+      $view->with('authUser', $user);
 
       $managers = Sentry::findGroupByName('Manager');
-      $users = Sentry::findAllUsersInGroup($managers)->lists('id');
-      $isManager = Sentry::getUser()->inGroup($managers);
+      $isManager = $user->inGroup($managers);
       $view->with('isManager', $isManager);
 
-  	  if (!empty($users)){
-		    $specialsRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Specials')
-									->where('approved', false)
-									->whereIn('user_id', $users)
-                  ->groupBy('group_hash')
-                  ->get()
-									->count();
+      $admins = Sentry::findGroupByName('Admin');
+      $isAdmin = $user->inGroup($admins);
+      $view->with('isAdmin', $isAdmin);
 
-		    $communitiesRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
-									->where('approved', false)
-									->whereIn('user_id', $users)
+      $adstream = Sentry::findGroupByName('Adstream');
+      $isAdstream = $user->inGroup($adstream);
+      $view->with('isAdstream', $isAdstream);
+
+      $users = Sentry::findAllUsersInGroup($managers)->lists('id');
+      if (!empty($users)){
+        $specialsRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Specials')
+                  ->where('approved', false)
+                  ->whereIn('user_id', $users)
                   ->groupBy('group_hash')
                   ->get()
                   ->count();
-  	  } else {
-  		  $specialsRevisionCount = 0;
-  		  $communitiesRevisionCount = 0;
-  	  }
+
+        $communitiesRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
+                  ->where('approved', false)
+                  ->whereIn('user_id', $users)
+                  ->groupBy('group_hash')
+                  ->get()
+                  ->count();
+      } else {
+        $specialsRevisionCount = 0;
+        $communitiesRevisionCount = 0;
+      }
 
       $view->with('communityRevisions', $communitiesRevisionCount);
       $view->with('specialsRevisions', $specialsRevisionCount);
