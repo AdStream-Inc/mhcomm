@@ -69,6 +69,11 @@ class Communities extends BaseRepository {
         ->whereIn('user_id', $managers);
     }
 
+    public function images()
+    {
+      return $this->hasMany('Adstream\Models\CommunityImages', 'community_id');
+    }
+
     public function pages()
     {
         return $this->hasMany('Adstream\Models\CommunityPages', 'community_id');

@@ -22,6 +22,7 @@
          admin: '{{ url(Config::get('site.admin_url')) }}'
        };
     </script>
+    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
   </head>
   <body>
     <div id="header">
@@ -122,7 +123,6 @@
         <span class="pull-left text-muted">{{ Config::get('site.title') }}</span>
         <span class="pull-right text-muted"><a href="http://adstreaminc.com">Adstream</a> Admin Version {{ Config::get('site.version') }}</span>
     </div>
-    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
     {{ HTML::script(asset('assets/admin/js/app.min.js')) }}
     @yield('scripts')
   </body>
