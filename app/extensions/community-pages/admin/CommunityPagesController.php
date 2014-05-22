@@ -82,22 +82,24 @@ class CommunityPagesController extends BaseController {
         $page = new $this->model(Input::all());
         $page->slug = Str::slug($page->name);
 
-        if ($page->save()) {
+        if ($this->validateName($page)) {
+            if ($page->save()) {
 
-            foreach (Input::get('templates') as $slug => $content) {
-                $template = new $this->sections();
-                $template->page_id = $page->id;
-                $template->slug = $slug;
-                $template->content = $content;
-                $template->save();
+                foreach (Input::get('templates') as $slug => $content) {
+                    $template = new $this->sections();
+                    $template->page_id = $page->id;
+                    $template->slug = $slug;
+                    $template->content = $content;
+                    $template->save();
+                }
+
+                $this->setLastUpdated($page->id);
+                $page->url = $this->parsePageUrl($page);
+                $page->save();
+
+                Alert::success('Page [' . $page->name . '] successfully added!')->flash();
+                return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
             }
-
-            $this->setLastUpdated($page->id);
-            $page->url = $this->parsePageUrl($page);
-            $page->save();
-
-            Alert::success('Page [' . $page->name . '] successfully added!')->flash();
-            return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
         }
 
         return Redirect::back()->withInput()->withErrors($page->getErrors());
@@ -131,29 +133,46 @@ class CommunityPagesController extends BaseController {
             return Redirect::back()->withInput();
         }
 
-        if ($page->update(Input::all())) {
+        if ($this->validateName($page)) {
+            if ($page->update(Input::all())) {
 
-            $sections = Input::get('templates');
-            foreach ($sections as $slug => $value) {
-                $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
-                if (!$section) {
-                    $section = new $this->sections();
-                    $section->slug = $slug;
-                    $section->page_id = $page->id;
+                $sections = Input::get('templates');
+                foreach ($sections as $slug => $value) {
+                    $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
+                    if (!$section) {
+                        $section = new $this->sections();
+                        $section->slug = $slug;
+                        $section->page_id = $page->id;
+                    }
+                    $section->content = $value;
+                    $section->save();
                 }
-                $section->content = $value;
-                $section->save();
+
+                $this->setLastUpdated($page->id);
+                $page->url = $this->parsePageUrl($page);
+                $page->save();
+
+                Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
+                return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
             }
-
-            $this->setLastUpdated($page->id);
-            $page->url = $this->parsePageUrl($page);
-            $page->save();
-
-            Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
-            return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
         }
 
         return Redirect::back()->withInput()->withErrors($page->getErrors());
+    }
+
+    private function validateName($page) {
+        $parentId = $page->parent_id;
+        $name = $page->name;
+        $collection = $this->model->where('parent_id', $parentId)->where('id', '!=', $page->id)->get();
+
+        foreach ($collection as $page) {
+            if ($page->name == $name) {
+                Alert::error('Cannot have two pages with the same name under the same parent page.')->flash();
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function setLastUpdated($id)

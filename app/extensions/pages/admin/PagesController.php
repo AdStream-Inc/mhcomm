@@ -150,8 +150,9 @@ class PagesController extends BaseController {
     private function validateName($page) {
         $parentId = $page->parent_id;
         $name = $page->name;
+        $collection = $this->model->where('parent_id', $parentId)->where('id', '!=', $page->id)->get();
 
-        foreach ($this->model->where('parent_id', $parentId)->get() as $page) {
+        foreach ($collection as $page) {
             if ($page->name == $name) {
                 Alert::error('Cannot have two pages with the same name under the same parent page.')->flash();
                 return false;

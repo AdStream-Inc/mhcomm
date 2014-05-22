@@ -10,9 +10,9 @@ class User extends SentryUser implements RemindableInterface {
 
   protected $presenter = 'UserPresenter';
 
-  public function community()
+  public function communities()
   {
-    return $this->hasMany('\Adstream\Models\Communities', 'manager_id');
+    return $this->belongsToMany('\Adstream\Models\Communities', 'communities_users', 'community_id', 'user_id');
   }
 
   public function specials()
