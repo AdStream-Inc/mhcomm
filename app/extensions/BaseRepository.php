@@ -197,9 +197,11 @@ class BaseRepository extends Eloquent {
 	  //and just deletes the model
 	  if ($action == 'deleting'){
 		  
-		  $this->originalData['noop'] = true;
-		  $this->updatedData['noop'] = true;
-		  $changes['noop'] = true;
+		  $changes = array();
+		  
+		  $this->originalData['deleted'] = true;
+		  $this->updatedData['deleted'] = true;
+		  $changes['deleted'] = true;
 		  
 	  }
 	  
