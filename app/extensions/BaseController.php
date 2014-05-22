@@ -17,7 +17,9 @@ class BaseController extends \Controller {
     if (Sentry::getUser()) {
       $this->user = Sentry::getUser();
       $managerGroup = Sentry::findGroupByName('Manager');
+      $superManagerGroup = Sentry::findGroupByName('Super Manager');
       $this->isManager = $this->user->inGroup($managerGroup);
+      $this->isSuperManager = $this->user->inGroup($superManagerGroup);
     }
   }
 }
