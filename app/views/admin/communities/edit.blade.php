@@ -4,7 +4,7 @@
   <h1>Editing Community <small>{{ $community->name }}</small></h1>
   <ul class="nav nav-tabs">
     <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-    <li><a href="#images" data-toggle="tab">Additonal Images</a></li>
+    <li><a href="#images" data-toggle="tab">Additional Images</a></li>
   </ul>
   <div class="modal fade" id="preview-modal">
     <div class="modal-dialog modal-lg">
