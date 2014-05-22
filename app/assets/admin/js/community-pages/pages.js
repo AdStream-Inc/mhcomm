@@ -191,6 +191,7 @@
     this.saveButton.hide();
     this.updateButton.show()
     this.createButton.show();
+	this.deleteButton.show();
 
     var method = '<input type="hidden" name="_method" value="PUT" />';
 
@@ -205,8 +206,9 @@
 
   CommunityPages.prototype.makeCreateForm = function() {
     this.saveButton.show();
-    this.updateButton.hide()
+    this.updateButton.hide();
     this.createButton.hide();
+	this.deleteButton.hide();
 
     this.setActiveTemplate(this.activeTemplate);
 
