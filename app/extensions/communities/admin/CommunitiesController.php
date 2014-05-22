@@ -272,7 +272,7 @@ class CommunitiesController extends BaseController {
         $images = Input::get('delete_images');
         foreach ($images as $id) {
             $image = $this->images->find($id);
-            $image->delete();
+            if ($image) $image->delete();
         }
     }
 
