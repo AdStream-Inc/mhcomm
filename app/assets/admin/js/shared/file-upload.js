@@ -35,19 +35,17 @@
             var el = $(this);
             var parent = el.closest('.file-row');
             var oldInput = $('.old-input', parent);
-            var oldName = oldInput.val();
 
             $('#close-modal .delete-button').on('click', function() {
                 $('#close-modal').modal('hide');
 
-                el.remove();
+                el.hide();
                 parent.addClass('faded');
                 oldInput.prop('disabled', true);
 
-                if (oldInput.length) {
-                    var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';
-                    $('#upload-form').append(html);
-                }
+                var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';
+                $('#upload-form').append(html);
+
             });
         });
     }
