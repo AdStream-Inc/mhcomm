@@ -212,6 +212,8 @@ class BaseRepository extends Eloquent {
 		  
 	  }
 	  
+	  dd ($changes);
+	  
       foreach ($changes as $key => $change) {
 		  
 		  $presenter = isset($this->revisionAttributePresenters) && isset($this->revisionAttributePresenters[$key]) ? $this->revisionAttributePresenters[$key] : '';
@@ -243,8 +245,6 @@ class BaseRepository extends Eloquent {
       }
 
       if (count($revisions)) {
-		  
-		  dd ($revisions);
 		  
           DB::table('revisions')->insert($revisions);
       }
