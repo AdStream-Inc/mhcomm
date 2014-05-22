@@ -112,9 +112,9 @@
               })
             }}
           </div>
-          <div class="col-sm-6">
-            {{ Form::bootwrapped('manager_id', 'Manager', function($name) use ($managers, $community) {
-                return Form::select($name, $managers, $community->manager_id, array('class' => 'form-control'));
+          <div class="col-sm-6 @if ($isManager || $isSuperManager) hidden @endif">
+            {{ Form::bootwrapped('managers[]', 'Managers', function($name) use ($managers, $community, $activeManagers) {
+                return Form::select($name, $managers, $activeManagers, array('class' => 'form-control', 'multiple'));
               })
             }}
           </div>

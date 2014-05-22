@@ -17,6 +17,10 @@ View::composer(Config::get('site.admin_url') . '*', function($view) {
       $isManager = $user->inGroup($managers);
       $view->with('isManager', $isManager);
 
+      $superManagers = Sentry::findGroupByName('Super Manager');
+      $isSuperManager = $user->inGroup($superManagers);
+      $view->with('isSuperManager', $isSuperManager);
+
       $admins = Sentry::findGroupByName('Admin');
       $isAdmin = $user->inGroup($admins);
       $view->with('isAdmin', $isAdmin);
@@ -39,20 +43,20 @@ View::composer(Config::get('site.admin_url') . '*', function($view) {
                   ->whereIn('user_id', $users)
                   ->groupBy('group_hash')
                   ->get()->count();
-		
+
         $communityImageRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\CommunityImages')
                   ->where('approved', false)
                   ->whereIn('user_id', $users)
                   ->groupBy('group_hash')
                   ->get()->count();
-		
-				  
+
+
       } else {
-		  
+
         $specialsRevisionCount = 0;
         $communitiesRevisionCount = 0;
 		$communityImageRevisionCount = 0;
-		
+
       }
 
       $view->with('communityRevisions', $communityRevisionCount);

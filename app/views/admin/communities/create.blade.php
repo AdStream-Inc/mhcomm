@@ -70,8 +70,8 @@
               }}
             </div>
             <div class="col-sm-6">
-              {{ Form::bootwrapped('manager_id', 'Manager', function($name) use ($managers) {
-                  return Form::select($name, $managers, null, array('class' => 'form-control'));
+              {{ Form::bootwrapped('managers[]', 'Managers', function($name) use ($managers) {
+                  return Form::select($name, $managers, null, array('class' => 'form-control', 'multiple'));
                 })
               }}
             </div>

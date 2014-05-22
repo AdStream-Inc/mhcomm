@@ -46,14 +46,9 @@ class Communities extends BaseRepository {
         return $this->belongsToMany('Adstream\Models\Specials', 'communities_specials');
     }
 
-    public function manager()
+    public function users()
     {
-        $user = Sentry::getUser();
-        $manager = Sentry::findGroupByName('Manager');
-
-        if ($user->inGroup($manager)) {
-          return $this->belongsTo('User', 'manager_id');
-        }
+      return $this->belongsToMany('Adstream\Models\User', 'communities_users', 'community_id', 'user_id');
     }
 
     public function revisions()

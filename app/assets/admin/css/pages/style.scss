@@ -8,8 +8,10 @@
 
 #form-update,
 #form-save,
-#page-create {
+#page-create,
+#form-delete {
   display: none;
+  margin-left: 5px;
 
   &.is-visible {
     display: inline-block;

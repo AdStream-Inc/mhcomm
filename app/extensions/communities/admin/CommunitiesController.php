@@ -21,6 +21,8 @@ class CommunitiesController extends BaseController {
 
     private $images;
 
+    private $managers;
+
     /**
      * The table fields for our data table
      * @var array
@@ -71,6 +73,24 @@ class CommunitiesController extends BaseController {
         $this->users = $users;
         $this->images = $images;
         $this->model = $communities;
+
+        $managersGroup = Sentry::findGroupByName('Manager');
+        $superManagerGroup = Sentry::findGroupByName('Super Manager');
+
+        $managerUsers = Sentry::findAllUsersInGroup($managersGroup);
+        $superManagerUsers = Sentry::findAllUsersInGroup($superManagerGroup);
+
+        $managers = array();
+
+        foreach ($managerUsers as $user) {
+          $managers[$user->id] = $user->present()->fullName;
+        }
+
+        foreach ($superManagerUsers as $user) {
+          $managers[$user->id] = $user->present()->fullName;
+        }
+
+        $this->managers = $managers;
     }
 
     public function index()
@@ -85,9 +105,10 @@ class CommunitiesController extends BaseController {
         $columns = $this->tableFields;
         $user = Sentry::getUser();
         $manager = Sentry::findGroupByName('Manager');
+        $superManager = Sentry::findGroupByName('Super Manager');
 
-        if ($user->inGroup($manager)) {
-            $communities = $user->community;
+        if ($user->inGroup($manager) || $user->inGroup($superManager)) {
+            $communities = $user->communities;
 
             foreach ($communities as &$community) {
                 $community->name = '<a href="' . route($this->adminUrl . '.communities.edit', $community->id) . '">' . $community->name . '</a>';
@@ -109,13 +130,7 @@ class CommunitiesController extends BaseController {
 
     public function create()
     {
-        $group = Sentry::findGroupByName('Manager');
-        $usersCollection = Sentry::findAllUsersInGroup($group);
-        $managers = array();
-
-        foreach ($usersCollection as $user) {
-            $managers[$user->id] = $user->present()->fullName;
-        }
+        $managers = $this->managers;
 
         return View::make('admin.communities.create', compact('managers'));
     }
@@ -124,16 +139,10 @@ class CommunitiesController extends BaseController {
     {
         $community = $this->model->find($id);
         $images = $community->images;
+        $managers = $this->managers;
+        $activeManagers = $community->users()->lists('id');
 
-        $group = Sentry::findGroupByName('Manager');
-        $usersCollection = Sentry::findAllUsersInGroup($group);
-        $managers = array();
-
-        foreach ($usersCollection as $user) {
-            $managers[$user->id] = $user->present()->fullName;
-        }
-
-        return View::make('admin.communities.edit', compact('community', 'managers', 'images'));
+        return View::make('admin.communities.edit', compact('community', 'managers', 'images', 'activeManagers'));
     }
 
     public function store()
@@ -147,6 +156,7 @@ class CommunitiesController extends BaseController {
         }
 
         if ($community->save()) {
+            $community->users()->sync(Input::get('managers'));
             if (Input::get('image_titles')) {
                 $this->saveCommunityImages($community);
             }
@@ -167,11 +177,12 @@ class CommunitiesController extends BaseController {
         if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
             $community->main_image = $this->saveMainImage($community);
         }
-		
+
 		$result = $community->update(Input::all());
-		
+
         if ($result || $community->revisionPending) {
-			
+            $community->users()->sync(Input::get('managers'));
+
             if (Input::get('image_titles')) {
                 $this->saveCommunityImages($community);
             }
@@ -186,9 +197,9 @@ class CommunitiesController extends BaseController {
 
 			$message = $result ? 'Community successfully updated!' : 'Your changes are pending approval from an administrator.';
             Alert::success($message)->flash();
-			
+
             return Redirect::route($this->adminUrl . '.communities.index');
-			
+
         }
 
         return Redirect::back()->withInput()->withErrors($community->getErrors());
@@ -206,7 +217,7 @@ class CommunitiesController extends BaseController {
     {
         $path = public_path() . '/uploads/' . $community->id . '/';
         $extension = $file->getClientOriginalExtension();
-        $name = empty($name) ? Str::random() . '-' . date('Y-m-d') : $name;
+        $name = isset($name) ? $name : Str::random() . '-' . date('Y-m-d');
         $name = $name . '.' . $extension;
         $file->move($path, $name);
         return url('uploads') . '/' . $community->id . '/' . $name;
@@ -227,8 +238,9 @@ class CommunitiesController extends BaseController {
             if (isset($file)) {
                 $title = $titles[$key];
                 $slug = Str::slug($title);
+                $extension = strtolower($file->getClientOriginalExtension());
 
-                if (!in_array($file->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
+                if (!in_array($extension, array('jpg', 'png', 'gif'))) {
                     continue;
                 }
 

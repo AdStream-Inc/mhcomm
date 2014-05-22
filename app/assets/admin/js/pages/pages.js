@@ -10,6 +10,7 @@
     this.createButton = $('#page-create');
     this.saveButton = $('#form-save');
     this.updateButton = $('#form-update');
+    this.deleteButton = $('#form-delete');
     this.form = $('#pages-form');
 
     /**
@@ -95,6 +96,7 @@
         self.loadPageData(res.page);
         self.loadSectionData(res.page.template, res.sections);
         self.makeUpdateForm(res.page.id);
+        self.updateDeleteForm(res.page.id);
       });
     });
   }
@@ -161,6 +163,7 @@
     this.saveButton.hide();
     this.updateButton.show()
     this.createButton.show();
+    this.deleteButton.show();
 
     var method = '<input type="hidden" name="_method" value="PUT" />';
 
@@ -191,6 +194,10 @@
   Pages.prototype.clearValidation = function()
   {
     $('input[name="name"]').closest('.form-group').removeClass('has-error').find('.help-block').remove();
+  }
+
+  Pages.prototype.updateDeleteForm = function(id) {
+    $('#confirm-delete-modal form').attr('action', URL.current + '/' + id);
   }
 
   window.Pages = Pages;
