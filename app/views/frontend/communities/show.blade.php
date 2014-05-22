@@ -15,7 +15,7 @@ community-{{ $content }}
   </div>
 
   @if (count($community->images))
-  <div id="gallery">
+  <div id="gallery" class="active">
     @foreach ($community->images as $key => $image)
       <a href="{{ $image->path }}" class="gallery-image" title="{{ $image->name }}">
         <img style="max-height: 120px" src="{{ $image->path }}" class="img-responsive img-thumbnail" alt="{{ $image->name }}" />
@@ -32,18 +32,4 @@ community-{{ $content }}
 
 @section('sidebar')
 @include('frontend.communities.show.sidebar', array('content' => $content))
-@stop
-
-@section('scripts')
-  <script>
-    (function($) {
-       $("#gallery").owlCarousel({
-        items: 5,
-        margin: 15,
-        loop: true,
-        dots: false,
-        mobileBoost: true,
-       });
-    })(jQuery);
-  </script>
 @stop

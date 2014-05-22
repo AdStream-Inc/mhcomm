@@ -177,7 +177,12 @@ class CommunityPagesController extends BaseController {
     private function validateName($page) {
         $parentId = $page->parent_id;
         $name = $page->name;
-        $collection = $this->model->where('parent_id', $parentId)->where('id', '!=', $page->id)->get();
+
+        if ($page->id) {
+            $collection = $this->model->where('parent_id', $parentId)->where('id', '!=', $page->id)->get();
+        } else {
+            $collection = $this->model->where('parent_id', $parentId)->get();
+        }
 
         foreach ($collection as $page) {
             if ($page->name == $name) {
@@ -185,6 +190,7 @@ class CommunityPagesController extends BaseController {
                 return false;
             }
         }
+
 
         return true;
     }

@@ -5,9 +5,7 @@ html {
 body {
   border-top: 4px solid $brand-main;
   background: #f0f0f0;
- background-color: #f0f0f0;
-background-image: url(http://www.transparenttextures.com/patterns/french-stucco.png);
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  background-image: url('../images/light-gray.png');
   padding: 0;
   height: 100%;
   font-size: 14px;

@@ -35,19 +35,3 @@
     </table>
   </div>
 @stop
-
-@section('scripts')
-  <script>
-    (function($) {
-      $('#state-filter').on('change', function() {
-        var val = $(this).val();
-
-        if (!val || val == 0) {
-          window.location = URL.base + '/communities';
-        } else {
-          window.location.href = URL.current + '?state_filter=' + val;
-        }
-      });
-    })(jQuery);
-  </script>
-@stop

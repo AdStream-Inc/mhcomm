@@ -22,8 +22,10 @@
         <section role="content">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="flexible-container push-bottom">
-                	   <div id="map-canvas"></div>
+                    <div class="well">
+                        <div class="flexible-container push-bottom">
+                    	   <div id="map-canvas"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">

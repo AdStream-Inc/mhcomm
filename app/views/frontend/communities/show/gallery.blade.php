@@ -5,12 +5,3 @@
     </a>
   </div>
 @endif
-
-@section('scripts')
-  @parent
-  <script>
-    $(document).ready(function(){
-      $('.gallery-image').magnificPopup({type : 'image'});
-    });
-  </script>
-@stop
