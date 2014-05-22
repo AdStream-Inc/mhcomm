@@ -217,7 +217,7 @@ class CommunitiesController extends BaseController {
     {
         $path = public_path() . '/uploads/' . $community->id . '/';
         $extension = $file->getClientOriginalExtension();
-        $name = isset($name) ? $name . date('Y-m-d') : Str::random() . '-' . date('Y-m-d');
+        $name = isset($name) ? $name . '-' . date('Y-m-d') : Str::random() . '-' . date('Y-m-d');
         $name = $name . '.' . $extension;
         $file->move($path, $name);
         return url('uploads') . '/' . $community->id . '/' . $name;
