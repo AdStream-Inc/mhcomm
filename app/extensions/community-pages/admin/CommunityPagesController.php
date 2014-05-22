@@ -164,7 +164,7 @@ class CommunityPagesController extends BaseController {
         $page = $this->model->find($id);
 
         if ($this->hasChildren($page)) {
-            Alert::error('Cannot a page that has children pages assigned to it.')->flash();
+            Alert::error('Cannot remove a page that has children pages assigned to it.')->flash();
             return Redirect::back()->withInput();
         }
 
@@ -179,9 +179,9 @@ class CommunityPagesController extends BaseController {
         $name = $page->name;
 
         if ($page->id) {
-            $collection = $this->model->where('parent_id', $parentId)->where('id', '!=', $page->id)->get();
+            $collection = $this->model->where('parent_id', $parentId)->where('community_id', $page->community_id)->where('id', '!=', $page->id)->get();
         } else {
-            $collection = $this->model->where('parent_id', $parentId)->get();
+            $collection = $this->model->where('parent_id', $parentId)->where('community_id', $page->community_id)->get();
         }
 
         foreach ($collection as $page) {
