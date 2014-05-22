@@ -1,6 +1,32 @@
 /* General Styles */
 .community {
 
+	.page-title-container {
+		border: 1px solid #aaa;
+		padding: 10px 15px;
+		background: #fff;
+		border-radius: 4px;
+		border-bottom-width: 4px;
+		margin-bottom: 10px;
+	}
+
+	.page-title {
+		font-size: 32px;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	.gallery-toggle {
+		font-size: 18px;
+		position: relative;
+		top: 4px;
+
+		.fa {
+			margin-left: 5px;
+			color: $brand-main;
+		}
+	}
+
 	section[role="header"] {
 
 		margin-bottom: 0;
@@ -26,8 +52,6 @@
 
 	h1 {
 		margin-top: 0;
-		margin-bottom: 20px;
-
 
 		span {
 			color: $brand-main;
@@ -43,21 +67,22 @@
 		margin-top: 0;
 	}
 
-	.gallery {
-		padding: 10px 0;
-	}
-
-	.main-image-container {
+	#gallery {
+		padding: 15px;
+		background: #29211F;
+		border-radius: 4px;
 		margin-bottom: 10px;
-		border-bottom: 1px solid #ddd;
 	}
 
-	.main-image-inner {
-		overflow: hidden;
+	section[role="content"] {
+		margin-top: 10px;
+	}
+
+	.sidebar-inner {
+		margin-top: 10px;
 	}
 
 	aside {
-
 		h5 {
 			text-transform: uppercase;
 			color: #9D9999;
@@ -66,14 +91,9 @@
 
 		ul.navigation {
 
-			margin-bottom: 0;
+			margin-bottom: 20px;
 
 			li {
-
-				margin-bottom: 5px;
-				border: 1px solid #DDDDDD;
-				background-color: #FFF;
-				border-radius: 4px;
 
 				ul {
 					padding: 0;
@@ -90,29 +110,21 @@
 				}
 
 				a {
+					color: $brand-main;
+					background: #fff;
+					margin-bottom: 5px;
 					display: block;
-					padding: 4px 15px;
-					line-height: 24px;
+					padding: 10px 15px;
 					font-weight: bold;
 					border-radius: 4px;
-
+					border: 1px solid #aaa;
 
 					&:hover, &.active {
 						background-color: #C93312;
 						color: #FFF;
 						text-decoration: none;
+						border-color: $brand-main;
 					}
-
-					/*
-					&:after {
-						font-family: FontAwesome;
-						content: "\f105";
-						float: right;
-						margin-top: 1px;
-						font-weight: normal;
-					}
-					*/
-
 				}
 			}
 		}

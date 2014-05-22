@@ -3,7 +3,11 @@ html {
 }
 
 body {
+  border-top: 4px solid $brand-main;
   background: #f0f0f0;
+ background-color: #f0f0f0;
+background-image: url(http://www.transparenttextures.com/patterns/french-stucco.png);
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
   padding: 0;
   height: 100%;
   font-size: 14px;
@@ -48,7 +52,8 @@ div.push {
 .well {
 	padding: 15px;
 	background-color: #FFF;
-	border: 1px solid #DDDDDD;
+	border: 1px solid #aaa;
+  border-bottom-width: 4px;
 }
 
 .bg-info {
@@ -58,4 +63,17 @@ div.push {
 
 .bg-primary {
   background-color: $brand-main;
+}
+
+.promo {
+  background: $brand-alt-light;
+  padding: 15px;
+  border: 1px solid $brand-alt;
+  border-bottom-width: 4px;
+  border-radius: 4px;
+
+  .promo-content {
+    color: #000;
+    margin-bottom: 0;
+  }
 }

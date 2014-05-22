@@ -1,7 +1,7 @@
 @include('frontend.communities.show.gallery')
 <div class="well">
 	<p class="lead">{{ strip_tags($community->description) }}</p>
-
+    <hr />
     <div class="amenities about-section">
         <h2>Amenities</h2>
         {{ nl2br($community->amenities) }}

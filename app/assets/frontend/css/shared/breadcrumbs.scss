@@ -1,7 +1,16 @@
 section[role="breadcrumbs"]{
-	
+
 	.breadcrumb {
 		padding-left: 0;
+    background: none;
+    padding: 10px 15px;
+    background: #ddd;
+    border-radius: 0 0 4px 4px;
+    margin-bottom: 10px;
 	}
-	
+
+  .breadcrumb>li+li:before {
+    color: #aaa;
+  }
+
 }

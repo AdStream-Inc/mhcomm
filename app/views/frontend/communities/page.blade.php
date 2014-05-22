@@ -12,12 +12,11 @@ community-page-{{ $page->name }}
 @stop
 
 @section('content')
-<h1>{{ $page->name . ' <span>' . $community->name . '</span>' }}</h1>
-<div class="well">
-{{ $page->section($page->template . '-content') }}
-</div>
+  <div class="well">
+    {{ $page->section($page->template . '-content') }}
+  </div>
 @stop
 
 @section('sidebar')
-@include('frontend.communities.show.sidebar', array('content' => $page))
+  @include('frontend.communities.show.sidebar', array('content' => $page))
 @stop
