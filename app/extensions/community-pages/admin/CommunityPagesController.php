@@ -171,7 +171,7 @@ class CommunityPagesController extends BaseController {
         $page->delete();
 
         Alert::success('Page [' . $page->name . '] successfully deleted!')->flash();
-        return Redirect::route($this->adminUrl . '.community-pages.index');
+        return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
     }
 
     private function validateName($page) {
