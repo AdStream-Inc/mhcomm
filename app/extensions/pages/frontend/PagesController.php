@@ -1,6 +1,8 @@
 <?php namespace Adstream\Controllers\Frontend;
 
 use Adstream\Controllers\BaseController;
+use Adstream\Models\Pages;
+use View;
 
 class PagesController extends BaseController {
 
@@ -13,9 +15,9 @@ class PagesController extends BaseController {
 
   public function page($pageSlug)
   {
-    $community = $this->pages->where('slug', $pageSlug)->first();
-	  $pieces = explode('/', $pageSlug);
-	  $parentId = 0;
+	  
+	$pieces = explode('/', $pageSlug);
+	$parentId = 0;
 
   	foreach ($pieces as $piece){
   		$page = $this->pages->select('id')->where('slug', $piece)->where('parent_id', $parentId)->firstOrFail();
@@ -24,7 +26,7 @@ class PagesController extends BaseController {
 
 	  $page = $this->pages->where('id', $parentId)->firstOrFail();
 
-    return View::make('frontend.communities.page', compact('community', 'page'));
+    return View::make('frontend.pages.show', compact('page'));
   }
 
 }
