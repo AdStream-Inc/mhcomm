@@ -47,6 +47,7 @@
 			self.el.hide();
 			self.parent.addClass('faded');
 			self.oldInput.prop('disabled', true);
+			self.parent.find('.form-control').prop('disabled', true);
 
 			var html = '<input type="hidden" name="delete_images[]" value="' + self.oldInput.attr('data-id') + '" />';
 			$('#upload-form').append(html);
