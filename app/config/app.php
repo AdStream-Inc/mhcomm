@@ -123,7 +123,6 @@ return array(
 		'Cartalyst\CompositeConfig\CompositeConfigServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
 		'Prologue\Alerts\AlertsServiceProvider',
-		'Barryvdh\Debugbar\ServiceProvider',
 		'DaveJamesMiller\Breadcrumbs\ServiceProvider',
 	),
 
