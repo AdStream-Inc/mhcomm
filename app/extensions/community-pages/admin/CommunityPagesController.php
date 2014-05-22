@@ -167,11 +167,13 @@ class CommunityPagesController extends BaseController {
             Alert::error('Cannot remove a page that has children pages assigned to it.')->flash();
             return Redirect::back()->withInput();
         }
-
+		
+		$communityId = $page->community_id;
+		
         $page->delete();
 
         Alert::success('Page [' . $page->name . '] successfully deleted!')->flash();
-        return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
+        return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => $communityId));
     }
 
     private function validateName($page) {
