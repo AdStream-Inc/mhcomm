@@ -58,33 +58,72 @@ class BaseRepository extends Eloquent {
   /**
    * Listen for save event
    */
-  protected static function boot()
-  {
+  protected static function boot(){
+	  
     parent::boot();
+	
+	static::creating(function($model) {
+		
+		return $model->executeRevisionObserver('creating');
+		
+	});
+	
+    static::updating(function($model) {
+		
+		return $model->executeRevisionObserver('updating');
+	  
+    });
+	
+	static::deleting(function($model) {
 
-    static::saving(function($model) {
-      if ($model->isRevisionable) {
+		return $model->executeRevisionObserver('deleting');
+
+	});
+	
+  }
+  
+  
+  private function executeRevisionObserver($action = null){
+	  
+	  if (empty($action)) return false;
+	  
+      if ($this->isRevisionable) {
+		  
         $user = Sentry::getUser();
         $manager = Sentry::findGroupByName('Manager');
 
         if ($user->inGroup($manager)) {
-          $model->saveRevision();
-
-          // keep old data values until new value is approved
-          foreach ($model->originalData as $key => $value) {
-            $model[$key] = $value;
-          }
-
-          return $model->validate();
+			
+		  //if the data is valid, validate will return null
+	      $isValid = $this->validate() === null ? true : false;
+		  
+		  if ($isValid || $action == 'deleting'){
+			  
+			  $this->saveRevision($action);
+		  
+			  // keep old data values until new value is approved
+			  foreach ($this->originalData as $key => $value) {
+				$this[$key] = $value;
+			  }
+			  
+			  $this->revisionPending = true;
+			  
+		  }
+		  
+		  return false;
+		  
         } else {
-          $model->saveRevision();
 
-          return $model->validate();
+          return $this->validate();
+		  
         }
+		
       } else {
-        return $model->validate();
+		  
+        return $this->validate();
+		
       }
-    });
+	  
   }
 
   /**
@@ -106,8 +145,10 @@ class BaseRepository extends Eloquent {
   /**
    * Saves a revision of the changes on the model
    */
-  private function saveRevision()
-  {
+  private function saveRevision($action = null){
+	  
+	  if (empty($action)) return;
+	  
       $this->originalData = $this->original;
       $this->updatedData  = $this->attributes;
       $this->dirtyData = $this->getDirty();
@@ -135,18 +176,58 @@ class BaseRepository extends Eloquent {
 
       $revisions = array();
       $groupHash = str_random(20);
+	  $userId = Sentry::getUser()->id;
+	  
+	  $parentType = '';
+	  $parentId = '';
+	  
+	  if ($this->revisionableParentType && $this->parentPrimaryKeyReference){
+		  
+		  $parentType = $this->revisionableParentType;
+		  
+		  $primaryKey = $this->parentPrimaryKeyReference;
+		  
+		  $parentId = isset($changes[$primaryKey]) && !empty($changes[$primaryKey]) ? $changes[$primaryKey] : (isset($this->original[$primaryKey]) && !empty($this->original[$primaryKey]) ? $this->original[$primaryKey] : null);
+		  
+	  }
+	  
+	  //sort of a hack. if it's a delete and they didn't make any other changes the revision won't be stored
+	  //because the data technically didn't 'change'. we add a random value to the $changes array so we still
+	  //save the revision. it doesn't actually get saved, because the controller on the other end checks the action
+	  //and just deletes the model
+	  if ($action == 'deleting'){
+		  
+		  $this->originalData['noop'] = true;
+		  $this->updatedData['noop'] = true;
+		  $changes['noop'] = true;
+		  
+	  }
+	  
       foreach ($changes as $key => $change) {
+		  
           $revisions[] = array(
               'revisionable_type'     => get_class($this),
+			  'parent_type'           => $parentType,
+			  'parent_id'             => $parentId,
               'revisionable_id'       => $this->getKey(),
               'key'                   => $key,
               'old_value'             => array_get($this->originalData, $key),
               'new_value'             => $this->updatedData[$key],
-              'user_id'               => Sentry::getUser()->id,
+              'user_id'               => $userId,
               'created_at'            => new \DateTime(),
               'updated_at'            => new \DateTime(),
-              'group_hash'            => $groupHash
+              'group_hash'            => $groupHash,
+			  'action'				  => $action
           );
+		  
+		  DB::table('revisions')
+		  	  ->where('revisionable_type', get_class($this))
+		  	  ->where('revisionable_id', $this->getKey())
+			  ->where('revisionable_id', '<>', 0)
+			  ->where('user_id', $userId)
+			  ->where('key', $key)
+			  ->where('approved', 0)
+			  ->delete();
       }
 
       if (count($revisions)) {

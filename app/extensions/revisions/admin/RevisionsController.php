@@ -70,7 +70,7 @@ class RevisionsController extends BaseController {
   public function edit($groupHash)
   {
     $revisions = $this->revisions->where('group_hash', $groupHash)->get();
-    $model = $this->findModel($revisions[0]);
+    $model = $this->findModel($revisions);
 
     return View::make('admin.revisions.edit', compact('model', 'revisions'));
   }
@@ -80,19 +80,36 @@ class RevisionsController extends BaseController {
     $approve = Input::get('approve');
     $deny = Input::get('deny');
 
+	//if we have approved updates in this revision
     if (count($approve)) {
+		
+	  $revisions = array();
+	  
+	  //loop through all the approves and store them in an array
       foreach ($approve as $revisionId) {
-        $revision = $this->revisions->find($revisionId);
-        $model = $this->findModel($revision);
-        $key = $revision->key;
-        $value = $revision->new_value;
-
-        $model->$key = $value;
-        $revision->approved = 1;
-
-        $model->save();
+		  
+        $revisions[] = $this->revisions->find($revisionId);
+		
+	  }
+	  
+	  $model = $this->findModel($revisions);
+	  
+	  foreach ($revisions as $revision){
+		  
+		  $model->{$revision->key} = $revision->new_value;
+		  
+	  }
+	  
+	  if ($revisions[0]->action == 'deleting') $model->delete();
+	  else $model->save();
+	  
+	  foreach ($revisions as $revision){
+	  
+	    $revision->approved = 1;
         $revision->save();
-      }
+		
+	  }
+		
     }
 
     if (count($deny)) {
@@ -109,12 +126,29 @@ class RevisionsController extends BaseController {
     Session::forget('revision_page');
     Session::put('revision_page', 'communities');
 
-    $revisions = $this->revisions
+    $communityRevisions = $this->revisions
       ->where('revisionable_type', 'Adstream\Models\Communities')
       ->where('approved', false)
       ->whereIn('user_id', $this->managers)
       ->get();
+	
+	$revisions = $this->presentListData($communityRevisions);
+	
 
+    return Response::json(array('data' => $revisions, 'columns' => $this->tableFields));
+  }
+  
+  public function listCommunityImagesData()
+  {
+    Session::forget('revision_page');
+    Session::put('revision_page', 'communities/images');
+
+    $revisions = $this->revisions
+      ->where('revisionable_type', 'Adstream\Models\CommunityImages')
+      ->where('approved', false)
+      ->whereIn('user_id', $this->managers)
+      ->get();
+	
     $revisions = $this->presentListData($revisions);
 
     return Response::json(array('data' => $revisions, 'columns' => $this->tableFields));
@@ -149,9 +183,10 @@ class RevisionsController extends BaseController {
       // technically we only need the first revision
       // to pull the data we need
       $revision = $hashgroup[0];
-      $model = $this->findModel($revision);
+      $model = $this->findModel($hashgroup);
+	  
       $newRevisions[] = array(
-        'name' => '<a href="' . url($this->adminUrl . '/revisions/' . $hash . '/edit') . '">' . $model->name . '</a>',
+        'name' => '<a href="' . url($this->adminUrl . '/revisions/' . $hash . '/edit') . '">' . (!empty($model->name) ? $model->name : 'No Name Defined') . '</a>',
         'count' => $count,
         'user' => $revision->user->present()->fullName,
         'created_on' => $revision->present()->createdOn
@@ -161,12 +196,23 @@ class RevisionsController extends BaseController {
     return $newRevisions;
   }
 
-  private function findModel($revision)
-  {
+  private function findModel($hashgroup){
+	  
+	$revision = $hashgroup[0];
+	
     $modelType = $revision->revisionable_type;
     $modelId = $revision->revisionable_id;
-    $model = $modelType::find($modelId);
-
-    return $model;
+	
+	//in the case of a 'creating' revision, we don't have a pre-existing row in the database, so we can't load the
+	//model. since it's an insert, we have all the data we need in the revision table. all we need to do is create
+	//a new instance of the model and add all the data from the revision to it.
+	if ($revision->action == 'creating'){
+		
+		return new $modelType;
+		
+	}
+	
+	else return $modelType::find($modelId);
+	
   }
 }

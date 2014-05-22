@@ -38,8 +38,13 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::resource('specials', 'SpecialsController');
 
       Route::get('communities/list', 'CommunitiesController@listData');
-      Route::get('communities/revisions', 'RevisionsController@index');
-      Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
+      
+	  Route::get('communities/revisions', 'RevisionsController@index');
+	  Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
+	  
+      Route::get('communities/images/revisions', 'RevisionsController@index');
+	  Route::get('communities/images/revisions/list', 'RevisionsController@listCommunityImagesData');
+	  
       Route::resource('communities', 'CommunitiesController');
 
       Route::resource('pages', 'PagesController');

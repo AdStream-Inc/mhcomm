@@ -167,8 +167,11 @@ class CommunitiesController extends BaseController {
         if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
             $community->main_image = $this->saveMainImage($community);
         }
-
-        if ($community->update(Input::all())) {
+		
+		$result = $community->update(Input::all());
+		
+        if ($result || $community->revisionPending) {
+			
             if (Input::get('image_titles')) {
                 $this->saveCommunityImages($community);
             }
@@ -181,12 +184,11 @@ class CommunitiesController extends BaseController {
                 $this->updateCommunityImages();
             }
 
-            if ($this->isManager) {
-                Alert::success('Your changes are pending approval from an administrator.')->flash();
-            } else {
-                Alert::success('Community successfully updated!')->flash();
-            }
+			$message = $result ? 'Community successfully updated!' : 'Your changes are pending approval from an administrator.';
+            Alert::success($message)->flash();
+			
             return Redirect::route($this->adminUrl . '.communities.index');
+			
         }
 
         return Redirect::back()->withInput()->withErrors($community->getErrors());

@@ -58,14 +58,17 @@
                   <span class="fa fa-map-marker"></span>
                   Communities
                   <b class="caret"></b>
-                  @if ($communityRevisions && $authUser->hasAccess('revisions.list'))
-                    <span class="push-half-left label label-danger">{{ $communityRevisions }}</span>
+                  @if (($communityRevisions || $communityImageRevisions) && $authUser->hasAccess('revisions.list'))
+                    <span class="push-half-left label label-danger">{{ $communityRevisions + $communityImageRevisions }}</span>
                   @endif
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ route($adminUrl . '.communities.index') }}">Manage Communities</a></li>
                   @if ($communityRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a href="{{ url($adminUrl . '/communities/revisions') }}"> Revisions <span class="revision-label label pull-right label-danger">{{ $communityRevisions }}</span></a></li>
+                    <li><a href="{{ url($adminUrl . '/communities/revisions') }}">Community Updates <span class="revision-label label pull-right label-danger">{{ $communityRevisions }}</span></a></li>
+                  @endif
+                  @if ($communityImageRevisions && $authUser->hasAccess('revisions.list'))
+                    <li><a href="{{ url($adminUrl . '/communities/images/revisions') }}">Community Image Updates <span class="revision-label label pull-right label-danger">{{ $communityImageRevisions }}</span></a></li>
                   @endif
                 </ul>
               </li>
