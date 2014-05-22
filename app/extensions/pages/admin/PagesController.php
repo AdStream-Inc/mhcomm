@@ -147,6 +147,20 @@ class PagesController extends BaseController {
         }
     }
 
+    public function destroy($id) {
+        $page = $this->model->find($id);
+
+        if ($this->hasChildren($page)) {
+            Alert::error('Cannot a page that has children pages assigned to it.')->flash();
+            return Redirect::back()->withInput();
+        }
+
+        $page->delete();
+
+        Alert::success('Page [' . $page->name . '] successfully deleted!')->flash();
+        return Redirect::route($this->adminUrl . '.pages.index');
+    }
+
     private function validateName($page) {
         $parentId = $page->parent_id;
         $name = $page->name;
@@ -160,6 +174,18 @@ class PagesController extends BaseController {
         }
 
         return true;
+    }
+
+    private function hasChildren($root) {
+        $pages = $this->model->all();
+
+        foreach ($pages as $page) {
+            if ($page->parent_id == $root->id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function setLastUpdated($id)

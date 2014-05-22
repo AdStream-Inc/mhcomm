@@ -50,7 +50,7 @@
           @if ($community->main_image)
             <div class="pull-left">
               <img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" style="cursor: pointer" data-toggle="modal" data-target="#preview-modal" src="{{ $community->main_image }}">
-              <button class="btn btn-xs btn-danger btn-block" id="main-image-remove">Remove</button>
+              <button type="button" class="btn btn-xs btn-danger btn-block" id="main-image-remove">Remove</button>
               {{ Form::hidden('main_image', $community->main_image, array('id' => 'main-image-hidden', 'disabled')) }}
             </div>
           @endif
