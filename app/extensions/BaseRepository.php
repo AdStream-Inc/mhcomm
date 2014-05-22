@@ -236,6 +236,9 @@ class BaseRepository extends Eloquent {
       }
 
       if (count($revisions)) {
+		  
+		  dd ($revisions);
+		  
           DB::table('revisions')->insert($revisions);
       }
   }

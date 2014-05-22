@@ -177,7 +177,7 @@ class CommunitiesController extends BaseController {
         if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
         }
-
+		
 		$result = $community->update(Input::all());
 
         if ($result || $community->revisionPending) {
