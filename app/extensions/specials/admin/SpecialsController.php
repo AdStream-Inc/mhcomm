@@ -115,11 +115,18 @@ class SpecialsController extends BaseController {
   public function update($id)
   {
     $special = $this->model->find($id);
-
-    if ($special->update(Input::all())) {
+	
+	$result = $special->update(Input::all());
+	
+    if ($result || $special->revisionPending) {
+		
       $special->communities()->sync(Input::get('communities'));
-      Alert::success('Special successfully updated!')->flash();
+	  
+	  $message = $result ? 'Special successfully updated!' : 'Your changes are pending approval from an administrator.';
+	  
+      Alert::success($message)->flash();
       return Redirect::route($this->adminUrl . '.specials.index');
+	  
     }
 
     return Redirect::back()->withInput()->withErrors($special->getErrors());

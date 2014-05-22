@@ -82,9 +82,9 @@
                   @endif
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="clearfix" href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
+                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
                   @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a href="{{ url($adminUrl . '/specials/revisions') }}"><span class="pull-left">Revisions</span> <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
+                    <li><a class="clearfix" href="{{ url($adminUrl . '/specials/revisions') }}"><span class="pull-left">Revisions</span> <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
                   @endif
                 </ul>
               </li>
