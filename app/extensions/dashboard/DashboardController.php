@@ -34,7 +34,7 @@ class DashboardController extends BaseController {
 
   public function getIndex()
   {
-    if ($this->isManager) {
+    if ($this->isManager || $this->isSuperManager) {
       return Redirect::route(Config::get('site.admin_url') . '.communities.index');
     }
 
