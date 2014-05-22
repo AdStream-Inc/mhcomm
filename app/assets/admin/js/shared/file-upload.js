@@ -57,7 +57,7 @@
     }
 
     Uploader.prototype.watchPreviewButton = function() {
-        $(document).on('click', '.img-preview', function(e) {
+        $(document).on('click', '.img-preview', function(e) { 
             var el = $(this);
 
             $('#preview-img').attr('src', el.attr('src'));
