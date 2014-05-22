@@ -38,7 +38,7 @@ class Communities extends BaseRepository {
   	  'phone' => 'required',
   	  'email' => 'required',
   	  'description' => 'required',
-      'main_image_file' => 'mimes:jpeg,png'
+      'main_image_file' => 'mimes:jpeg,png,jpg,JPG'
     );
 
 	public function specials()

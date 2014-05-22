@@ -17,6 +17,7 @@ class CommunityImages extends BaseRepository {
 	protected $isRevisionable = true;
 	protected $revisionableParentType = 'Adstream\Models\Communities';
 	protected $parentPrimaryKeyReference = 'community_id';
+	
   
 	
 }

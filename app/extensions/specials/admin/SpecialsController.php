@@ -65,9 +65,10 @@ class SpecialsController extends BaseController {
     $columns = $this->tableFields;
     $user = Sentry::getUser();
     $manager = Sentry::findGroupByName('Manager');
+	$superManager = Sentry::findGroupByName('Super Manager');
 
-    if ($user->inGroup($manager)) {
-      $communities = $user->community->lists('id');
+    if ($user->inGroup($manager) || $user->inGroup($superManager)) {
+      $communities = $user->communities->lists('id');
       $pivotIds = DB::table('communities_specials')->whereIn('communities_id', $communities)->lists('specials_id');
       $specials = $this->model->whereIn('id', $pivotIds)->get();
     } else {

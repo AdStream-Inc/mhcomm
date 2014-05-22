@@ -151,7 +151,7 @@ class CommunitiesController extends BaseController {
         $community->slug = Str::slug(Input::get('name'));
 
         $mainImage = Input::file('main_image_file');
-        if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
+        if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
         }
 
@@ -174,7 +174,7 @@ class CommunitiesController extends BaseController {
         $community->slug = Str::slug(Input::get('name'));
 
         $mainImage = Input::file('main_image_file');
-        if ($mainImage && in_array($mainImage->getClientOriginalExtension(), array('jpg', 'png', 'gif'))) {
+        if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
         }
 
@@ -240,7 +240,7 @@ class CommunitiesController extends BaseController {
                 $slug = Str::slug($title);
                 $extension = strtolower($file->getClientOriginalExtension());
 
-                if (!in_array($extension, array('jpg', 'png', 'gif'))) {
+                if (!in_array($extension, array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
                     continue;
                 }
 

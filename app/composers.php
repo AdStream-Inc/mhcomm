@@ -54,7 +54,7 @@ View::composer(Config::get('site.admin_url') . '*', function($view) {
       } else {
 
         $specialsRevisionCount = 0;
-        $communitiesRevisionCount = 0;
+        $communityRevisionCount = 0;
 		$communityImageRevisionCount = 0;
 
       }

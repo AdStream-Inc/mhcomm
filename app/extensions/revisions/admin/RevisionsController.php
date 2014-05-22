@@ -44,6 +44,21 @@ class RevisionsController extends BaseController {
       'sort' => 'integer',
     ),
     array(
+      'id' => 'action',
+      'header' => array(
+          array('text' => 'Action'),
+      ),
+      'sort' => 'string',
+    ),
+	array(
+		  'id' => 'parent',
+		  'header' => array(
+			  array('text' => 'Parent'),
+		  ),
+		  'sort' => 'string',
+		  'adjust' => true,
+	  ),
+    array(
       'id' => 'created_on',
       'header' => array(
           array('text' => 'Created On'),
@@ -53,8 +68,8 @@ class RevisionsController extends BaseController {
     ),
   );
 
-  public function __construct(Revisions $revisions)
-  {
+  public function __construct(Revisions $revisions){
+	  
     parent::__construct();
 
     $this->revisions = $revisions;
@@ -72,7 +87,7 @@ class RevisionsController extends BaseController {
     $revisions = $this->revisions->where('group_hash', $groupHash)->get();
     $model = $this->findModel($revisions);
 
-    return View::make('admin.revisions.edit', compact('model', 'revisions'));
+    return View::make('admin.revisions.edit.' . $revisions[0]->action, compact('model', 'revisions'));
   }
 
   public function update($groupHash)
@@ -135,7 +150,7 @@ class RevisionsController extends BaseController {
 	$revisions = $this->presentListData($communityRevisions);
 	
 
-    return Response::json(array('data' => $revisions, 'columns' => $this->tableFields));
+    return Response::json(array('data' => $revisions, 'columns' => $this->getTableFields($revisions)));
   }
   
   public function listCommunityImagesData()
@@ -151,7 +166,7 @@ class RevisionsController extends BaseController {
 	
     $revisions = $this->presentListData($revisions);
 
-    return Response::json(array('data' => $revisions, 'columns' => $this->tableFields));
+    return Response::json(array('data' => $revisions, 'columns' => $this->getTableFields($revisions)));
   }
 
   public function listSpecialsData()
@@ -167,7 +182,15 @@ class RevisionsController extends BaseController {
 
     $revisions = $this->presentListData($revisions);
 
-    return Response::json(array('data' => $revisions, 'columns' => $this->tableFields));
+    return Response::json(array('data' => $revisions, 'columns' => $this->getTableFields($revisions)));
+  }
+  
+  public function getTableFields($revisions = null){
+	  
+	  $fields = $this->tableFields;
+	  
+	  return $fields;
+	  
   }
 
   private function presentListData($revisions)
@@ -185,12 +208,22 @@ class RevisionsController extends BaseController {
       $revision = $hashgroup[0];
       $model = $this->findModel($hashgroup);
 	  
-      $newRevisions[] = array(
+      $array = array(
         'name' => '<a href="' . url($this->adminUrl . '/revisions/' . $hash . '/edit') . '">' . (!empty($model->name) ? $model->name : 'No Name Defined') . '</a>',
         'count' => $count,
         'user' => $revision->user->present()->fullName,
-        'created_on' => $revision->present()->createdOn
+        'created_on' => $revision->present()->createdOn,
+		'action' => $revision->action
       );
+	  
+	  if (!empty($revision->parent_type) && !empty($revision->parent_id)){
+		  
+		  $parent = $revision->parent_type;
+		  $array['parent'] = $parent::find($revision->parent_id)->name;
+	  
+	  }
+	  
+	  $newRevisions[] = $array;
     }
 
     return $newRevisions;
