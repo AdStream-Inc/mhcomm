@@ -151,7 +151,7 @@ class PagesController extends BaseController {
         $page = $this->model->find($id);
 
         if ($this->hasChildren($page)) {
-            Alert::error('Cannot a page that has children pages assigned to it.')->flash();
+            Alert::error('Cannot remove a page that has children pages assigned to it.')->flash();
             return Redirect::back()->withInput();
         }
 
