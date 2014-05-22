@@ -94,4 +94,6 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
 
   Route::controller('contact', 'ContactController');
 
+  Route::get('{{slug?}.html', 'PagesController@page')->where('slug', '.*');
+
 });
