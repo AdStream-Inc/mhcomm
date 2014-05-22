@@ -15,7 +15,7 @@ class AddFieldsToRevisionTable extends Migration {
 		Schema::table('revisions', function(Blueprint $table) {
 			
 			$table->string('parent_type');
-			$table->integer('parent_id');
+			$table->integer('parent_id'); 
 			
 		});
 	}

@@ -14,7 +14,7 @@ class AddActionToRevisionsTable extends Migration {
 	{
 		Schema::table('revisions', function(Blueprint $table) {
 			
-			$table->string('action');
+			$table->string('action'); 
 			
 		});
 	}
