@@ -21,6 +21,26 @@
 @stop
 
 @section('content')
+  <div id="confirm-delete-modal" class="modal fade">
+    {{ Form::open(array('route' => array($adminUrl . '.community-pages.destroy', $lastUpdated['id'] ?: 0), 'method' => 'DELETE')) }}
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm Action</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this page?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+        </div>
+      </div>
+    </div>
+    {{ Form::close() }}
+  </div>
+
   <h1>Community Pages</h1>
   <div class="row">
     <div class="col-md-4">
@@ -103,6 +123,7 @@
           <hr />
           <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($communityLastUpdated)) is-visible @endif" value="Create Page" />
           <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Update Page" />
+          <input data-toggle="modal" data-target="#confirm-delete-modal" type="button" id="form-delete" class="btn btn-danger pull-right @if (isset($lastUpdated)) is-visible @endif" value="Delete Page" />
         </div>
       {{ Form::close() }}
     </div>

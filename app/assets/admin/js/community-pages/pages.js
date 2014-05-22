@@ -10,6 +10,7 @@
     this.createButton = $('#page-create');
     this.saveButton = $('#form-save');
     this.updateButton = $('#form-update');
+	this.deleteButton = $('#form-delete');
     this.form = $('#pages-form');
 
     /**
@@ -123,6 +124,7 @@
         self.loadPageData(res.page);
         self.loadSectionData(res.page.template, res.sections);
         self.makeUpdateForm(res.page.id);
+		self.updateDeleteForm(res.page.id);
       });
     });
   }
@@ -233,6 +235,10 @@
     }
 
     return false;
+  }
+  
+  CommunityPages.prototype.updateDeleteForm = function(id) {
+    $('#confirm-delete-modal form').attr('action', URL.current + '/' + id);
   }
 
   window.CommunityPages = CommunityPages;
