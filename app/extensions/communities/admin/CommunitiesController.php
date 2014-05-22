@@ -181,7 +181,7 @@ class CommunitiesController extends BaseController {
 		$result = $community->update(Input::all());
 
         if ($result || $community->revisionPending) {
-            $community->users()->sync(Input::get('managers'));
+            if (Input::has('managers')) $community->users()->sync(Input::get('managers'));
 
             if (Input::get('image_titles')) {
                 $this->saveCommunityImages($community);
