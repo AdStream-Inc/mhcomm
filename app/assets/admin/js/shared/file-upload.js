@@ -30,24 +30,29 @@
     }
 
     Uploader.prototype.watchCloseButton = function() {
+		
+		var self = this;
+		
         $(document).on('click', '#upload-files .close', function(e) {
             e.preventDefault();
-            var el = $(this);
-            var parent = el.closest('.file-row');
-            var oldInput = $('.old-input', parent);
-
-            $('#close-modal .delete-button').on('click', function() {
-                $('#close-modal').modal('hide');
-
-                el.hide();
-                parent.addClass('faded');
-                oldInput.prop('disabled', true);
-
-                var html = '<input type="hidden" name="delete_images[]" value="' + oldInput.attr('data-id') + '" />';
-                $('#upload-form').append(html);
-
-            });
+            self.el = $(this);
+            self.parent = self.el.closest('.file-row');
+            self.oldInput = $('.old-input', self.parent);
         });
+		
+		$(document).on('click', '#close-modal .delete-button', function() {
+			
+			$('#close-modal').modal('hide');
+
+			self.el.hide();
+			self.parent.addClass('faded');
+			self.oldInput.prop('disabled', true);
+
+			var html = '<input type="hidden" name="delete_images[]" value="' + self.oldInput.attr('data-id') + '" />';
+			$('#upload-form').append(html);
+
+		});
+		
     }
 
     Uploader.prototype.watchPreviewButton = function() {
