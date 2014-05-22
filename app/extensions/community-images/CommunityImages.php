@@ -18,6 +18,16 @@ class CommunityImages extends BaseRepository {
 	protected $revisionableParentType = 'Adstream\Models\Communities';
 	protected $parentPrimaryKeyReference = 'community_id';
 	
+	protected $revisionAttributePresenters = array(
+		'path' => 'getImageHtml'
+	);
   
+  	public function getImageHtml($path = ''){
+		
+		if (empty($path)) return '<i>No Image</i>';
+		
+		return '<img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" src="' . $path . '" />';
+		
+	}
 	
 }

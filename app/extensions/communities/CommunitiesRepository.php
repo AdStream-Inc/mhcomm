@@ -8,6 +8,10 @@ class Communities extends BaseRepository {
 
     protected $isRevisionable = true;
 
+	protected $revisionAttributePresenters = array(
+		'main_image' => 'getImageHtml'
+	);
+
     use PresentableTrait;
 
     /**
@@ -93,4 +97,12 @@ class Communities extends BaseRepository {
 
       return parent::delete();
     }
+	
+  	public function getImageHtml($path = ''){
+		
+		if (empty($path)) return '<i>No Image</i>';
+		
+		return '<img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" src="' . $path . '" />';
+		
+	}
 }

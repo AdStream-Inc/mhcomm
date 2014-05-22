@@ -86,7 +86,9 @@ class RevisionsController extends BaseController {
   {
     $revisions = $this->revisions->where('group_hash', $groupHash)->get();
     $model = $this->findModel($revisions);
-
+	
+	foreach ($revisions as $revision) $model->{$revision->key} = $revision->new_value;
+	
     return View::make('admin.revisions.edit.' . $revisions[0]->action, compact('model', 'revisions'));
   }
 
@@ -109,11 +111,7 @@ class RevisionsController extends BaseController {
 	  
 	  $model = $this->findModel($revisions);
 	  
-	  foreach ($revisions as $revision){
-		  
-		  $model->{$revision->key} = $revision->new_value;
-		  
-	  }
+	  foreach ($revisions as $revision) $model->{$revision->key} = $revision->new_value;
 	  
 	  if ($revisions[0]->action == 'deleting') $model->delete();
 	  else $model->save();
@@ -241,11 +239,15 @@ class RevisionsController extends BaseController {
 	//a new instance of the model and add all the data from the revision to it.
 	if ($revision->action == 'creating'){
 		
-		return new $modelType;
+		$modelType = new $modelType;
+		
+	} else {
+	
+		$modelType = $modelType::find($modelId);
 		
 	}
 	
-	else return $modelType::find($modelId);
+	return $modelType;
 	
   }
 }

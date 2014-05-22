@@ -65,10 +65,10 @@
                 <ul class="dropdown-menu">
                   <li><a href="{{ route($adminUrl . '.communities.index') }}">Manage Communities</a></li>
                   @if ($communityRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a href="{{ url($adminUrl . '/communities/revisions') }}">Community Updates <span class="revision-label label pull-right label-danger">{{ $communityRevisions }}</span></a></li>
+                    <li><a class="clearfix" href="{{ url($adminUrl . '/communities/revisions') }}"><span class="pull-left">Community Updates</span> <span class="revision-label label pull-right label-danger">{{ $communityRevisions }}</span></a></li>
                   @endif
                   @if ($communityImageRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a href="{{ url($adminUrl . '/communities/images/revisions') }}">Community Image Updates <span class="revision-label label pull-right label-danger">{{ $communityImageRevisions }}</span></a></li>
+                    <li><a class="clearfix" href="{{ url($adminUrl . '/communities/images/revisions') }}"><span class="pull-left">Community Image Updates</span> <span class="revision-label label pull-right label-danger">{{ $communityImageRevisions }}</span></a></li>
                   @endif
                 </ul>
               </li>
@@ -82,9 +82,9 @@
                   @endif
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
+                  <li><a class="clearfix" href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
                   @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a href="{{ url($adminUrl . '/specials/revisions') }}"> Revisions <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
+                    <li><a href="{{ url($adminUrl . '/specials/revisions') }}"><span class="pull-left">Revisions</span> <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
                   @endif
                 </ul>
               </li>

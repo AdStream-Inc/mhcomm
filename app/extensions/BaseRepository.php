@@ -205,6 +205,8 @@ class BaseRepository extends Eloquent {
 	  
       foreach ($changes as $key => $change) {
 		  
+		  $presenter = isset($this->revisionAttributePresenters) && isset($this->revisionAttributePresenters[$key]) ? $this->revisionAttributePresenters[$key] : '';
+		  
           $revisions[] = array(
               'revisionable_type'     => get_class($this),
 			  'parent_type'           => $parentType,
@@ -217,7 +219,8 @@ class BaseRepository extends Eloquent {
               'created_at'            => new \DateTime(),
               'updated_at'            => new \DateTime(),
               'group_hash'            => $groupHash,
-			  'action'				  => $action
+			  'action'				  => $action,
+			  'presenter'			  => $presenter
           );
 		  
 		  DB::table('revisions')
