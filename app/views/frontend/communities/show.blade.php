@@ -8,9 +8,15 @@ community-{{ $content }}
 @section('title', ucwords(str_replace('_', ' ', $content)) . ' - ' . $community->name)
 
 @section('breadcrumbs')
-  {{ Breadcrumbs::render('community', $community, $content) }}
+  {{-- {{ Breadcrumbs::render('community', $community, $content) }} --}}
   <div class="page-title-container clearfix">
-    <h1 class="page-title pull-left">{{ ucwords(str_replace('_', ' ', $content)) . ' <span>' . $community->name . '</span>' }}</h1>
+    <h1 class="page-title pull-left">
+      @if ($content != 'about')
+        {{ ucwords(str_replace('_', ' ', $content)) . ' <span>' . $community->name . '</span>' }}
+      @else
+        {{ '<span>' . $community->name . '</span>' }}
+      @endif
+    </h1>
     <span class="pull-right small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
   </div>
 

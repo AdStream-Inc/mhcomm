@@ -8,7 +8,7 @@ community-page-{{ $page->name }}
 @section('title', ucwords(str_replace('_', ' ', $page->name)) . ' - ' . $community->name)
 
 @section('breadcrumbs')
-  {{ Breadcrumbs::render('community_page', $community, $page->getParents(), $page) }}
+  {{-- {{ Breadcrumbs::render('community_page', $community, $page->getParents(), $page) }} --}}
   <div class="page-title-container clearfix">
     <h1 class="page-title pull-left">{{ ucwords(str_replace('_', ' ', $page->name)) . ' <span>' . $community->name . '</span>' }}</h1>
     <span class="pull-right small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
