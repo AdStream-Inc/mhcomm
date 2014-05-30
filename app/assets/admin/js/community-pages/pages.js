@@ -10,6 +10,7 @@
     this.createButton = $('#page-create');
     this.saveButton = $('#form-save');
     this.updateButton = $('#form-update');
+	this.deleteButton = $('#form-delete');
     this.form = $('#pages-form');
 
     /**
@@ -123,6 +124,7 @@
         self.loadPageData(res.page);
         self.loadSectionData(res.page.template, res.sections);
         self.makeUpdateForm(res.page.id);
+		self.updateDeleteForm(res.page.id);
       });
     });
   }
@@ -189,6 +191,7 @@
     this.saveButton.hide();
     this.updateButton.show()
     this.createButton.show();
+	this.deleteButton.show();
 
     var method = '<input type="hidden" name="_method" value="PUT" />';
 
@@ -203,8 +206,9 @@
 
   CommunityPages.prototype.makeCreateForm = function() {
     this.saveButton.show();
-    this.updateButton.hide()
+    this.updateButton.hide();
     this.createButton.hide();
+	this.deleteButton.hide();
 
     this.setActiveTemplate(this.activeTemplate);
 
@@ -233,6 +237,10 @@
     }
 
     return false;
+  }
+  
+  CommunityPages.prototype.updateDeleteForm = function(id) {
+    $('#confirm-delete-modal form').attr('action', URL.current + '/' + id);
   }
 
   window.CommunityPages = CommunityPages;

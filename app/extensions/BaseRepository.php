@@ -158,8 +158,15 @@ class BaseRepository extends Eloquent {
       // so for now we drop any object based items, like DateTime
       foreach ($this->updatedData as $key => $val) {
           if (gettype($val) == 'object') {
-              unset($this->originalData[$key]);
               unset($this->updatedData[$key]);
+          }
+      }
+	  
+      // we can only safely compare basic items,
+      // so for now we drop any object based items, like DateTime
+      foreach ($this->originalData as $key => $val) {
+          if (gettype($val) == 'object') {
+              unset($this->originalData[$key]);
           }
       }
 
@@ -218,8 +225,8 @@ class BaseRepository extends Eloquent {
               'old_value'             => array_get($this->originalData, $key),
               'new_value'             => $this->updatedData[$key],
               'user_id'               => $userId,
-              'created_at'            => new \DateTime(),
-              'updated_at'            => new \DateTime(),
+              'created_at'            => date("Y-m-d H:i:s"),
+              'updated_at'            => date("Y-m-d H:i:s"),
               'group_hash'            => $groupHash,
 			  'action'				  => $action,
 			  'presenter'			  => $presenter
@@ -236,6 +243,7 @@ class BaseRepository extends Eloquent {
       }
 
       if (count($revisions)) {
+		  
           DB::table('revisions')->insert($revisions);
       }
   }

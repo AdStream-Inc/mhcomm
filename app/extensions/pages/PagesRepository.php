@@ -47,5 +47,24 @@ class Pages extends BaseRepository {
     {
         return $this->hasMany('Adstream\Models\PageSections', 'page_id');
     }
+	
+	public function getParents(){
+		
+		$parents = array();
+		
+		$parent = $this->parent_id;
+		
+		while ($parent != 0){
+			
+			$thisParent = $this->find($parent);
+			
+			$parents[] = $thisParent;
+			$parent = $thisParent->parent_id;
+			
+		}
+		
+		return array_reverse($parents);
+		
+	}
 
 }

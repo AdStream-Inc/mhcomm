@@ -50,9 +50,9 @@ App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
 	
-  if (App::environment('production')) {
-    return Response::view('errors.missing', array(), 404);
-  }
+  //if (App::environment('production')) {
+    //return Response::view('errors.missing', array(), 404);
+  //}
 });
 
 /*

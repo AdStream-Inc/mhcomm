@@ -2,7 +2,6 @@
 
 $adminNs = 'Adstream\\Controllers\\Admin\\';
 $frontendNs  = 'Adstream\\Controllers\\Frontend\\';
-
 Route::get('installer', $adminNs . 'InstallerController@setup');
 Route::post('installer', $adminNs . 'InstallerController@install');
 Route::get('installer-finish', $adminNs . 'InstallerController@setupConfig');
@@ -77,11 +76,11 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('/{slug}.html', 'JobsController@show')->where('slug', '.*');
 
   });
+  
+  Route::group(array('namespace' => $frontendNs), function(){
+	
+	Route::get('{slug?}.html', 'PagesController@page')->where('slug', '.*');
 
-  // Static pages
-  Route::get('/', function() {
-    $featured = \Adstream\Models\Communities::orderBy(DB::raw('RAND()'))->take(2)->get();
-    return View::make('frontend.static.home', compact('featured'));
   });
 
   Route::get('home-map', function() {
@@ -93,5 +92,11 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
   });
 
   Route::controller('contact', 'ContactController');
+  
+  // Static pages
+  Route::get('/', function() {
+    $featured = \Adstream\Models\Communities::orderBy(DB::raw('RAND()'))->take(2)->get();
+    return View::make('frontend.static.home', compact('featured'));
+  });
 
 });

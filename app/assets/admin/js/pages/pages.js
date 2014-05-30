@@ -180,6 +180,7 @@
     this.saveButton.show();
     this.updateButton.hide()
     this.createButton.hide();
+	this.deleteButton.hide();
 
     this.setActiveTemplate(this.activeTemplate);
 

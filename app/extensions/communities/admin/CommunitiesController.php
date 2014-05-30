@@ -177,11 +177,11 @@ class CommunitiesController extends BaseController {
         if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
         }
-
+		
 		$result = $community->update(Input::all());
 
         if ($result || $community->revisionPending) {
-            $community->users()->sync(Input::get('managers'));
+            if (Input::has('managers')) $community->users()->sync(Input::get('managers'));
 
             if (Input::get('image_titles')) {
                 $this->saveCommunityImages($community);
@@ -272,7 +272,7 @@ class CommunitiesController extends BaseController {
         $images = Input::get('delete_images');
         foreach ($images as $id) {
             $image = $this->images->find($id);
-            $image->delete();
+            if ($image) $image->delete();
         }
     }
 
