@@ -75,3 +75,13 @@ div.push {
     margin-bottom: 0;
   }
 }
+
+.panel-default {
+  border-color: #aaa;
+  border-bottom-width: 4px;
+
+  & > .panel-heading {
+    background: #fff;
+    color: $brand-main;
+  }
+}

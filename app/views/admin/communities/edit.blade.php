@@ -5,6 +5,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
     <li><a href="#images" data-toggle="tab">Additional Images</a></li>
+    <li><a href="#events" data-toggle="tab">Events</a></li>
   </ul>
   <div class="modal fade" id="preview-modal">
     <div class="modal-dialog modal-lg">
@@ -46,19 +47,42 @@
             return Form::text($name, null, array('class' => 'form-control'));
           })
         }}
-        <div class="media">
-          @if ($community->main_image)
-            <div class="pull-left">
-              <img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" style="cursor: pointer" data-toggle="modal" data-target="#preview-modal" src="{{ $community->main_image }}">
-              <button type="button" class="btn btn-xs btn-danger btn-block" id="main-image-remove">Remove</button>
-              {{ Form::hidden('main_image', $community->main_image, array('id' => 'main-image-hidden', 'disabled')) }}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="media">
+              @if ($community->main_image)
+                <div class="pull-left">
+                  <img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" style="cursor: pointer" data-toggle="modal" data-target="#preview-modal" src="{{ $community->main_image }}">
+                  <button type="button" class="btn btn-xs btn-danger btn-block" id="main-image-remove">Remove</button>
+                  {{ Form::hidden('main_image', $community->main_image, array('id' => 'main-image-hidden', 'disabled')) }}
+                </div>
+              @endif
+              <div class="media-body">
+                {{ Form::bootwrapped('main_image_file', 'Main Image <span class="small text-muted">- will override current image</span>', function($name){
+                    return Form::file($name, array('accept' => 'image/gif, image/jpeg, image/png'));
+                  })
+                }}
+              </div>
             </div>
-          @endif
-          <div class="media-body">
-            {{ Form::bootwrapped('main_image_file', 'Main Image <span class="small text-muted">- will override current image</span>', function($name){
-                return Form::file($name, array('accept' => 'image/gif, image/jpeg, image/png'));
-              })
-            }}
+          </div>
+          <div class="col-md-6">
+            <div class="media">
+              @if ($community->newsletter)
+                <div class="pull-left">
+                  <a href="{{ $community->newsletter }}" target="_blank" style="display: block; width: 150px; height: 75px; line-height: 75px;" class="panel panel-primary text-center small">
+                    Preview File
+                  </a>
+                  <button type="button" class="btn btn-xs btn-danger btn-block" id="newsletter-remove">Remove</button>
+                  {{ Form::hidden('newsletter', $community->newsletter, array('id' => 'newsletter-hidden', 'disabled')) }}
+                </div>
+              @endif
+              <div class="media-body">
+                {{ Form::bootwrapped('newsletter_file', 'Newsletter <span class="small text-muted">- will override current newsletter</span>', function($name){
+                    return Form::file($name);
+                  })
+                }}
+              </div>
+            </div>
           </div>
         </div>
         <hr />
@@ -165,6 +189,16 @@
         @endif
       </div>
     </div>
+    <div class="tab-pane" id="events">
+      <div class="well clearfix">
+        @include('admin.partials.event')
+        <hr />
+        {{ Form::submit('Update Community', array('class' => 'btn btn-success pull-right')) }}
+        @if ($isAdmin || $isAdstream)
+          <button class="btn btn-danger pull-right push-right" type="button" data-toggle="modal" data-target="#confirm-delete-modal">Delete Community</button>
+        @endif
+      </div>
+    </div>
   </div>
   {{ Form::close() }}
 @stop
@@ -172,5 +206,6 @@
 @section('scripts')
   <script>
     new Uploader();
+    new EventMaker();
   </script>
 @stop

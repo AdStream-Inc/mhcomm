@@ -12,6 +12,7 @@ use Adstream\Models\Communities;
 use Adstream\Models\User;
 use Adstream\Controllers\BaseController;
 use Adstream\Models\CommunityImages;
+use Adstream\Models\CommunityEvents;
 
 class CommunitiesController extends BaseController {
 
@@ -22,6 +23,8 @@ class CommunitiesController extends BaseController {
     private $images;
 
     private $managers;
+
+    private $communityEvents;
 
     /**
      * The table fields for our data table
@@ -67,12 +70,13 @@ class CommunitiesController extends BaseController {
      * for additional properties
      * @param Communities $communities Communities repository
      */
-    public function __construct(Communities $communities, User $users, CommunityImages $images)
+    public function __construct(Communities $communities, User $users, CommunityImages $images, CommunityEvents $events)
 	{
         parent::__construct();
         $this->users = $users;
         $this->images = $images;
         $this->model = $communities;
+        $this->communityEvents = $events;
 
         $managersGroup = Sentry::findGroupByName('Manager');
         $superManagerGroup = Sentry::findGroupByName('Super Manager');
@@ -141,8 +145,9 @@ class CommunitiesController extends BaseController {
         $images = $community->images;
         $managers = $this->managers;
         $activeManagers = $community->users()->lists('id');
+        $events = $community->communityEvents;
 
-        return View::make('admin.communities.edit', compact('community', 'managers', 'images', 'activeManagers'));
+        return View::make('admin.communities.edit', compact('community', 'managers', 'images', 'activeManagers', 'events'));
     }
 
     public function store()
@@ -153,6 +158,11 @@ class CommunitiesController extends BaseController {
         $mainImage = Input::file('main_image_file');
         if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
+        }
+
+        $newsletter = Input::file('newsletter_file');
+        if ($newsletter) {
+            $community->newsletter = $this->saveCommunityNewsletter($community);
         }
 
         if ($community->save()) {
@@ -177,7 +187,12 @@ class CommunitiesController extends BaseController {
         if ($mainImage && in_array(strtolower($mainImage->getClientOriginalExtension()), array('jpg', 'png', 'gif', 'jpeg', 'bmp'))) {
             $community->main_image = $this->saveMainImage($community);
         }
-		
+
+        $newsletter = Input::file('newsletter_file');
+        if ($newsletter) {
+            $community->newsletter = $this->saveCommunityNewsletter($community);
+        }
+
 		$result = $community->update(Input::all());
 
         if ($result || $community->revisionPending) {
@@ -193,6 +208,18 @@ class CommunitiesController extends BaseController {
 
             if (Input::get('old_titles')) {
                 $this->updateCommunityImages();
+            }
+
+            if (Input::get('events')) {
+                $this->saveEvents($community);
+            }
+
+            if (Input::get('old_events')) {
+                $this->updateEvents();
+            }
+
+            if (Input::get('delete_events')) {
+                $this->deleteEvents();
             }
 
 			$message = $result ? 'Community successfully updated!' : 'Your changes are pending approval from an administrator.';
@@ -254,6 +281,18 @@ class CommunitiesController extends BaseController {
         }
     }
 
+    private function saveCommunityNewsletter($community)
+    {
+        $newsletter = Input::file('newsletter_file');
+        $extension = strtolower($newsletter->getClientOriginalExtension());
+
+        if ($extension != 'pdf') {
+           return false;
+        }
+
+        return $this->saveImage($newsletter, 'newsletter-' . $community->slug, $community);
+    }
+
     private function updateCommunityImages()
     {
         $images = Input::get('old_titles');
@@ -274,6 +313,57 @@ class CommunitiesController extends BaseController {
             $image = $this->images->find($id);
             if ($image) $image->delete();
         }
+    }
+
+    private function saveEvents($community)
+    {
+        $events = Input::get('events');
+
+        foreach ($events as $event) {
+            $event['community_id'] = $community->id;
+            $event['start_date'] = $this->sqlDate($event['start_date']);
+            $event['end_date'] = $this->sqlDate($event['start_date']);
+            $event['start_time'] = $this->sqlDate($event['start_date']);
+            $event['end_time'] = $this->sqlDate($event['start_date']);
+            if (isset($event['recurring'])) {
+                $event['recurring'] = $event['recurring'] == 'on' ? true : false;
+            } else {
+                $event['recurring'] =  false;
+            }
+            $this->communityEvents->create($event);
+        }
+    }
+
+    private function updateEvents()
+    {
+        $events = Input::get('old_events');
+
+        foreach ($events as $id => $data) {
+            $event =  $this->communityEvents->find($id);
+
+            $data['start_date'] = $this->sqlDate($data['start_date']);
+            $data['end_date'] = $this->sqlDate($data['start_date']);
+            $data['start_time'] = $this->sqlDate($data['start_date']);
+            $data['end_time'] = $this->sqlDate($data['start_date']);
+            if (isset($data['recurring'])) {
+                $data['recurring'] = $data['recurring'] == 'on' ? true : false;
+            } else {
+                $data['recurring'] = false;
+            }
+
+            $event->update($data);
+        }
+    }
+
+    private function deleteEvents()
+    {
+        $events = Input::get('delete_events');
+
+        $this->communityEvents->destroy($events);
+    }
+
+    private function sqlDate($date) {
+        return date('Y-m-d H:m:s', strtotime($date));
     }
 
 }

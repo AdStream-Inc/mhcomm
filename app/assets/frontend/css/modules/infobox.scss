@@ -1,0 +1,15 @@
+.infoBox {
+  width: 320px !important;
+  padding: 5px;
+
+  .inner {
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 4px;
+  }
+
+  hr {
+    margin: 10px 0;
+  }
+}

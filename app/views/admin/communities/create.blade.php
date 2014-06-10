@@ -14,10 +14,20 @@
               return Form::text($name, null, array('class' => 'form-control'));
             })
           }}
-          {{ Form::bootwrapped('main_image_file', 'Main Image', function($name){
-              return Form::file($name);
-            })
-          }}
+          <div class="row">
+            <div class="col-md-6">
+              {{ Form::bootwrapped('main_image_file', 'Main Image (png, jpg, gif)', function($name){
+                  return Form::file($name);
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('newsletter_file', 'Newsletter (pdf)', function($name){
+                  return Form::file($name);
+                })
+              }}
+            </div>
+          </div>
           <hr />
           {{ Form::bootwrapped('address', 'Address', function($name){
               return Form::text($name, null, array('class' => 'form-control'));

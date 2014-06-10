@@ -37,18 +37,19 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::resource('specials', 'SpecialsController');
 
       Route::get('communities/list', 'CommunitiesController@listData');
-      
+
 	  Route::get('communities/revisions', 'RevisionsController@index');
 	  Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
-	  
+
       Route::get('communities/images/revisions', 'RevisionsController@index');
 	  Route::get('communities/images/revisions/list', 'RevisionsController@listCommunityImagesData');
-	  
+
       Route::resource('communities', 'CommunitiesController');
 
       Route::resource('pages', 'PagesController');
 
       Route::resource('community-pages', 'CommunityPagesController');
+      Route::get('community-pages/{id}/copy', 'CommunityPagesController@copy');
 
       Route::resource('settings', 'SettingsController');
 
@@ -64,6 +65,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('{community}/specials.html', 'CommunitiesController@specials');
     Route::get('{community}/map.html', 'CommunitiesController@map');
     Route::get('{community}/contact.html', 'CommunitiesController@contact');
+    Route::get('{community}/events.html', 'CommunitiesController@events');
     Route::post('{community}/contact.html', 'CommunitiesController@contactSubmit');
 
     Route::get('{community}/{slug?}.html', 'CommunitiesController@page')->where('slug', '.*');
@@ -76,15 +78,13 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     Route::get('/{slug}.html', 'JobsController@show')->where('slug', '.*');
 
   });
-  
-  Route::group(array('namespace' => $frontendNs), function(){
-	
-	Route::get('{slug?}.html', 'PagesController@page')->where('slug', '.*');
 
+  Route::group(array('namespace' => $frontendNs), function(){
+	   Route::get('{slug?}.html', 'PagesController@page')->where('slug', '.*');
   });
 
   Route::get('home-map', function() {
-    return Response::json(\Adstream\Models\Communities::lists('map_address'));
+    return Response::json(\Adstream\Models\Communities::all()->toArray());
   });
 
   Route::group(array('before' => 'ssl'), function() {
@@ -92,7 +92,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
   });
 
   Route::controller('contact', 'ContactController');
-  
+
   // Static pages
   Route::get('/', function() {
     $featured = \Adstream\Models\Communities::orderBy(DB::raw('RAND()'))->take(2)->get();

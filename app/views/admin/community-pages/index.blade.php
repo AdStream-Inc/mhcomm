@@ -123,6 +123,7 @@
           <hr />
           <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($communityLastUpdated)) is-visible @endif" value="Create Page" />
           <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Update Page" />
+          <button data-toggle="modal" data-target="#copy-modal" type="button" id="form-copy" class="btn btn-info pull-right">Copy Page</button>
           <input data-toggle="modal" data-target="#confirm-delete-modal" type="button" id="form-delete" class="btn btn-danger pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Delete Page" />
         </div>
       {{ Form::close() }}
@@ -143,6 +144,23 @@
             <button type="button" class="btn btn-default" id="community-select-cancel">Cancel</button>
           @endif
           <button type="button" class="btn btn-primary" id="community-select-submit">Select</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="copy-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select a community to copy page to</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::select('community_copy_select', $communitiesDropdown, null, array('class' => 'form-control', 'data-community' => Input::Get('community_id'))) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+          <button type="button" class="btn btn-primary" id="community-copy-submit">Copy</button>
         </div>
       </div>
     </div>

@@ -50,6 +50,7 @@ class CommunityPagesController extends BaseController {
         $pagesDropdown = $this->getPagesDropdown();
         $pagesTree = $this->getPagesTree();
         $templatesDropdown = $this->getTemplatesDropdown();
+        $templatesDropdown = array('1-col' => array_pull($templatesDropdown, '1-col'));
         $communitiesDropdown = $this->communities->lists('name', 'id');
         $community = $this->communities->find(Input::get('community_id'));
 
@@ -167,9 +168,9 @@ class CommunityPagesController extends BaseController {
             Alert::error('Cannot remove a page that has children pages assigned to it.')->flash();
             return Redirect::back()->withInput();
         }
-		
+
 		$communityId = $page->community_id;
-		
+
         $page->delete();
 
         Alert::success('Page [' . $page->name . '] successfully deleted!')->flash();
@@ -239,6 +240,27 @@ class CommunityPagesController extends BaseController {
 
             return Response::json($data);
         }
+    }
+
+    public function copy($id) {
+        $page = $this->model->find($id);
+        $communityId = Input::get('community_id');
+        $this->copyTo($page, $communityId);
+
+        Alert::success('Page [' . $page->name . '] successfully copied!')->flash();
+        return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => $communityId));
+    }
+
+    private function copyTo($page, $communityId) {
+        $new = $page->replicate();
+        $new->community_id = $communityId;
+        $new->parent_id = 0;
+        $new->name = $new->name . ' (copy)';
+        $new->save();
+
+        $newSection = $page->sections->first()->replicate();
+        $newSection->page_id = $new->id;
+        $newSection->save();
     }
 
     private function getTemplatesDropdown()

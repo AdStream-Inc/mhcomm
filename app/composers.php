@@ -38,7 +38,10 @@ View::composer(Config::get('site.admin_url') . '*', function($view) {
                   ->get()
                   ->count();
 
-        $communityRevisionCount = Revisions::where('revisionable_type', 'Adstream\Models\Communities')
+        $communityRevisionCount = Revisions::where(function($query) {
+                    $query->where('revisionable_type', 'Adstream\Models\Communities')
+                          ->orWhere('revisionable_type', 'Adstream\Models\CommunityEvents');
+                  })
                   ->where('approved', false)
                   ->whereIn('user_id', $users)
                   ->groupBy('group_hash')

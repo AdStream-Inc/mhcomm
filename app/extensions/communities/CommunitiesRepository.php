@@ -28,7 +28,7 @@ class Communities extends BaseRepository {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id', 'main_image');
+    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id', 'main_image', 'newsletter');
 
     /**
      * Auto validation rules for composer package Way/Database
@@ -74,6 +74,16 @@ class Communities extends BaseRepository {
       return $this->hasMany('Adstream\Models\CommunityImages', 'community_id');
     }
 
+    public function communityEvents()
+    {
+      return $this->hasMany('Adstream\Models\CommunityEvents', 'community_id');
+    }
+
+    public function sortedEvents()
+    {
+      return $this->communityEvents->sortBy('start_date', 'asc');
+    }
+
     public function pages()
     {
         return $this->hasMany('Adstream\Models\CommunityPages', 'community_id');
@@ -97,12 +107,12 @@ class Communities extends BaseRepository {
 
       return parent::delete();
     }
-	
+
   	public function getImageHtml($path = ''){
-		
+
 		if (empty($path)) return '<i>No Image</i>';
-		
+
 		return '<img width="150" class="media-object img-responsive img-thumbnail push-half-bottom" src="' . $path . '" />';
-		
+
 	}
 }

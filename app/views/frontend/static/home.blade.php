@@ -63,39 +63,6 @@
 @stop
 
 @section('scripts')
-    <script>
-        function initialize() {
-            var map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 4});
-            var geocoder = new google.maps.Geocoder();
-
-            $.get(URL.current + '/home-map', function(res) {
-                var markers = [];
-                for (var i = 0, len = res.length; i != len; i++) {
-                    geocoder.geocode({ address: res[i] }, function(res) {
-                        var location = res[0].geometry.location;
-
-                        console.log(location);
-                        markers.push(location);
-
-                        new google.maps.Marker({
-                            map: map,
-                            position: location
-                        });
-
-                        map.setCenter(markers[0]);
-                    });
-                }
-            });
-        }
-
-        function loadScript() {
-          var script = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
-              'callback=initialize';
-          document.body.appendChild(script);
-        }
-
-        window.onload = loadScript;
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
 @stop

@@ -75,6 +75,11 @@ class CommunitiesController extends BaseController {
 	  return $this->show($slug, 'map');
   }
 
+  public function events($slug)
+  {
+    return $this->show($slug, 'events');
+  }
+
   public function contact($slug)
   {
 	  return $this->show($slug, 'contact');

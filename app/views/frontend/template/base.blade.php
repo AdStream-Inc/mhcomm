@@ -41,6 +41,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-10 pull-right">
                     <ul class="navbar-nav pull-right">
+                        <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
                         <li><a href="{{ url('faqs') }}">FAQs</a></li>
                         <li><a href="{{ url('jobs') }}">Jobs</a></li>
