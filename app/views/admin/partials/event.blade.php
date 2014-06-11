@@ -52,6 +52,12 @@
                   Recurring event?
                 </label>
               </div>
+              <div class="recurring-container  @if ($event->recurring) active @endif">
+                {{ Form::bootwrapped('old_events[' . $event->id . '][recurring_frequency]', 'Frequency', function($name) use($event) {
+                    return Form::select($name, array('daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly', 'yearly' => 'Yearly'), $event->recurring_frequency ?: null, array('class' => 'form-control'));
+                  })
+                }}
+              </div>
             </div>
           </div>
         @endforeach

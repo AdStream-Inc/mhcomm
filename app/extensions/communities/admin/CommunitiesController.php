@@ -322,14 +322,14 @@ class CommunitiesController extends BaseController {
         foreach ($events as $event) {
             $event['community_id'] = $community->id;
             $event['start_date'] = $this->sqlDate($event['start_date']);
-            $event['end_date'] = $this->sqlDate($event['start_date']);
-            $event['start_time'] = $this->sqlDate($event['start_date']);
-            $event['end_time'] = $this->sqlDate($event['start_date']);
+            $event['end_date'] = $this->sqlDate($event['end_date']);
+
             if (isset($event['recurring'])) {
                 $event['recurring'] = $event['recurring'] == 'on' ? true : false;
             } else {
                 $event['recurring'] =  false;
             }
+
             $this->communityEvents->create($event);
         }
     }
@@ -342,9 +342,8 @@ class CommunitiesController extends BaseController {
             $event =  $this->communityEvents->find($id);
 
             $data['start_date'] = $this->sqlDate($data['start_date']);
-            $data['end_date'] = $this->sqlDate($data['start_date']);
-            $data['start_time'] = $this->sqlDate($data['start_date']);
-            $data['end_time'] = $this->sqlDate($data['start_date']);
+            $data['end_date'] = $this->sqlDate($data['end_date']);
+
             if (isset($data['recurring'])) {
                 $data['recurring'] = $data['recurring'] == 'on' ? true : false;
             } else {

@@ -8,4 +8,12 @@
   &.faded {
     opacity: .2;
   }
+
+  .recurring-container {
+    visibility: hidden;
+
+    &.active {
+      visibility: visible;
+    }
+  }
 }

@@ -1,10 +1,35 @@
 .event-box {
-  .start-time {
+  .title {
     font-size: 24px;
     font-weight: bold;
+    float: left;
+  }
+
+  .start-time {
+    float: right;
+    font-weight: bold;
+  }
+
+  .end-time {
+    float: right;
+  }
+
+  .seperator {
+    float: right;
+    padding: 0 10px;
   }
 
   hr {
     margin: 10px 0;
+  }
+
+  .recurring-container {
+    background: #eee;
+    padding: 10px;
+  }
+
+  .start-time-small {
+    font-weight: bold;
+    font-size: 16px;
   }
 }

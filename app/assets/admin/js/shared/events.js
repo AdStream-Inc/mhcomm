@@ -18,6 +18,7 @@
         this.bindPlugins();
         this.watchAddButton();
         this.watchDeleteButton();
+        this.watchRecurring();
     }
 
     EventMaker.prototype.bindPlugins = function() {
@@ -84,12 +85,42 @@
         html += '<input name="events[' + rand + '][recurring]" type="checkbox"> Recurring event?'
         html += '</label>';
         html += '</div>'; // end checkbox
+        html += '<div class="recurring-container">';
+        html += '<div class="form-group ">';
+        html += '<label>Frequency</label>';
+        html += '<select class="form-control" name="events[' + rand + '][recurring_frequency]">';
+        html += '<option value="daily">Daily</option>';
+        html += '<option value="weekly">Weekly</option>';
+        html += '<option value="monthly">Monthly</option>';
+        html += '<option value="yearly">Yearly</option>';
+        html += '</select>'; // end select
+        html += '</div>'; // end form group
+        html += '</div>'; // end recurring container
         html += '</div>'; // end panel
         html += '</div>'; // end col 6
 
         $('#events > .row').append(html);
+
+
         this.bindPlugins();
     };
+
+    EventMaker.prototype.watchRecurring = function() {
+        $(document).on('change', '.checkbox input', function() {
+            var el = $(this);
+            var parent = el.closest('.event-box');
+            var recurring = $('.recurring-container', parent);
+            var recurringSelect = $('select', recurring);
+
+            if ($(this).is(':checked')) {
+                recurring.addClass('active');
+                recurringSelect.removeProp('disabled');
+            } else {
+                recurring.removeClass('active');
+                recurringSelect.prop('disabled', true);
+            }
+        });
+    }
 
     EventMaker.prototype.watchAddButton = function() {
         var self = this;
