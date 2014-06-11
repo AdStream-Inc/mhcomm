@@ -30,6 +30,14 @@ class SpecialsController extends BaseController {
       'sort' => 'string'
     ),
     array(
+      'id' => 'on_homepage',
+      'header' => array(
+          array('text' => 'Homepage'),
+          array('content' => 'selectFilter')
+      ),
+      'sort' => 'string'
+    ),
+    array(
       'id' => 'is_enabled',
       'header' => array(
           array('text' => 'Available'),
@@ -65,7 +73,7 @@ class SpecialsController extends BaseController {
     $columns = $this->tableFields;
     $user = Sentry::getUser();
     $manager = Sentry::findGroupByName('Manager');
-	$superManager = Sentry::findGroupByName('Super Manager');
+	  $superManager = Sentry::findGroupByName('Super Manager');
 
     if ($user->inGroup($manager) || $user->inGroup($superManager)) {
       $communities = $user->communities->lists('id');
@@ -77,6 +85,7 @@ class SpecialsController extends BaseController {
 
     foreach ($specials as &$special) {
       $special->name = '<a href="' . route($this->adminUrl . '.specials.edit', $special->id) . '">' . $special->name . '</a>';
+      $special->on_homepage = $special->present()->isHome;
       $special->created_on = $special->present()->createdOn;
       $special->is_enabled = $special->present()->isEnabled;
     }
@@ -93,10 +102,15 @@ class SpecialsController extends BaseController {
 
   public function store()
   {
-    $special = new $this->model(Input::all());
+    $data = Input::all();
+    $data['on_homepage'] = Input::has('on_homepage') ? true : false;
+    $special = new $this->model($data);
 
     if ($special->save()) {
-      $special->communities()->sync(Input::get('communities'));
+      if (Input::has('communities')) {
+        $special->communities()->sync(Input::get('communities'));
+      }
+
       Alert::success('Special successfully added!')->flash();
       return Redirect::route($this->adminUrl . '.specials.index');
     }
@@ -109,24 +123,29 @@ class SpecialsController extends BaseController {
     $communities = $this->communities->lists('name', 'id');
     $special = $this->model->find($id);
     $activeCommunities = $special->communities()->lists('id');
+
     return View::make('admin.specials.edit', compact('special', 'communities', 'activeCommunities'));
   }
 
   public function update($id)
   {
+    $data = Input::all();
     $special = $this->model->find($id);
-	
-	$result = $special->update(Input::all());
-	
+    $data['on_homepage'] = Input::has('on_homepage') ? true : false;
+
+	  $result = $special->update($data);
+
     if ($result || $special->revisionPending) {
-		
-      $special->communities()->sync(Input::get('communities'));
-	  
-	  $message = $result ? 'Special successfully updated!' : 'Your changes are pending approval from an administrator.';
-	  
+
+      if (Input::has('communities')) {
+        $special->communities()->sync(Input::get('communities'));
+      }
+
+	    $message = $result ? 'Special successfully updated!' : 'Your changes are pending approval from an administrator.';
+
       Alert::success($message)->flash();
       return Redirect::route($this->adminUrl . '.specials.index');
-	  
+
     }
 
     return Redirect::back()->withInput()->withErrors($special->getErrors());

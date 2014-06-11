@@ -1,10 +1,21 @@
 (function($) {
   $("#gallery").owlCarousel({
-    items: 5,
+    items: 1,
     margin: 15,
     loop: true,
     dots: false,
     mobileBoost: true,
+    responsive: {
+      480: {
+        items: 2,
+      },
+      650: {
+        items: 3,
+      },
+      768: {
+        items: 5
+      }
+    }
   });
 
   $('.gallery-image').magnificPopup({
@@ -25,5 +36,9 @@
     e.preventDefault();
 
     $('#gallery').toggleClass('active');
-  })
+  });
+
+  $('#community-list tbody tr').on('click', function() {
+    window.location = $(this).attr('data-url');
+  });
 })(jQuery);

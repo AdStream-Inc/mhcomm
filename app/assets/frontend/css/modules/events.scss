@@ -2,20 +2,23 @@
   .title {
     font-size: 24px;
     font-weight: bold;
-    float: left;
+  }
+
+  .dates {
+    display: block;
   }
 
   .start-time {
-    float: right;
+    display: inline-block;
     font-weight: bold;
   }
 
   .end-time {
-    float: right;
+    display: inline-block;
   }
 
   .seperator {
-    float: right;
+    display: inline-block;
     padding: 0 10px;
   }
 
@@ -31,5 +34,17 @@
   .start-time-small {
     font-weight: bold;
     font-size: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .event-box {
+    .title {
+      float: left;
+    }
+
+    .dates {
+      float: right;
+    }
   }
 }

@@ -138,15 +138,17 @@ class CommunityPagesController extends BaseController {
             if ($page->update(Input::all())) {
 
                 $sections = Input::get('templates');
-                foreach ($sections as $slug => $value) {
-                    $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
-                    if (!$section) {
-                        $section = new $this->sections();
-                        $section->slug = $slug;
-                        $section->page_id = $page->id;
+                if ($sections) {
+                    foreach ($sections as $slug => $value) {
+                        $section = $this->sections->where('page_id', $page->id)->where('slug', $slug)->first();
+                        if (!$section) {
+                            $section = new $this->sections();
+                            $section->slug = $slug;
+                            $section->page_id = $page->id;
+                        }
+                        $section->content = $value;
+                        $section->save();
                     }
-                    $section->content = $value;
-                    $section->save();
                 }
 
                 $this->setLastUpdated($page->id);
@@ -245,10 +247,12 @@ class CommunityPagesController extends BaseController {
     public function copy($id) {
         $page = $this->model->find($id);
         $communityId = Input::get('community_id');
-        $this->copyTo($page, $communityId);
+        if ($this->copyTo($page, $communityId)) {
+            Alert::success('Page [' . $page->name . '] successfully copied!')->flash();
+            return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => $communityId));
+        }
 
-        Alert::success('Page [' . $page->name . '] successfully copied!')->flash();
-        return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => $communityId));
+        return Redirect::back()->withInput()->withErrors($page->getErrors());
     }
 
     private function copyTo($page, $communityId) {
@@ -256,11 +260,17 @@ class CommunityPagesController extends BaseController {
         $new->community_id = $communityId;
         $new->parent_id = 0;
         $new->name = $new->name . ' (copy)';
-        $new->save();
+        if ($this->validateName($new)) {
+            $new->save();
 
-        $newSection = $page->sections->first()->replicate();
-        $newSection->page_id = $new->id;
-        $newSection->save();
+            $newSection = $page->sections->first()->replicate();
+            $newSection->page_id = $new->id;
+            $newSection->save();
+
+            return true;
+        }
+
+        return false;
     }
 
     private function getTemplatesDropdown()

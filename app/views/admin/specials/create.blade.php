@@ -29,6 +29,12 @@
           return Form::textarea($name, null, array('class' => 'form-control wysiwyg-image', 'rows' => '4'));
         })
       }}
+      <div class="checkbox">
+        <label>
+          {{ Form::checkbox('on_homepage', null) }}
+          Display on homepage?
+        </label>
+      </div>
       <hr />
       {{ Form::submit('Add Special', array('class' => 'btn btn-success pull-right')) }}
     {{ Form::close() }}

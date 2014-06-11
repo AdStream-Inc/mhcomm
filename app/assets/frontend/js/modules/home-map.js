@@ -1,10 +1,17 @@
 (function($) {
-    function initialize() {
-        var map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 4});
-        var geocoder = new google.maps.Geocoder();
-        var ib = new InfoBox();
 
-        google.maps.event.addListener(map, "click", function() { ib.close() });
+    function HomeMap() {
+        this.map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 4});
+        this.geocoder = new google.maps.Geocoder();
+        this.ib = new InfoBox();
+
+        this.init();
+    }
+
+    HomeMap.prototype.init = function() {
+        var self = this;
+
+        google.maps.event.addListener(self.map, "click", function() { self.ib.close() });
 
         $.get(URL.current + '/home-map', function(res) {
             var markers = [];
@@ -12,6 +19,7 @@
             $.each(res, function() {
                 var mapAddress = this['map_address'];
                 var hours = this['office_hours'].replace(/(?:\r\n|\r|\n)/g, '<br />');
+
                 var html = '<div class="inner">';
                 html += '<h4 class="ib-name">';
                 html += '<a href="'+ URL.base + '/communities/' + this['slug'] + '.html' + '">' + this['name'] + '</a>';
@@ -21,19 +29,19 @@
                 html += '</div><hr />';
                 html += '<div class="ib-office-hours"><strong>Office Hours</strong><br />' + hours + '</div></div>';
 
-                geocoder.geocode({ address: mapAddress }, function(res) {
+                self.geocoder.geocode({ address: mapAddress }, function(res) {
                     if (res && res.length) {
                         var location = res[0].geometry.location;
 
                         var marker = new google.maps.Marker({
-                            map: map,
+                            map: self.map,
                             position: location,
                             html: html
                         });
 
                         google.maps.event.addListener(marker, "click", function (e) {
-                            ib.close();
-                            ib.setOptions({
+                            self.ib.close();
+                            self.ib.setOptions({
                                 content: this.html,
                                 pixelOffset: new google.maps.Size(-160, 0),
                                 boxStyle: {
@@ -42,16 +50,16 @@
                                 closeBoxMargin: '10px 10px',
                                 infoBoxClearance: new google.maps.Size(1, 1)
                             });
-                            ib.open(this.map, this);
+                            self.ib.open(this.map, this);
                         });
 
                         markers.push(location);
-                        map.setCenter(markers[0]);
+                        self.map.setCenter(markers[0]);
                     }
                 });
             });
         });
     }
 
-    window.onload = initialize;
+    window.HomeMap = HomeMap;
 })(jQuery);

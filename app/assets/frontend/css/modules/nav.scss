@@ -1,7 +1,10 @@
 .main-navbar {
   margin-bottom: 0;
-  padding: 20px 0;
   z-index: 10;
+
+  .navbar-nav {
+    margin: 0;
+  }
 
   .navbar-nav > li > a {
     color: #000;
@@ -16,19 +19,54 @@
     color: $brand-main;
   }
 
-  .navbar-form {
-    margin-left: 15px;
-    padding-right: 0;
-  }
-
   .navbar-brand img {
     position: relative;
-    bottom: 12px;
+    bottom: 8px;
   }
+
+  .navbar-toggle .icon-bar {
+    background: #333;
+  }
+
+  #main-navbar-collapse {
+    border-top: 1px solid #ddd;
+  }
+
+  .navbar-form {
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: -15px;
+  }
+
 }
 
 body.home {
 	.main-navbar .navbar-nav > li > a {
 		color: #FFF;
 	}
+}
+
+@media (min-width: 768px) {
+  .main-navbar {
+    padding: 20px 0;
+
+    #main-navbar-collapse {
+      border-top: none;
+    }
+
+    .navbar-brand img {
+      bottom: 12px;
+    }
+
+    .navbar-form {
+      margin-left: 15px;
+      padding-right: 0;
+      margin-top: 8.5px;
+      margin-bottom: 8.5px;
+    }
+
+    .navbar-nav {
+      margin: 0;
+    }
+  }
 }

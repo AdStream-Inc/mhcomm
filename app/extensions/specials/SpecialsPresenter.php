@@ -13,4 +13,9 @@ class SpecialsPresenter extends Presenter {
   {
     return $this->enabled ? 'Yes' : 'No';
   }
+
+  public function isHome()
+  {
+    return $this->on_homepage ? 'Yes' : 'No';
+  }
 }

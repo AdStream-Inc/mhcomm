@@ -11,27 +11,27 @@
       </div>
     </div>
     <hr />
-    <table class="table table-hover table-striped table-bordered flush-bottom">
-      <thead>
-        <tr class="bg-primary">
-          <th>Community</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($communities as $community)
-          <tr>
-            <td>{{ $community->name }}</td>
-            <td>{{ $community->address }}</td>
-            <td>{{ $community->city }}</td>
-            <td>{{ $community->state }}</td>
-            <td class="text-center"><a href="{{ url('communities/' . $community->slug . '.html') }}">View</a></td>
+    <div class="table-responsive">
+      <table id="community-list" class="table table-hover table-striped table-bordered flush-bottom">
+        <thead>
+          <tr class="bg-primary">
+            <th>Community Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
           </tr>
-        @endforeach
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @foreach ($communities as $community)
+            <tr data-url="{{ url('communities/' . $community->slug . '.html') }}">
+              <td>{{ $community->name }}</td>
+              <td>{{ $community->address }}</td>
+              <td>{{ $community->city }}</td>
+              <td>{{ $community->state }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 @stop

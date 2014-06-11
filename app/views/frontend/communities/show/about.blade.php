@@ -1,4 +1,7 @@
 @include('frontend.communities.show.gallery')
+<div class="well">
+	<p class="lead">{{ strip_tags($community->description) }}</p>
+</div>
 <div class="row">
     <div class="col-md-4">
         <div class="panel-group" id="accordion1">
@@ -10,7 +13,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="amenities" class="panel-collapse collapse">
+                <div id="amenities" class="panel-collapse collapse in">
                     <div class="panel-body">
                         {{ nl2br($community->amenities) }}
                     </div>
@@ -28,7 +31,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="benefits" class="panel-collapse collapse">
+                <div id="benefits" class="panel-collapse collapse in">
                     <div class="panel-body">
                         {{ nl2br($community->benefits) }}
                     </div>
@@ -46,7 +49,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="points-of-interest" class="panel-collapse collapse">
+                <div id="points-of-interest" class="panel-collapse collapse in">
                     <div class="panel-body">
                         {{ nl2br($community->points_of_interest) }}
                     </div>
@@ -54,7 +57,4 @@
             </div>
         </div>
     </div>
-</div>
-<div class="well">
-	<p class="lead">{{ strip_tags($community->description) }}</p>
 </div>

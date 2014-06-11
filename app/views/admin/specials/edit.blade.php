@@ -46,6 +46,12 @@
           return Form::textarea($name, null, array('class' => 'form-control wysiwyg-image', 'rows' => '4'));
         })
       }}
+      <div class="checkbox">
+        <label>
+          {{ Form::checkbox('on_homepage', null, $special->on_homepage) }}
+          Display on homepage?
+        </label>
+      </div>
       <hr />
       {{ Form::submit('Update Special', array('class' => 'btn btn-success pull-right')) }}
       @if ($isAdmin || $isAdstream)

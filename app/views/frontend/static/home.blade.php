@@ -46,7 +46,7 @@
                 <div class="row featured-communities">
                 @foreach ($featured as $community)
                 	<div class="col-sm-6 col-xs-12">
-                    	<div class="well equal-height">
+                    	<div class="well">
                             <h3><a href="{{ url('communities/' . $community->slug) . '.html' }}">{{ $community->name }}</a></h3>
                             <p>{{ $community->description }}</p>
                             <div class="contact">
@@ -65,4 +65,7 @@
 @section('scripts')
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    <script>
+        new HomeMap();
+    </script>
 @stop

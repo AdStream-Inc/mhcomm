@@ -23,7 +23,7 @@ class Specials extends BaseRepository {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'content', 'enabled', 'sort_order');
+    protected $fillable = array('name', 'content', 'enabled', 'sort_order', 'on_homepage');
 
     /**
      * Auto validation rules

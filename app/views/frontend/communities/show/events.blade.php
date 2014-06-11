@@ -7,9 +7,9 @@
         <div class="clearfix">
           <div class="title">{{ $event->name }}</div>
           <div class="dates">
-            <span class="end-time"><span class="text-muted">ends:</span> {{ date('M d, Y', strtotime($event->end_date)) }}</span>
-            <span class="seperator">-</span>
             <span class="start-time"><span class="text-muted">starts:</span> {{ date('M d, Y', strtotime($event->start_date)) }}</span>
+            <span class="seperator">-</span>
+            <span class="end-time"><span class="text-muted">ends:</span> {{ date('M d, Y', strtotime($event->end_date)) }}</span>
           </div>
         </div>
         <div class="timespan text-muted">
@@ -45,9 +45,9 @@
         <div class="clearfix">
           <div class="title">{{ $event->name }}</div>
           <div class="dates">
-            <span class="end-time"><span class="text-muted">ends:</span> {{ date('M d, Y', strtotime($event->end_date)) }}</span>
-            <span class="seperator">-</span>
             <span class="start-time"><span class="text-muted">starts:</span> {{ date('M d, Y', strtotime($event->start_date)) }}</span>
+            <span class="seperator">-</span>
+            <span class="end-time"><span class="text-muted">ends:</span> {{ date('M d, Y', strtotime($event->end_date)) }}</span>
           </div>
         </div>
         <div class="timespan text-muted">
