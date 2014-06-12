@@ -156,12 +156,15 @@ class CommunitiesController extends BaseController {
             if (str_contains($file, 'newsletter-' . $community->slug)) {
                 $fullPathName = public_path() . '/uploads/' . $community->id . '/';
                 $fileName = substr($file, strlen($fullPathName) + 1);
+                $path = url('/') . '/uploads/' . $community->id . '/' . $fileName;
 
-                $newsletters[] = array(
-                    'original' => $file,
-                    'name' => $fileName,
-                    'path' => url('/') . '/uploads/' . $community->id . '/' . $fileName
-                );
+                if ($path != $community->newsletter) {
+                    $newsletters[] = array(
+                        'original' => $file,
+                        'name' => $fileName,
+                        'path' => $path
+                    );
+                }
             }
         }
 
@@ -266,7 +269,7 @@ class CommunitiesController extends BaseController {
     {
         $path = public_path() . '/uploads/' . $community->id . '/';
         $extension = $file->getClientOriginalExtension();
-        $name = isset($name) ? $name . '-' . date('Y-m-d') : Str::random() . '-' . date('Y-m-d');
+        $name = isset($name) ? $name . '-' . date('Y-m-d-H-m-s') : Str::random() . '-' . date('Y-m-d-H-m-s');
         $name = $name . '.' . $extension;
         $file->move($path, $name);
         return url('uploads') . '/' . $community->id . '/' . $name;
