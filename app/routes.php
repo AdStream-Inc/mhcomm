@@ -95,8 +95,9 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
 
   // Static pages
   Route::get('/', function() {
+    $specials = \Adstream\Models\Specials::where('on_homepage', true)->get();
     $featured = \Adstream\Models\Communities::orderBy(DB::raw('RAND()'))->take(2)->get();
-    return View::make('frontend.static.home', compact('featured'));
+    return View::make('frontend.static.home', compact('featured', 'specials'));
   });
 
 });

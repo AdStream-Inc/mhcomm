@@ -21,9 +21,8 @@
                 var hours = this['office_hours'].replace(/(?:\r\n|\r|\n)/g, '<br />');
 
                 var html = '<div class="inner">';
-                html += '<h4 class="ib-name">';
-                html += '<a href="'+ URL.base + '/communities/' + this['slug'] + '.html' + '">' + this['name'] + '</a>';
-                html += '</h4>';
+                html += '<h4 class="ib-name flush-bottom">' + this['name'] + '</h4>';
+                html += '<div class="push-bottom"><a href="'+ URL.base + '/communities/' + this['slug'] + '.html' + '">Click for more info</a></div>';
                 html += '<div class="ib-address">' + this['address'];
                 html += '<br />' + this['city'] + ', ' + this['state'];
                 html += '</div><hr />';

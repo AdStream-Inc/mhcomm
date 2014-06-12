@@ -40,7 +40,22 @@
                     </div>
                 </div>
             </div>
-    		<p class="alert alert-info current-special"><i class="fa fa-gift"></i><strong>Current Special:</strong> Apply Online and Receive One Month’s Site Rent FREE or Double your Down Payment!* (We will match any down payment on a home that is over $1,000 and up to a maximum of $2,500)*</p>
+            @foreach ($specials as $special)
+                <div class="panel panel-warning">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-gift"></i> Current Special</h3>
+                  </div>
+                  <div class="panel-body">
+                    {{ $special->content }}
+                  </div>
+                </div>
+    		  <!-- <div class="panel panel-info current-special">
+                <h4 class="clearfix"><i class="fa fa-gift"></i>Current Special:</h4>
+                <div class="current-special-content panel-body">
+                    {{ $special->content }}
+                </div>
+              </div> -->
+            @endforeach
             @if ($featured)
                 <h2 class="text-center">Featured Communities</h2>
                 <div class="row featured-communities">
