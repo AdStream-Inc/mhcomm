@@ -1,3 +1,13 @@
 .pull-left.faded {
   opacity: .2;
 }
+
+#newsletters .table tr.faded {
+  opacity: .2;
+    background: #e74c3c;
+
+    &:hover td,
+    &:nth-child(odd) > td {
+       background: #e74c3c !important;
+    }
+}

@@ -12,9 +12,11 @@
             <span class="end-time"><span class="text-muted">ends:</span> {{ date('M d, Y', strtotime($event->end_date)) }}</span>
           </div>
         </div>
-        <div class="timespan text-muted">
-          {{ $event->start_time . ' - ' . $event->end_time }}
-        </div>
+        @if ($event->start_time || $event->end_time)
+          <div class="timespan text-muted">
+            {{ $event->start_time . ' - ' . $event->end_time }}
+          </div>
+        @endif
         <hr />
         <div class="description push-bottom">{{ $event->description }}</div>
         <div class="recurring-container">

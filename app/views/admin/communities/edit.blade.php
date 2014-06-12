@@ -6,6 +6,9 @@
     <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
     <li><a href="#images" data-toggle="tab">Additional Images</a></li>
     <li><a href="#events" data-toggle="tab">Events</a></li>
+    @if (count($newsletters))
+      <li><a href="#newsletters" data-toggle="tab">Old Newsletters</a></li>
+    @endif
   </ul>
   <div class="modal fade" id="preview-modal">
     <div class="modal-dialog modal-lg">
@@ -199,7 +202,45 @@
         @endif
       </div>
     </div>
-  </div>
+    @if (count($newsletters))
+      <div class="tab-pane" id="newsletters">
+        <div id="newsletter-delete-modal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirm Action</h4>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete this newsletter?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="newsletter-delete-button">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="well clearfix">
+          <div class="panel flush-bottom">
+            <table class="table table-hover table-striped">
+            @foreach ($newsletters as $file)
+              <tr>
+                <td><a target="_blank" href="{{ $file['path'] }}">{{ $file['name'] . '<br />' }}</a></td>
+                <td><button data-path="{{ $file['original'] }}" data-toggle="modal" data-target="#newsletter-delete-modal" type="button" class="close"  aria-hidden="true">&times;</button></td>
+              </tr>
+            @endforeach
+            </table>
+          </div>
+          <hr />
+          {{ Form::submit('Update Community', array('class' => 'btn btn-success pull-right')) }}
+          @if ($isAdmin || $isAdstream)
+            <button class="btn btn-danger pull-right push-right" type="button" data-toggle="modal" data-target="#confirm-delete-modal">Delete Community</button>
+          @endif
+        </div>
+      </div>
+    </div>
+  @endif
   {{ Form::close() }}
 @stop
 

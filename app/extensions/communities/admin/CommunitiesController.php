@@ -8,6 +8,7 @@ use Request;
 use Response;
 use Sentry;
 use Str;
+use File;
 use Adstream\Models\Communities;
 use Adstream\Models\User;
 use Adstream\Controllers\BaseController;
@@ -147,7 +148,24 @@ class CommunitiesController extends BaseController {
         $activeManagers = $community->users()->lists('id');
         $events = $community->communityEvents;
 
-        return View::make('admin.communities.edit', compact('community', 'managers', 'images', 'activeManagers', 'events'));
+        $newslettersDir = public_path() . '/uploads/' . $community->id . '/';
+        $allFiles = File::files($newslettersDir);
+        $newsletters = array();
+
+        foreach ($allFiles as $file) {
+            if (str_contains($file, 'newsletter-' . $community->slug)) {
+                $fullPathName = public_path() . '/uploads/' . $community->id . '/';
+                $fileName = substr($file, strlen($fullPathName) + 1);
+
+                $newsletters[] = array(
+                    'original' => $file,
+                    'name' => $fileName,
+                    'path' => url('/') . '/uploads/' . $community->id . '/' . $fileName
+                );
+            }
+        }
+
+        return View::make('admin.communities.edit', compact('community', 'managers', 'images', 'activeManagers', 'events', 'newsletters'));
     }
 
     public function store()
@@ -220,6 +238,10 @@ class CommunitiesController extends BaseController {
 
             if (Input::get('delete_events')) {
                 $this->deleteEvents();
+            }
+
+            if (Input::get('delete_newsletters')) {
+                $this->deleteNewsletters();
             }
 
 			$message = $result ? 'Community successfully updated!' : 'Your changes are pending approval from an administrator.';
@@ -361,8 +383,16 @@ class CommunitiesController extends BaseController {
         $this->communityEvents->destroy($events);
     }
 
+    private function deleteNewsletters()
+    {
+        $newsletters = Input::get('delete_newsletters');
+
+        foreach ($newsletters as $newsletter) {
+            File::delete($newsletter);
+        }
+    }
+
     private function sqlDate($date) {
         return date('Y-m-d H:m:s', strtotime($date));
     }
-
 }
