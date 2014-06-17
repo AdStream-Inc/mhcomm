@@ -18,7 +18,7 @@
           </div>
           <ul class="nav navbar-nav navbar-right">
             <li @if(Request::is('communities*')) class="active" @endif><a href="{{ url('communities') }}">Communities</a></li>
-            <li @if(Request::is('faq*')) class="active" @endif><a href="{{ url('faq.html') }}">F.A.Q</a></li>
+            <li @if(Request::is('faq*')) class="active" @endif><a href="{{ url('faqs.html') }}">F.A.Q</a></li>
             <li @if(Request::is('contact*')) class="active" @endif><a href="{{ url('contact') }}">Contact</a></li>
           </ul>
         </div>
