@@ -100,6 +100,11 @@
                   <a href="{{ route($adminUrl . '.users.index') }}"><span class="fa fa-users"></span> Users</a>
                 </li>
               @endif
+              @if ($authUser->hasAccess('settings'))
+                <li @if(Request::is($adminUrl . '/coupon*')) class="active" @endif>
+                  <a href="{{ route($adminUrl . '.coupon.index') }}"><span class="fa fa-briefcase"></span> Coupon</a>
+                </li>
+              @endif
             </ul>
             <ul class="nav navbar-nav navbar-right system-nav">
               @if ($authUser->hasAccess('settings'))
