@@ -108,7 +108,7 @@
             })
           }}
           {{ Form::bootwrapped('license_number', 'License Number', function($name){
-              return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'This field will only be visible on Texas communities.'));
+              return Form::text($name, null, array('class' => 'form-control'));
             })
           }}
           {{ Form::bootwrapped('enabled', 'Enabled', function($name){

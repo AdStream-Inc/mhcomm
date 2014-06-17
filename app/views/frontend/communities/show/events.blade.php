@@ -1,5 +1,10 @@
 <div class="row">
-<?php $sortedEvents = $community->communityEvents()->orderBy('start_date', 'asc')->get() ?>
+  <?php
+    $sortedEvents = $community->communityEvents()
+                              ->orderBy('start_date', 'asc')
+                              ->where('end_date', '>=', date('Y-m-d'))
+                              ->get()
+  ?>
 @foreach ($sortedEvents as $event)
   @if ($event->recurring)
     <div class="col-md-12">

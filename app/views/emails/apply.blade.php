@@ -71,10 +71,6 @@
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $income }}</td>
       </tr>
       <tr>
-        <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Down payment</td>
-        <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $down_payment }}</td>
-      </tr>
-      <tr>
         <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Co-purchaser?</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $co_purchaser }}</td>
       </tr>
@@ -82,12 +78,6 @@
         <tr>
           <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Co-purchaser income</td>
           <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $co_purchaser_income }}</td>
-        </tr>
-      @endif
-      @if ($purchase_or_renting == 'Purchasing')
-        <tr>
-          <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Financing needed?</td>
-          <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $financing }}</td>
         </tr>
       @endif
       @if ($purchase_or_renting == 'Purchasing' || $purchase_or_renting == 'Renting')

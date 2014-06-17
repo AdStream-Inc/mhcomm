@@ -11,9 +11,7 @@
 
 @section('content')
   <h1>Specials
-  @if ($authUser->hasAnyAccess(array('specials.create')))
     <a class="btn btn-success pull-right" href="{{ route($adminUrl . '.specials.create') }}"><span class="fa fa-plus"></span> Create</a>
-  @endif
   </h1>
   @if ($specials)
     <div id="datatable"></div>

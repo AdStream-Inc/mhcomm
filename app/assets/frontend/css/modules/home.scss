@@ -4,7 +4,6 @@ body.home {
     position: relative;
     max-height: 500px;
     overflow: hidden;
-    margin-top: -100px;
   }
 
   .hero-image {
@@ -13,9 +12,10 @@ body.home {
 
   .hero-inner {
     position: absolute;
-    left: 50%;
+    left: 0;
+    width: 100%;
     top: 50%;
-    margin-left: -386px;
+    margin-top: -20px;
     text-align: center;
   }
 
@@ -24,7 +24,7 @@ body.home {
     color: #FFF;
     text-transform: uppercase;
     font-weight: 600;
-    font-size: 40px;
+    font-size: 20px;
   }
 
   #map-canvas {
@@ -80,4 +80,39 @@ body.home {
 
   }
 
+}
+
+@media (min-width: 410px) {
+  body.home {
+    .hero-inner {
+      margin-top: -10px;
+    }
+  }
+}
+
+@media (min-width: 550px) {
+  body.home {
+    .hero-title {
+      font-size: 28px;
+    }
+    .hero-inner {
+      margin-top: -15px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  body.home {
+    .hero {
+      margin-top: -100px;
+    }
+
+    .hero-title {
+      font-size: 40px;
+    }
+
+    .hero-inner {
+      margin-top: 0;
+    }
+  }
 }

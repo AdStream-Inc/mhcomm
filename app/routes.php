@@ -10,11 +10,15 @@ Route::post('wysiwyg-upload', 'Adstream\Controllers\WysiwygController@postIndex'
 
 Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs) {
 
-  // Login
+  /**
+   * Login
+   */
   Route::controller('password', $adminNs . 'RemindersController');
   Route::controller(Config::get('site.admin_url') . '/auth', $adminNs . 'AuthController');
 
-  // Admin
+  /**
+   * Admin routes with admin namespace
+   */
   Route::group(
     array(
       'prefix' => Config::get('site.admin_url'),
@@ -22,37 +26,66 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       'before' => 'auth'
     ),
     function() {
+      /**
+       * Revision editing
+       */
       Route::get('revisions/{grouphash}/edit', 'RevisionsController@edit');
       Route::put('revisions/{grouphash}', 'RevisionsController@update');
 
+      /**
+       * Users
+       */
       Route::get('users/list', 'UsersController@listData');
       Route::resource('users', 'UsersController');
 
+      /**
+       * Jobs
+       */
       Route::get('jobs/list', 'JobsController@listData');
       Route::resource('jobs', 'JobsController');
 
+      /**
+       * Specials
+       */
       Route::get('specials/list', 'SpecialsController@listData');
       Route::get('specials/revisions', 'RevisionsController@index');
       Route::get('specials/revisions/list', 'RevisionsController@listSpecialsData');
       Route::resource('specials', 'SpecialsController');
 
+      /**
+       * Communities / community images / community revision
+       */
       Route::get('communities/list', 'CommunitiesController@listData');
-
-	  Route::get('communities/revisions', 'RevisionsController@index');
-	  Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
-
+  	  Route::get('communities/revisions', 'RevisionsController@index');
+  	  Route::get('communities/revisions/list', 'RevisionsController@listCommunitiesData');
       Route::get('communities/images/revisions', 'RevisionsController@index');
-	  Route::get('communities/images/revisions/list', 'RevisionsController@listCommunityImagesData');
-
+	    Route::get('communities/images/revisions/list', 'RevisionsController@listCommunityImagesData');
       Route::resource('communities', 'CommunitiesController');
 
+      /**
+       * Pages
+       */
       Route::resource('pages', 'PagesController');
 
+      /**
+       * Community pages
+       */
       Route::resource('community-pages', 'CommunityPagesController');
       Route::get('community-pages/{id}/copy', 'CommunityPagesController@copy');
 
+      /**
+       * Settings
+       */
       Route::resource('settings', 'SettingsController');
 
+      /**
+       * Settings
+       */
+      Route::resource('coupon', 'CouponController');
+
+      /**
+       * Dashboard
+       */
       Route::get('/', 'DashboardController@getIndex');
     });
 

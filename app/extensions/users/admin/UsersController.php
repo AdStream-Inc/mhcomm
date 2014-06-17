@@ -142,6 +142,10 @@ class UsersController extends BaseController {
             $user->first_name = Input::get('first_name');
             $user->last_name = Input::get('last_name');
 
+            if (Input::get('new_password')) {
+                $user->password = Input::get('new_password');
+            }
+
             $this->assignGroup($user, Input::get('user_group'));
 
             if ($user->save()) {

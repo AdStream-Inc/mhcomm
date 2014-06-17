@@ -23,7 +23,8 @@
                 var html = '<div class="inner">';
                 html += '<h4 class="ib-name flush-bottom">' + this['name'] + '</h4>';
                 html += '<div class="push-bottom"><a href="'+ URL.base + '/communities/' + this['slug'] + '.html' + '">Click for more info</a></div>';
-                html += '<div class="ib-address">' + this['address'];
+                html += '<div class="ib-address">' + this['phone'];
+                html += '<br />' + this['address'];
                 html += '<br />' + this['city'] + ', ' + this['state'];
                 html += '</div><hr />';
                 html += '<div class="ib-office-hours"><strong>Office Hours</strong><br />' + hours + '</div></div>';

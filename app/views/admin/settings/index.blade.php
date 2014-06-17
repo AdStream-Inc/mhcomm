@@ -11,8 +11,8 @@
 
 @section('content')
   <h1>Settings</h1>
-  <div class="panel panel-default">
-    {{ Form::open(array('class' => 'panel-body')) }}
+  <div class="well clearfix">
+    {{ Form::open() }}
       <div class="form-group">
         {{ Form::label('title', 'Site Title', array('class' => 'control-label')) }}
         {{ Form::text('title', $siteTitle, array('class' => 'form-control')) }}

@@ -11,7 +11,9 @@ community-page-{{ $page->name }}
   {{-- {{ Breadcrumbs::render('community_page', $community, $page->getParents(), $page) }} --}}
   <div class="page-title-container clearfix">
     <h1 class="page-title">{{ ucwords(str_replace('_', ' ', $page->name)) . ' <span>' . $community->name . '</span>' }}</h1>
-    <span class="small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
+    @if (count($community->images))
+      <span class="small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
+    @endif
   </div>
 
   @if (count($community->images))

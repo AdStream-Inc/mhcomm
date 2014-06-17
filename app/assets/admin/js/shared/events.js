@@ -19,6 +19,8 @@
         this.watchAddButton();
         this.watchDeleteButton();
         this.watchRecurring();
+        this.watchImageRemoveButton();
+        this.watchPreviewButton();
     }
 
     EventMaker.prototype.bindPlugins = function() {
@@ -48,6 +50,10 @@
         html += '<label>Name</label>';
         html += '<input type="text" name="events[' + rand + '][name]" class="form-control" />';
         html += '</div>'; // end form group
+        html += '<label>Image</label>';
+        html += '<input name="js_new_event_image[' + rand + ']" type="file">';
+        html += '<div class="form-group">';
+        html += '</div>'; // end form block
         html += '<div class="row">';
         html += '<div class="col-md-6">';
         html += '<div class="form-group">'
@@ -127,6 +133,37 @@
         $('#event-add').on('click', function(e) {
             e.preventDefault();
             self.addEvent();
+        });
+    }
+
+    EventMaker.prototype.watchImageRemoveButton = function() {
+        var self = this;
+
+        $('.event-image-remove').on('click', function() {
+            var el = $(this);
+            var parent = el.closest('.event-box');
+
+            el.hide();
+            el.closest('.pull-left').addClass('faded');
+
+            $('.event-image-hidden', parent).val('').removeAttr('disabled');
+        });
+
+        $('.event-file-upload').on('click', function() {
+            var el = $(this);
+            var parent = el.closest('.event-box');
+
+            $('.event-image-hidden', parent).prop('disabled', true);
+        });
+    }
+
+    EventMaker.prototype.watchPreviewButton = function() {
+        $('.event-box .preview-link').on('click', function() {
+            var src = $(this).attr('data-src');
+
+            console.log(src);
+
+            $('#event-preview-modal img').attr('src', src);
         });
     }
 

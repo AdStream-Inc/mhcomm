@@ -31,5 +31,6 @@
     @endforeach
     <hr />
     {{ Form::submit('Submit', array('class' => 'btn btn-success pull-right')) }}
+    <button type="button" class="btn btn-primary pull-right push-right" id="select-all-revisions">Approve All</button>
   {{ Form::close() }}
 @stop

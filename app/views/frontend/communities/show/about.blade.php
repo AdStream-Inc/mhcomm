@@ -1,4 +1,7 @@
 @include('frontend.communities.show.gallery')
+@if (count($community->specials))
+    @include('frontend.communities.show.specials')
+@endif
 <div class="well">
 	<p class="lead">{{ strip_tags($community->description) }}</p>
 </div>

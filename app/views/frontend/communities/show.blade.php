@@ -17,7 +17,9 @@ community-{{ $content }}
         {{ '<span>' . $community->name . '</span>' }}
       @endif
     </h1>
-    <span class="small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
+    @if (count($community->images))
+      <span class="small text-muted gallery-toggle">View Gallery <span class="fa fa-picture-o"></span></span>
+    @endif
   </div>
 
   @if (count($community->images))

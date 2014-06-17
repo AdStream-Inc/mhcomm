@@ -72,22 +72,24 @@
                   @endif
                 </ul>
               </li>
-              <li class="dropdown @if(Request::is($adminUrl . '/specials*')) active @endif">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-asterisk"></span>
-                  Specials
-                  <b class="caret"></b>
-                  @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
-                    <span class="push-half-left label label-danger">{{ $specialsRevisions }}</span>
-                  @endif
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
-                  @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
-                    <li><a class="clearfix" href="{{ url($adminUrl . '/specials/revisions') }}"><span class="pull-left">Revisions</span> <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
-                  @endif
-                </ul>
-              </li>
+              @if ($authUser->hasAnyAccess(array('specials.create', 'specials.delete', 'specials.edit', 'specials.list')))
+                <li class="dropdown @if(Request::is($adminUrl . '/specials*')) active @endif">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="fa fa-asterisk"></span>
+                    Specials
+                    <b class="caret"></b>
+                    @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
+                      <span class="push-half-left label label-danger">{{ $specialsRevisions }}</span>
+                    @endif
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{ route($adminUrl . '.specials.index') }}">Manage Specials</a></li>
+                    @if ($specialsRevisions && $authUser->hasAccess('revisions.list'))
+                      <li><a class="clearfix" href="{{ url($adminUrl . '/specials/revisions') }}"><span class="pull-left">Revisions</span> <span class="revision-label label pull-right label-danger">{{ $specialsRevisions }}</span></a></li>
+                    @endif
+                  </ul>
+                </li>
+              @endif
               @if ($authUser->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list')))
                 <li @if(Request::is($adminUrl . '/jobs*')) class="active" @endif>
                   <a href="{{ route($adminUrl . '.jobs.index') }}"><span class="fa fa-briefcase"></span> Jobs</a>

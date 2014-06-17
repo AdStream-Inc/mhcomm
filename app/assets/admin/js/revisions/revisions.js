@@ -20,4 +20,14 @@
       window.location.reload();
     });
   });
+
+  $('#select-all-revisions').on('click', function() {
+    // WARNING hackish
+
+    $.each($('.btn-group'), function() {
+      var approve = $(this).find('label').eq(1);
+
+      approve.addClass('active').find('input').prop('checked', true).trigger('changed');
+    });
+  });
 })(jQuery, window, document);

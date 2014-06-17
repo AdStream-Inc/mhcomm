@@ -8,6 +8,11 @@
       <div class="row">
         <div class="col-md-12">
           <div class="well clearfix">
+            <h1>Apply Now for Residency</h1>
+            <hr />
+            @include ('frontend.partials.apply')
+          </div>
+          <!-- <div class="well clearfix">
             <h1>Pre-Qualification Application</h1>
             <hr />
             <div class="clearfix">
@@ -169,15 +174,9 @@
             }}
             <hr />
             {{ Form::submit('Submit', array('class' => 'btn btn-success pull-right')) }}
-          </div>
+          </div> -->
         </div>
       </div>
     {{ Form::close() }}
   </div>
-@stop
-
-@section('scripts')
-  <script>
-    var form = new ApplyForm();
-  </script>
 @stop

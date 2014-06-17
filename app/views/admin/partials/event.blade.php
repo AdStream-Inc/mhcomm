@@ -1,3 +1,17 @@
+<div class="modal fade" id="event-preview-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Image Preview</h4>
+      </div>
+      <div class="modal-body text-center">
+        <img class="img-responsive img-thumbnail" />
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="event-form">
   <button type="button" id="event-add" class="btn btn-primary push-bottom">
     <span class="fa fa-plus"></span>
@@ -14,6 +28,21 @@
                   return Form::text($name, $event->name, array('class' => 'form-control'));
                 })
               }}
+              <div class="media">
+                @if ($event->image_url)
+                  <div class="pull-left">
+                    <a href="#" data-toggle="modal" data-target="#event-preview-modal" class="btn btn-xs btn-link preview-link" data-src="{{ $event->image_url }}">Preview Image</a><br />
+                    <button type="button" class="btn btn-xs btn-danger btn-block event-image-remove">Remove</button>
+                    {{ Form::hidden('old_events[' . $event->id . '][image_url]', $event->image_url, array('class' => 'event-image-hidden', 'disabled')) }}
+                  </div>
+                @endif
+                <div class="media-body">
+                  {{ Form::bootwrapped('new_event_image[' . $event->id . ']', 'Image', function($name) {
+                      return Form::file($name, array('class' => 'event-file-upload'));
+                    })
+                  }}
+                </div>
+              </div>
               <div class="row">
                 <div class="col-md-6">
                   {{ Form::bootwrapped('old_events[' . $event->id . '][start_date]', 'Start Date', function($name) use($event){
@@ -23,7 +52,7 @@
                 </div>
                 <div class="col-md-6">
                   {{ Form::bootwrapped('old_events[' . $event->id . '][end_date]', 'End Date', function($name) use($event){
-                      return Form::text($name, $event->end_date, array('class' => 'form-control date'));
+                      return Form::text($name, date('m/d/y', strtotime($event->end_date)), array('class' => 'form-control date'));
                     })
                   }}
                 </div>

@@ -41,7 +41,7 @@
                 </div>
             </div>
             @foreach ($specials as $special)
-                <div class="panel panel-warning">
+                <div class="panel panel-info">
                   <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-gift"></i> Current Special</h3>
                   </div>
@@ -49,12 +49,6 @@
                     {{ $special->content }}
                   </div>
                 </div>
-    		  <!-- <div class="panel panel-info current-special">
-                <h4 class="clearfix"><i class="fa fa-gift"></i>Current Special:</h4>
-                <div class="current-special-content panel-body">
-                    {{ $special->content }}
-                </div>
-              </div> -->
             @endforeach
             @if ($featured)
                 <h2 class="text-center">Featured Communities</h2>

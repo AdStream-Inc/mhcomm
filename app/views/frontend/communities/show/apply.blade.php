@@ -2,6 +2,9 @@
 <div class="row">
   <div class="col-md-12">
     <div class="well clearfix">
+      @include ('frontend.partials.apply')
+    </div>
+    <!-- <div class="well clearfix">
       <div class="clearfix">
         <p class="text-muted pull-right"><span class="text-danger">*</span> required fields</p>
       </div>
@@ -158,7 +161,7 @@
       }}
       <hr />
       {{ Form::submit('Submit', array('class' => 'btn btn-success pull-right')) }}
-    </div>
+    </div> -->
   </div>
 </div>
 {{ Form::close() }}

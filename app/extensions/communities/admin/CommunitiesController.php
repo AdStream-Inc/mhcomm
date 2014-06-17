@@ -236,7 +236,7 @@ class CommunitiesController extends BaseController {
             }
 
             if (Input::get('old_events')) {
-                $this->updateEvents();
+                $this->updateEvents($community);
             }
 
             if (Input::get('delete_events')) {
@@ -343,11 +343,26 @@ class CommunitiesController extends BaseController {
     private function saveEvents($community)
     {
         $events = Input::get('events');
+        $newImages = Input::file('js_new_event_image');
+
+        // this needs to be before events array loop
+        if ($newImages) {
+            foreach ($newImages as $id => $image) {
+                if ($image) {
+                    $events[$id]['image_url'] = $this->saveImage($image, 'event-image-' . $id, $community);
+                }
+            }
+        }
 
         foreach ($events as $event) {
             $event['community_id'] = $community->id;
-            $event['start_date'] = $this->sqlDate($event['start_date']);
-            $event['end_date'] = $this->sqlDate($event['end_date']);
+            if (isset($event['start_date'])) {
+                $event['start_date'] = $this->sqlDate($event['start_date']);
+            }
+
+            if (isset($event['end_date'])) {
+                $event['end_date'] = $this->sqlDate($event['end_date']);
+            }
 
             if (isset($event['recurring'])) {
                 $event['recurring'] = $event['recurring'] == 'on' ? true : false;
@@ -359,15 +374,30 @@ class CommunitiesController extends BaseController {
         }
     }
 
-    private function updateEvents()
+    private function updateEvents($community)
     {
         $events = Input::get('old_events');
+        $newImages = Input::file('new_event_image');
+
+        // this needs to be before events array loop
+        if ($newImages) {
+            foreach ($newImages as $id => $image) {
+                if ($image) {
+                    $events[$id]['image_url'] = $this->saveImage($image, 'event-image-' . $id, $community);
+                }
+            }
+        }
 
         foreach ($events as $id => $data) {
             $event =  $this->communityEvents->find($id);
 
-            $data['start_date'] = $this->sqlDate($data['start_date']);
-            $data['end_date'] = $this->sqlDate($data['end_date']);
+            if (isset($data['start_date'])) {
+                $data['start_date'] = $this->sqlDate($data['start_date']);
+            }
+
+            if (isset($data['end_date'])) {
+                $data['end_date'] = $this->sqlDate($data['end_date']);
+            }
 
             if (isset($data['recurring'])) {
                 $data['recurring'] = $data['recurring'] == 'on' ? true : false;

@@ -46,6 +46,12 @@
           return Form::select($name, $groups, $userGroups, array('class' => 'form-control'));
         })
       }}
+      @if ($isAdmin || $isAdstream)
+        {{ Form::bootwrapped('new_password', 'Reset Password <span class="text-muted">This will override their current password</span>', function($name){
+            return Form::text($name, null, array('class' => 'form-control'));
+          })
+        }}
+      @endif
       <hr />
       {{ Form::submit('Update User', array('class' => 'btn btn-success pull-right')) }}
       @if ($isAdmin || $isAdstream)
