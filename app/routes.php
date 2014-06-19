@@ -120,10 +120,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     return Response::json(\Adstream\Models\Communities::all()->toArray());
   });
 
-  Route::group(array('before' => 'ssl'), function() {
-	  Route::controller('apply', 'ApplyController');
-  });
-
+	Route::controller('apply', 'ApplyController');
   Route::controller('contact', 'ContactController');
 
   // Static pages
