@@ -4,15 +4,12 @@
 
 @section('title', 'Your Source For Community Living')
 
-@section('logo_url', asset('assets/frontend/images/logo-white.png'))
-
 @section('header')
     @parent
     <section role="hero" class="hero">
         <img class="hero-image" src="{{ asset('assets/frontend/images/home/home-hero.png') }}" />
         <div class="hero-inner">
             <h1 class="hero-title">Your Source for Community Living</h1>
-            <!-- <a href="{{ url('communities') }}" class="btn btn-lg btn-info">Find Your Community!</a> -->
         </div>
     </section>
 @stop

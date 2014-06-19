@@ -207,20 +207,22 @@ class RevisionsController extends BaseController {
       // technically we only need the first revision
       // to pull the data we need
       $revision = $hashgroup[0];
-      $model = $this->findModel($hashgroup);
+      if (isset($revision)) {
+        $model = $this->findModel($hashgroup);
 
-      $array = array(
-        'name' => '<a href="' . url($this->adminUrl . '/revisions/' . $hash . '/edit') . '">' . (!empty($model->name) ? $model->name : 'No Name Defined') . '</a>',
-        'count' => $count,
-        'user' => $revision->user->present()->fullName,
-        'created_on' => $revision->present()->createdOn,
-		'action' => $revision->action
-      );
+        $array = array(
+          'name' => '<a href="' . url($this->adminUrl . '/revisions/' . $hash . '/edit') . '">' . (!empty($model->name) ? $model->name : 'No Name Defined') . '</a>',
+          'count' => $count,
+          'user' => $revision->user->present()->fullName,
+          'created_on' => $revision->present()->createdOn,
+  		'action' => $revision->action
+        );
 
-	  if (!empty($revision->parent_type) && !empty($revision->parent_id)){
+  	  if (!empty($revision->parent_type) && !empty($revision->parent_id)){
 
-		  $parent = $revision->parent_type;
-		  $array['parent'] = $parent::find($revision->parent_id)->name;
+  		  $parent = $revision->parent_type;
+  		  $array['parent'] = $parent::find($revision->parent_id)->name;
+      }
 
 	  }
 

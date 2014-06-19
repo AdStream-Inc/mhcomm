@@ -67,7 +67,7 @@ class CommunitiesController extends BaseController {
         ->subject('Community Application Coupon');
     });
 
-    return View::make('frontend.static.thanks');
+    return View::make('frontend.static.apply-thanks', compact('couponData'));
   }
 
   public function show($slug, $content = 'about')

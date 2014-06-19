@@ -32,8 +32,6 @@ body.home {
   }
 
   section[role="content"] {
-    padding-top: 40px;
-
     .toll-free-line {
       padding: 28px 0;
 
@@ -104,7 +102,7 @@ body.home {
 @media (min-width: 768px) {
   body.home {
     .hero {
-      margin-top: -100px;
+      // margin-top: -100px;
     }
 
     .hero-title {

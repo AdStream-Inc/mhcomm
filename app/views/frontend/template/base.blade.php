@@ -39,8 +39,11 @@
     <section role="footer">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-sm-10 pull-right">
-                    <ul class="navbar-nav pull-right">
+                <div class="col-xs-12 col-sm-3">
+                    <span class="copyright">© 2014 <span>mhcomm</span></span>
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    <ul class="list-inline flush-bottom">
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('privacy-policy.html') }}">Privacy Policy</a></li>
                         <li><a href="{{ url('faqs.html') }}">FAQs</a></li>
@@ -50,9 +53,6 @@
                         <li><a href="{{ url('apply') }}">Apply</a></li>
                         <li><a href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">Pay Online</a></li>
                     </ul>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <span class="copyright navbar-left">© 2014 <span>mhcomm</span></span>
                 </div>
             </div>
         </div>

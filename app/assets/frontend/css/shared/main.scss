@@ -36,16 +36,16 @@ h4 {
 	margin-top: 0;
 }
 
-div.page {
+.page {
 	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -80px;
+	// height: auto !important;
+	// height: 100%;
+	// margin: 0 auto -80px;
 }
 
-div.push {
-	height: 80px;
-}
+// div.push {
+// 	height: 80px;
+// }
 
 .well {
 	padding: 15px;
@@ -84,4 +84,8 @@ div.push {
     background: #fff;
     color: $brand-main;
   }
+}
+
+.jumbotron hr {
+  border-color: #aaa;
 }

@@ -10,7 +10,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}"><img src="@yield('logo_url', asset('assets/frontend/images/logo-black.png'))" /></a>
+          <a class="navbar-brand" href="{{ url('/') }}">
+            <img class="visible-xs" src="{{ asset('assets/frontend/images/logo-black.png') }}" />
+            <img class="hidden-xs" src="@yield('logo_url', asset('assets/frontend/images/logo-black.png'))" />
+          </a>
         </div>
         <div class="collapse navbar-collapse" id="main-navbar-collapse">
           <div class="navbar-form navbar-right">
