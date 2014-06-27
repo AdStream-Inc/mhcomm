@@ -1,6 +1,6 @@
 (function($, window, document) {
 
-  function CommunityPages() {
+  function CommunityPages(lastUpdated) {
     /**
      * Instantiate some of our basic selectors
      */
@@ -13,6 +13,12 @@
     this.deleteButton = $('#form-delete');
     this.copyButton = $('#form-copy');
     this.form = $('#pages-form');
+
+    /**
+     * Some globals
+     */
+    this.isManager = window.isManager;
+    this.lastUpdated = lastUpdated;
 
     /**
      * Default vals for some of our inputs
@@ -38,7 +44,7 @@
         defaultVal: '1-col',
         ajaxKey: 'template'
       }
-    }
+    };
 
     /**
      * Initialize the module
@@ -56,10 +62,17 @@
     this.watchCopyTo();
     this.initCommunitySelect();
 
+    console.log(this.lastUpdated);
+    if (this.isManager && !this.lastUpdated) {
+      $('#tree').on('ready.jstree', function() {
+        $('.jstree-anchor').eq(0).trigger('click');
+      });
+    }
+
     $('#community-change').on('click', $.proxy(function() {
       this.initCommunitySelect(true);
     }, this));
-  }
+  };
 
   CommunityPages.prototype.initCommunitySelect = function(override) {
     var override = override || false;
@@ -82,7 +95,7 @@
         $('#community_select').removeClass('in').css('display', 'none');
       });
     }
-  }
+  };
 
   CommunityPages.prototype.watchCopyTo = function() {
     var self = this;
@@ -98,7 +111,7 @@
       console.log(url);
       window.location = url;
     });
-  }
+  };
 
   CommunityPages.prototype.initWysiwyg = function() {
     this.editors = $('.template-section-content').editable({
@@ -109,21 +122,21 @@
       spellcheck: true,
       paragraphy: false
     });
-  }
+  };
 
   CommunityPages.prototype.setActiveTemplate = function(id) {
     var active = $('#' + id);
 
     this.sections.removeClass('active').find('.template-section-content').attr('disabled', 'disabled');
     active.addClass('active').find('.template-section-content').removeAttr('disabled');
-  }
+  };
 
   CommunityPages.prototype.watchTemplate = function() {
     var self = this;
     this.template.on('change', function() {
       self.setActiveTemplate($(this).val());
     });
-  }
+  };
 
   CommunityPages.prototype.watchTreeNode = function() {
     var self = this;
@@ -146,7 +159,7 @@
         self.updateDeleteForm(res.page.id);
       });
     });
-  }
+  };
 
   CommunityPages.prototype.watchSubmitButton = function() {
     this.saveButton.on('click', function() {
@@ -156,7 +169,7 @@
     this.updateButton.on('click', function() {
       $('.template-section-content').editable('sync');
     });
-  }
+  };
 
   CommunityPages.prototype.watchCreateButton = function() {
     var self = this;
@@ -167,13 +180,13 @@
       self.resetSectionData();
       self.clearValidation();
     });
-  }
+  };
 
   CommunityPages.prototype.loadPageData = function(data) {
     $.each(this.pageInputs, function(selector, obj) {
       $(selector).val(data[obj.ajaxKey]);
     });
-  }
+  };
 
   CommunityPages.prototype.resetPageData = function() {
     var self = this;
@@ -182,7 +195,7 @@
     });
 
     this.setActiveTemplate(this.activeTemplate);
-  }
+  };
 
   CommunityPages.prototype.loadSectionData = function(template, data) {
     $('select[name="template"]').trigger('change');
@@ -198,20 +211,23 @@
         .val(this.content)
         .editable('setHTML', this.content);
     });
-  }
+  };
 
   CommunityPages.prototype.resetSectionData = function() {
     $('.template-sections textarea')
       .val('')
       .editable('setHTML', '');
-  }
+  };
 
   CommunityPages.prototype.makeUpdateForm = function(id) {
     this.saveButton.hide();
-    this.updateButton.show()
-    this.createButton.show();
-    this.deleteButton.show();
-    this.copyButton.show();
+    this.updateButton.show();
+
+    if (!this.isManager) {
+      this.createButton.show();
+      this.deleteButton.show();
+      this.copyButton.show();
+    }
 
     var method = '<input type="hidden" name="_method" value="PUT" />';
 
@@ -222,7 +238,7 @@
     if (!$('#form-method').length) {
       this.form.append(method);
     }
-  }
+  };
 
   CommunityPages.prototype.makeCreateForm = function() {
     this.saveButton.show();
@@ -239,11 +255,11 @@
     this.form
       .attr('action', URL.current)
       .addClass('fadeInRight');
-  }
+  };
 
   CommunityPages.prototype.clearValidation = function() {
     $('input[name="name"]').closest('.form-group').removeClass('has-error').find('.help-block').remove();
-  }
+  };
 
   CommunityPages.prototype.getQuery = function(variable) {
     var query = window.location.search.substring(1);
@@ -258,11 +274,11 @@
     }
 
     return false;
-  }
+  };
 
   CommunityPages.prototype.updateDeleteForm = function(id) {
     $('#confirm-delete-modal form').attr('action', URL.current + '/' + id);
-  }
+  };
 
   window.CommunityPages = CommunityPages;
 

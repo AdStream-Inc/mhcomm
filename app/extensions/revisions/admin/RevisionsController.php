@@ -154,6 +154,25 @@ class RevisionsController extends BaseController {
     return Response::json(array('data' => $revisions, 'columns' => $this->getTableFields($revisions)));
   }
 
+  public function listCommunitiesPagesData()
+  {
+    Session::forget('revision_page');
+    Session::put('revision_page', 'community-pages');
+
+    $communityPageRevisions = $this->revisions
+      ->where(function($query) {
+        $query->where('revisionable_type', 'Adstream\Models\CommunityPages')
+              ->orWhere('revisionable_type', 'Adstream\Models\CommunityPageSections');
+      })
+      ->where('approved', false)
+      ->whereIn('user_id', $this->managers)
+      ->get();
+
+    $revisions = $this->presentListData($communityPageRevisions);
+
+    return Response::json(array('data' => $revisions, 'columns' => $this->getTableFields($revisions)));
+  }
+
   public function listCommunityImagesData()
   {
     Session::forget('revision_page');
@@ -215,14 +234,14 @@ class RevisionsController extends BaseController {
           'count' => $count,
           'user' => $revision->user->present()->fullName,
           'created_on' => $revision->present()->createdOn,
-  		'action' => $revision->action
+  		    'action' => $revision->action
         );
 
-  	  if (!empty($revision->parent_type) && !empty($revision->parent_id)){
+    	  if (!empty($revision->parent_type) && !empty($revision->parent_id)){
 
-  		  $parent = $revision->parent_type;
-  		  $array['parent'] = $parent::find($revision->parent_id)->name;
-      }
+    		  $parent = $revision->parent_type;
+    		  $array['parent'] = $parent::find($revision->parent_id)->name;
+        }
 
 	  }
 

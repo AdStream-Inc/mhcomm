@@ -53,18 +53,25 @@ View::composer(Config::get('site.admin_url') . '*', function($view) {
                   ->groupBy('group_hash')
                   ->get()->count();
 
-
+        $communityPagesRevisionCount = Revisions::where(function($query) {
+                    $query->where('revisionable_type', 'Adstream\Models\CommunityPageSections')
+                          ->orWhere('revisionable_type', 'Adstream\Models\CommunityPages');
+                  })
+                  ->where('approved', false)
+                  ->whereIn('user_id', $users)
+                  ->groupBy('group_hash')
+                  ->get()->count();
       } else {
-
         $specialsRevisionCount = 0;
         $communityRevisionCount = 0;
-		$communityImageRevisionCount = 0;
-
+		    $communityImageRevisionCount = 0;
+        $communityPagesRevisionCount = 0;
       }
 
       $view->with('communityRevisions', $communityRevisionCount);
       $view->with('specialsRevisions', $specialsRevisionCount);
       $view->with('communityImageRevisions', $communityImageRevisionCount);
+      $view->with('communityPagesRevisions', $communityPagesRevisionCount);
     }
   }
 });

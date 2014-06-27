@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Validation\Validator;
 use Sentry;
 use DB;
+use Config;
+use Mail;
 
 class BaseRepository extends Eloquent {
   /**
@@ -58,72 +60,57 @@ class BaseRepository extends Eloquent {
   /**
    * Listen for save event
    */
-  protected static function boot(){
-	  
+  protected static function boot()
+  {
     parent::boot();
-	
-	static::creating(function($model) {
-		
-		return $model->executeRevisionObserver('creating');
-		
-	});
-	
-    static::updating(function($model) {
-		
-		return $model->executeRevisionObserver('updating');
-	  
+
+	  static::creating(function($model)
+    {
+  		return $model->executeRevisionObserver('creating');
+  	});
+
+    static::updating(function($model)
+    {
+		  return $model->executeRevisionObserver('updating');
     });
-	
-	static::deleting(function($model) {
 
-		return $model->executeRevisionObserver('deleting');
-
-	});
-	
+  	static::deleting(function($model)
+    {
+  		return $model->executeRevisionObserver('deleting');
+  	});
   }
-  
-  
-  private function executeRevisionObserver($action = null){
-	  
+
+
+  private function executeRevisionObserver($action = null)
+  {
 	  if (empty($action)) return false;
-	  
-      if ($this->isRevisionable) {
-		  
-        $user = Sentry::getUser();
-        $manager = Sentry::findGroupByName('Manager');
 
-        if ($user->inGroup($manager)) {
-			
-		  //if the data is valid, validate will return null
+    if ($this->isRevisionable) {
+      $user = Sentry::getUser();
+      $manager = Sentry::findGroupByName('Manager');
+
+      if ($user->inGroup($manager)) {
+		    //if the data is valid, validate will return null
 	      $isValid = $this->validate() === null ? true : false;
-		  
-		  if ($isValid || $action == 'deleting'){
-			  
-			  $this->saveRevision($action);
-		  
-			  // keep old data values until new value is approved
-			  foreach ($this->originalData as $key => $value) {
-				$this[$key] = $value;
-			  }
-			  
-			  $this->revisionPending = true;
-			  
-		  }
-		  
-		  return false;
-		  
-        } else {
 
-          return $this->validate();
-		  
-        }
-		
+		    if ($isValid || $action == 'deleting') {
+			    $this->saveRevision($action);
+
+  			  // keep old data values until new value is approved
+  			  foreach ($this->originalData as $key => $value) {
+  				  $this[$key] = $value;
+  			  }
+
+			    $this->revisionPending = true;
+		    }
+
+		    return false;
       } else {
-		  
         return $this->validate();
-		
       }
-	  
+    } else {
+      return $this->validate();
+    }
   }
 
   /**
@@ -134,7 +121,7 @@ class BaseRepository extends Eloquent {
     $v = $this->validator->make($this->attributes, static::$rules);
 
     if ($v->passes()) {
-        return null; // this allows the event to pass through to other handlers
+      return null; // this allows the event to pass through to other handlers
     }
 
     $this->setErrors($v->messages());
@@ -145,107 +132,111 @@ class BaseRepository extends Eloquent {
   /**
    * Saves a revision of the changes on the model
    */
-  private function saveRevision($action = null){
-	  
+  private function saveRevision($action = null)
+  {
 	  if (empty($action)) return;
-	  
-      $this->originalData = $this->original;
-      $this->updatedData  = $this->attributes;
-      $this->dirtyData = $this->getDirty();
-      $changes = array();
 
-      // we can only safely compare basic items,
-      // so for now we drop any object based items, like DateTime
-      foreach ($this->updatedData as $key => $val) {
-          if (gettype($val) == 'object') {
-              unset($this->updatedData[$key]);
-          }
-      }
-	  
-      // we can only safely compare basic items,
-      // so for now we drop any object based items, like DateTime
-      foreach ($this->originalData as $key => $val) {
-          if (gettype($val) == 'object') {
-              unset($this->originalData[$key]);
-          }
-      }
+    $this->originalData = $this->original;
+    $this->updatedData  = $this->attributes;
+    $this->dirtyData = $this->getDirty();
+    $changes = array();
 
-      foreach ($this->dirtyData as $key => $value) {
-          if (!isset($this->originalData[$key]) || $this->originalData[$key] != $this->updatedData[$key]) {
-              $changes[$key] = $value;
-          } else {
-              // we don't need these any more, and they could
-              // contain a lot of data, so lets trash them.
-              unset($this->updatedData[$key]);
-              unset($this->originalData[$key]);
-          }
+    // we can only safely compare basic items,
+    // so for now we drop any object based items, like DateTime
+    foreach ($this->updatedData as $key => $val) {
+      if (gettype($val) == 'object') {
+        unset($this->updatedData[$key]);
       }
+    }
 
-      $revisions = array();
-      $groupHash = str_random(20);
+    // we can only safely compare basic items,
+    // so for now we drop any object based items, like DateTime
+    foreach ($this->originalData as $key => $val) {
+      if (gettype($val) == 'object') {
+        unset($this->originalData[$key]);
+      }
+    }
+
+    foreach ($this->dirtyData as $key => $value) {
+      if (!isset($this->originalData[$key]) || $this->originalData[$key] != $this->updatedData[$key]) {
+        $changes[$key] = $value;
+      } else {
+        // we don't need these any more, and they could
+        // contain a lot of data, so lets trash them.
+        unset($this->updatedData[$key]);
+        unset($this->originalData[$key]);
+      }
+    }
+
+    $revisions = array();
+    $groupHash = str_random(20);
 	  $userId = Sentry::getUser()->id;
-	  
+
 	  $parentType = '';
 	  $parentId = '';
-	  
-	  if ($this->revisionableParentType && $this->parentPrimaryKeyReference){
-		  
+
+	  if ($this->revisionableParentType && $this->parentPrimaryKeyReference) {
 		  $parentType = $this->revisionableParentType;
-		  
 		  $primaryKey = $this->parentPrimaryKeyReference;
-		  
 		  $parentId = isset($changes[$primaryKey]) && !empty($changes[$primaryKey]) ? $changes[$primaryKey] : (isset($this->original[$primaryKey]) && !empty($this->original[$primaryKey]) ? $this->original[$primaryKey] : null);
-		  
 	  }
-	  
+
 	  //sort of a hack. if it's a delete and they didn't make any other changes the revision won't be stored
 	  //because the data technically didn't 'change'. we add a random value to the $changes array so we still
 	  //save the revision. it doesn't actually get saved, because the controller on the other end checks the action
 	  //and just deletes the model
-	  if ($action == 'deleting'){
-		  
+	  if ($action == 'deleting') {
 		  $changes = array();
-		  
 		  $this->originalData['deleted'] = true;
 		  $this->updatedData['deleted'] = true;
 		  $changes['deleted'] = true;
-		  
 	  }
-	  
-      foreach ($changes as $key => $change) {
-		  
+
+    foreach ($changes as $key => $change) {
 		  $presenter = isset($this->revisionAttributePresenters) && isset($this->revisionAttributePresenters[$key]) ? $this->revisionAttributePresenters[$key] : '';
-		  
-          $revisions[] = array(
-              'revisionable_type'     => get_class($this),
-			  'parent_type'           => $parentType,
-			  'parent_id'             => $parentId,
-              'revisionable_id'       => $this->getKey(),
-              'key'                   => $key,
-              'old_value'             => array_get($this->originalData, $key),
-              'new_value'             => $this->updatedData[$key],
-              'user_id'               => $userId,
-              'created_at'            => date("Y-m-d H:i:s"),
-              'updated_at'            => date("Y-m-d H:i:s"),
-              'group_hash'            => $groupHash,
-			  'action'				  => $action,
-			  'presenter'			  => $presenter
-          );
-		  
-		  DB::table('revisions')
+      $revisions[] = array(
+            'revisionable_type'     => get_class($this),
+		        'parent_type'           => $parentType,
+		        'parent_id'             => $parentId,
+            'revisionable_id'       => $this->getKey(),
+            'key'                   => $key,
+            'old_value'             => array_get($this->originalData, $key),
+            'new_value'             => $this->updatedData[$key],
+            'user_id'               => $userId,
+            'created_at'            => date("Y-m-d H:i:s"),
+            'updated_at'            => date("Y-m-d H:i:s"),
+            'group_hash'            => $groupHash,
+		        'action'				        => $action,
+		        'presenter'			        => $presenter
+        );
+
+		    DB::table('revisions')
 		  	  ->where('revisionable_type', get_class($this))
 		  	  ->where('revisionable_id', $this->getKey())
-			  ->where('revisionable_id', '<>', 0)
-			  ->where('user_id', $userId)
-			  ->where('key', $key)
-			  ->where('approved', 0)
-			  ->delete();
-      }
+			    ->where('revisionable_id', '<>', 0)
+			    ->where('user_id', $userId)
+			    ->where('key', $key)
+			    ->where('approved', 0)
+			    ->delete();
+    }
 
-      if (count($revisions)) {
-		  
-          DB::table('revisions')->insert($revisions);
-      }
+    if (count($revisions)) {
+      DB::table('revisions')->insert($revisions);
+      $this->emailRevision($groupHash);
+    }
+  }
+
+  /**
+   * Email notification that a revision has been made
+   */
+  private function emailRevision($hashGroup)
+  {
+    Mail::send('emails.revisions', array('hash' => $hashGroup), function($message) {
+      $recipients = explode(',', Config::get('site.revision_emails'));
+      $message->from('test@mhcomm.com', 'MHCOMM - Community Application Form')
+        ->to($recipients)
+        ->subject('MHCOMM - Revision Pending Your Approval');
+    });
   }
 
   /**

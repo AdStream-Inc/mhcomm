@@ -21,6 +21,8 @@
          full: '{{ URL::full() }}',
          admin: '{{ url(Config::get('site.admin_url')) }}'
        };
+
+       var isManager = {{ $isManager ? 1 : 0 }};
     </script>
     {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
   </head>
@@ -40,16 +42,25 @@
 
           <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
-              @if ($authUser->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list')))
+              @if ($isManager && count($authUser->communities))
+                <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+              @endif
+              @if (Adstream\Models\Communities::count() && !$isManager)
                 <li class="dropdown" @if(Request::is($adminUrl . '/pages*')) class="active" @endif>
                   <a data-toggle="dropdown" href="{{ route($adminUrl . '.pages.index') }}">
                     <span class="fa fa-file"></span> Pages <b class="caret"></b>
+                    @if (($communityPagesRevisions) && $authUser->hasAccess('revisions.list'))
+                      <span class="push-half-left label label-danger">{{ $communityPagesRevisions }}</span>
+                    @endif
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a href="{{ route($adminUrl . '.pages.index') }}">Site Pages</a></li>
-                    @if (Adstream\Models\Communities::count())
-                      <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+                    @if ($authUser->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list')))
+                      <li><a href="{{ route($adminUrl . '.pages.index') }}">Site Pages</a></li>
                     @endif
+                    <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
+                    @if ($communityPagesRevisions && $authUser->hasAccess('revisions.list'))
+                      <li><a class="clearfix" href="{{ url($adminUrl . '/community-pages/revisions') }}"><span class="pull-left">Community Pages Updates</span> <span class="revision-label label pull-right label-danger">{{ $communityPagesRevisions }}</span></a></li>
+                  @endif
                   </ul>
                 </li>
               @endif

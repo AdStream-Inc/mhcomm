@@ -51,8 +51,13 @@ class CommunityPagesController extends BaseController {
         $pagesTree = $this->getPagesTree();
         $templatesDropdown = $this->getTemplatesDropdown();
         $templatesDropdown = array('1-col' => array_pull($templatesDropdown, '1-col'));
-        $communitiesDropdown = $this->communities->lists('name', 'id');
         $community = $this->communities->find(Input::get('community_id'));
+
+        if ($this->isManager) {
+            $communitiesDropdown = $this->user->communities->lists('name', 'id');
+        } else {
+            $communitiesDropdown = $this->communities->lists('name', 'id');
+        }
 
         if (empty($this->tree)) {
             Cache::forget('communityLastUpdated');
@@ -80,6 +85,10 @@ class CommunityPagesController extends BaseController {
 
     public function store()
     {
+        if ($this->isManager) {
+            return Redirect::back();
+        }
+
         $page = new $this->model(Input::all());
         $page->slug = Str::slug($page->name);
 
@@ -155,7 +164,11 @@ class CommunityPagesController extends BaseController {
                 $page->url = $this->parsePageUrl($page);
                 $page->save();
 
-                Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
+                if ($this->isManager) {
+                    Alert::success('Your changes are pending approval from an administrator.')->flash();
+                } else {
+                    Alert::success('Page [' . $page->name . '] successfully updated!')->flash();
+                }
                 return Redirect::route($this->adminUrl . '.community-pages.index', array('community_id' => Input::get('community_id')));
             }
         }
@@ -164,6 +177,10 @@ class CommunityPagesController extends BaseController {
     }
 
     public function destroy($id) {
+        if ($this->isManager) {
+            return Redirect::back();
+        }
+
         $page = $this->model->find($id);
 
         if ($this->hasChildren($page)) {

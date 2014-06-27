@@ -12,7 +12,6 @@ class User extends SentryUser implements RemindableInterface {
 
   public function communities()
   {
-	  
     return $this->belongsToMany('\Adstream\Models\Communities', 'communities_users', 'user_id', 'community_id');
   }
 

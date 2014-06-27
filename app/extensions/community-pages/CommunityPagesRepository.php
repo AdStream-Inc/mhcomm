@@ -16,6 +16,10 @@ class CommunityPages extends BaseRepository {
      */
     protected $presenter = 'CommunityPagesPresenter';
 
+    protected $isRevisionable = true;
+    protected $revisionableParentType = 'Adstream\Models\Communities';
+    protected $parentPrimaryKeyReference = 'community_id';
+
     /**
      * Explicitly tell laravel what table to look for
      */
@@ -47,30 +51,30 @@ class CommunityPages extends BaseRepository {
     {
         return $this->hasMany('Adstream\Models\CommunityPageSections', 'page_id');
     }
-	
+
     public function community()
     {
         return $this->belongsTo('Adstream\Models\Communities', 'community_id');
     }
-	
+
 	public function getParents(){
-		
+
 		$parents = array();
-		
+
 		$parent = $this->parent_id;
-		
+
 		while ($parent != 0){
-			
+
 			$thisParent = CommunityPages::find($parent);
-			
+
 			$parents[] = $thisParent;
 			$parent = $thisParent->parent_id;
-			
+
 		}
-		
+
 		return array_reverse($parents);
-		
+
 	}
-	
+
 
 }

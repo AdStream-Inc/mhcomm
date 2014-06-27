@@ -6,7 +6,7 @@ use Adstream\Models\User;
 
 class Communities extends BaseRepository {
 
-    protected $isRevisionable = true;
+  protected $isRevisionable = true;
 
 	protected $revisionAttributePresenters = array(
 		'main_image' => 'getImageHtml'

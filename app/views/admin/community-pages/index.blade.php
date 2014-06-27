@@ -55,7 +55,7 @@
       <div class="well tree-outer">
         <div class="tree-inner">
           <div class="clearfix push-half-bottom">
-            <button class="btn btn-sm btn-block btn-success pull-right @if(isset($communityLastUpdated)) is-visible @endif" id="page-create"><span class="fa fa-plus"> Create</button>
+            <button class="btn btn-sm btn-block btn-success pull-right @if(isset($communityLastUpdated) && !$isManager) is-visible @endif" id="page-create"><span class="fa fa-plus"> Create</button>
           </div>
           <div id="tree">
             @if ($pagesTree)
@@ -124,7 +124,7 @@
           <input type="submit" id="form-save" class="btn btn-success pull-right @if (empty($communityLastUpdated)) is-visible @endif" value="Create Page" />
           <input type="submit" id="form-update" class="btn btn-success pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Update Page" />
           <button data-toggle="modal" data-target="#copy-modal" type="button" id="form-copy" class="btn btn-info pull-right">Copy Page</button>
-          <input data-toggle="modal" data-target="#confirm-delete-modal" type="button" id="form-delete" class="btn btn-danger pull-right @if (isset($communityLastUpdated)) is-visible @endif" value="Delete Page" />
+          <input data-toggle="modal" data-target="#confirm-delete-modal" type="button" id="form-delete" class="btn btn-danger pull-right @if (isset($communityLastUpdated) && !$isManager) is-visible @endif" value="Delete Page" />
         </div>
       {{ Form::close() }}
     </div>
@@ -169,7 +169,7 @@
 
 @section('scripts')
   <script>
-    new CommunityPages();
+      new CommunityPages({{ $communityLastUpdated['id'] }});
   </script>
 
   @if($pagesTree)

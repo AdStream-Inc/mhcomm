@@ -70,8 +70,10 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       /**
        * Community pages
        */
-      Route::resource('community-pages', 'CommunityPagesController');
+      Route::get('community-pages/revisions', 'RevisionsController@index');
+      Route::get('community-pages/revisions/list', 'RevisionsController@listCommunitiesPagesData');
       Route::get('community-pages/{id}/copy', 'CommunityPagesController@copy');
+      Route::resource('community-pages', 'CommunityPagesController');
 
       /**
        * Settings

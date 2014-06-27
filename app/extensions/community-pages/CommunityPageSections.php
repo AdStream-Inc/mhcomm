@@ -4,6 +4,10 @@ use Laracasts\Presenter\PresentableTrait;
 
 class CommunityPageSections extends BaseRepository {
 
+    protected $isRevisionable = true;
+    protected $revisionableParentType = 'Adstream\Models\CommunityPages';
+    protected $parentPrimaryKeyReference = 'page_id';
+
     /**
      * Explicitly tell laravel what table to look for
      */
