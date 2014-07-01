@@ -24,7 +24,7 @@
     <ul class="navigation list-unstyled">
         <li><h5>Information</h5></li>
         <li>{{ link_to('communities/' . $community->slug . '.html', 'About', array('class' => $content == 'about' ? 'active' : '')) }}</li>
-        @if (count($community->images) < 2)
+        @if (count($community->images) < 2 && $community->main_image)
             <li><a href="{{ $community->main_image }}" class="gallery-image-hidden">Gallery</a></li>
         @endif
         <li>{{ link_to('communities/' . $community->slug . '/map.html', 'Map', array('class' => $content == 'map' ? 'active' : '')) }}</li>
