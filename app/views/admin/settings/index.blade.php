@@ -17,10 +17,11 @@
           return Form::text($name, $siteTitle, array('class' => 'form-control'));
         })
       }}
+      <!--
       {{ Form::bootwrapped('revision_emails', 'Recipient(s) for revision updates <span class="text-muted"> - comma separated</span>', function($name){
           return Form::text($name, Config::get('site.revision_emails'), array('class' => 'form-control'));
         })
-      }}
+      }}-->
       <!-- <div class="form-group">
         {{ Form::label('admin_url', 'Admin Url', array('class' => 'control-label')) }}
         {{ Form::text('admin_url', $adminUrl, array('class' => 'form-control')) }}

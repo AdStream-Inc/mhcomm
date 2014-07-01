@@ -222,7 +222,7 @@ class BaseRepository extends Eloquent {
 
     if (count($revisions)) {
       DB::table('revisions')->insert($revisions);
-      $this->emailRevision($groupHash);
+      // $this->emailRevision($groupHash);
     }
   }
 

@@ -2,7 +2,7 @@
   $("#gallery").owlCarousel({
     items: 1,
     margin: 15,
-    loop: true,
+    loop: false,
     dots: false,
     mobileBoost: true,
     responsive: {
@@ -19,13 +19,24 @@
   });
 
   $('.gallery-image').magnificPopup({
-    type: 'image'
+    type: 'image',
+    gallery: {
+      enabled: true,
+      navigateByImgClick: true
+    }
   });
 
+  $('.gallery-image-hidden').magnificPopup({
+    type: 'image',
+    gallery: {
+      enabled: true,
+      navigateByImgClick: true
+    }
+  });
   $('#state-filter').on('change', function() {
     var val = $(this).val();
 
-    if (!val || val == 0) {
+    if (!val || val === 0) {
       window.location = URL.base + '/communities';
     } else {
       window.location.href = URL.current + '?state_filter=' + val;

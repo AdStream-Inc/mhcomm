@@ -17,7 +17,6 @@ class AuthController extends BaseController {
 
   public function getLogin()
   {
-    // dd( \Hash::check('brandon91', \Adstream\Models\User::find(1)->password) );
     return View::make('admin.auth.login');
   }
 
@@ -37,7 +36,7 @@ class AuthController extends BaseController {
         Sentry::authenticate($credentials, false);
       }
 
-      return Redirect::to($this->adminUrl);
+      return Redirect::intended($this->adminUrl);
 
     } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
       Alert::error('Email field is required.')->flash();

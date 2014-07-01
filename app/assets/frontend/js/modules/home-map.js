@@ -59,7 +59,7 @@
                 });
             });
         });
-    }
+    };
 
     window.HomeMap = HomeMap;
 })(jQuery);

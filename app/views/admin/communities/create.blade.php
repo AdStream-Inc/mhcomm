@@ -115,6 +115,20 @@
               return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
             })
           }}
+          <div class="row">
+            <div class="col-md-6">
+              {{ Form::bootwrapped('enabled', 'Enabled', function($name){
+                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('is_featured', 'Featured', function($name){
+                  return Form::select($name, array('1' => 'Yes', '0' => 'No'), null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+          </div>
           <hr />
           {{ Form::submit('Add Community', array('class' => 'btn btn-success pull-right')) }}
       </div>

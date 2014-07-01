@@ -24,6 +24,7 @@
             <li @if(Request::is('faq*')) class="active" @endif><a href="{{ url('faqs.html') }}">F.A.Q</a></li>
             <li @if(Request::is('contact*')) class="active" @endif><a href="{{ url('contact') }}">Contact</a></li>
           </ul>
+          <p class="nav-contact navbar-text navbar-right"><i class="fa fa-phone"></i>1-866-9MHCOMM</p>
         </div>
       </div>
     </div>

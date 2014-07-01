@@ -1,10 +1,10 @@
 <div class="row">
-  <?php
-    $sortedEvents = $community->communityEvents()
-                              ->orderBy('start_date', 'asc')
-                              ->where('end_date', '>=', date('Y-m-d'))
-                              ->get()
-  ?>
+<?php
+  $sortedEvents = $community->communityEvents()
+                    ->where('end_date', '>=', date('Y-m-d'))
+                    ->get();
+?>
+@if (count($sortedEvents))
 @foreach ($sortedEvents as $event)
   @if ($event->recurring)
     <div class="col-md-12">
@@ -67,3 +67,8 @@
   @endif
 @endforeach
 </div>
+@else
+  <div class="well">
+    <p class="flush-bottom">There are no events scheduled at this time. Please check back again at a later date.</p>
+  </div>
+@endif

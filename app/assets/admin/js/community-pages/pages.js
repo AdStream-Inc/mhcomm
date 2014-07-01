@@ -62,7 +62,6 @@
     this.watchCopyTo();
     this.initCommunitySelect();
 
-    console.log(this.lastUpdated);
     if (this.isManager && !this.lastUpdated) {
       $('#tree').on('ready.jstree', function() {
         $('.jstree-anchor').eq(0).trigger('click');
@@ -115,12 +114,34 @@
 
   CommunityPages.prototype.initWysiwyg = function() {
     this.editors = $('.template-section-content').editable({
-      inlineMode: false,
-      borderColor: '#dce4ec',
-      buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'sep', 'html'],
-      height: 150,
-      spellcheck: true,
-      paragraphy: false
+        inlineMode: false,
+        borderColor: '#dce4ec',
+        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'insertImage', 'sep', 'html'],
+        height: 150,
+        spellcheck: true,
+        paragraphy: false,
+        imageUploadURL: URL.base + '/wysiwyg-upload',
+        imageErrorCallback: function(data) {
+            // Bad link.
+            if (data.errorCode == 1) {
+                console.log('bad link');
+            }
+
+            // No link in upload response.
+            else if (data.errorCode == 2) {
+                console.log('no link in upload response');
+            }
+
+            // Error during file upload.
+            else if (data.errorCode == 3) {
+                console.log('error during file upload');
+            }
+
+            // Parsing response failed.
+            else if (data.errorCode == 4) {
+                console.log('parsing response failed');
+            }
+        }
     });
   };
 

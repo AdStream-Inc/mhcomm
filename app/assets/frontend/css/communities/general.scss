@@ -12,7 +12,7 @@
 	}
 
 	.page-title {
-		font-size: 32px;
+		font-size: 22px;
 		font-weight: bold;
 		margin: 0;
 	}
@@ -71,7 +71,7 @@
 		padding: 15px;
 		background: #29211F;
 		border-radius: 4px;
-		margin-bottom: 10px;
+		margin-top: 10px;
 		display: none;
 
 		&.active {
@@ -173,7 +173,9 @@
 	.community {
 		section[role="header"] .contact {
 			margin-right: 35px;
-			font-size: 18px;
+			font-size: 22px;
+			position: relative;
+			top: 6px;
 		}
 	}
 }

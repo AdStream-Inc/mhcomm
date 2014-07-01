@@ -46,6 +46,10 @@ class CommunityPagesController extends BaseController {
 
     public function index()
     {
+        if ($this->isManager) {
+            return Redirect::back();
+        }
+
         $templates = Config::get('templates');
         $pagesDropdown = $this->getPagesDropdown();
         $pagesTree = $this->getPagesTree();

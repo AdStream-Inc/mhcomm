@@ -38,6 +38,18 @@
     margin-left: -15px;
   }
 
+  .nav-contact {
+    position: relative;
+    top: 1px;
+    color: #000;
+    margin-right: 10px !important;
+  }
+
+  .nav-contact .fa {
+    margin-right: 5px;
+    color: $brand-main;
+  }
+
 }
 
 body.home {
@@ -60,9 +72,9 @@ body.home {
 
     .navbar-form {
       margin-left: 15px;
-      padding-right: 0;
       margin-top: 8.5px;
       margin-bottom: 8.5px;
+      padding: 0;
     }
 
     .navbar-nav {

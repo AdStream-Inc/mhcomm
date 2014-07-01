@@ -42,9 +42,11 @@
 
           <div class="collapse navbar-collapse" id="main-nav-collapse">
             <ul class="nav navbar-nav">
+              <!--
               @if ($isManager && count($authUser->communities))
                 <li><a href="{{ route($adminUrl . '.community-pages.index') }}">Community Pages</a></li>
               @endif
+              -->
               @if (Adstream\Models\Communities::count() && !$isManager)
                 <li class="dropdown" @if(Request::is($adminUrl . '/pages*')) class="active" @endif>
                   <a data-toggle="dropdown" href="{{ route($adminUrl . '.pages.index') }}">

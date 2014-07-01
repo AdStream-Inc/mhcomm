@@ -28,7 +28,7 @@ class Communities extends BaseRepository {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id', 'main_image', 'newsletter');
+    protected $fillable = array('name', 'address', 'city', 'state', 'zip', 'phone', 'email', 'description', 'amenities', 'benefits', 'points_of_interest', 'office_hours', 'license_number', 'enabled', 'map_address', 'manager_id', 'main_image', 'newsletter', 'is_featured');
 
     /**
      * Auto validation rules for composer package Way/Database
@@ -76,7 +76,7 @@ class Communities extends BaseRepository {
 
     public function communityEvents()
     {
-      return $this->hasMany('Adstream\Models\CommunityEvents', 'community_id');
+      return $this->hasMany('Adstream\Models\CommunityEvents', 'community_id')->orderBy('start_date', 'asc');
     }
 
     public function sortedEvents()

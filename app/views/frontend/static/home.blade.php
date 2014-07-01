@@ -10,6 +10,7 @@
         <img class="hero-image" src="{{ asset('assets/frontend/images/home/home-hero.png') }}" />
         <div class="hero-inner">
             <h1 class="hero-title">Your Source for Community Living</h1>
+            <a class="hidden-xs btn btn-primary" href="{{ url('communities') }}">Find A Community!</a>
         </div>
     </section>
 @stop
@@ -72,6 +73,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
     <script>
-        new HomeMap();
+        (function($, HomeMap) {
+            $(window).on('load', function() {
+                new HomeMap();
+            });
+        })(jQuery, HomeMap);
     </script>
 @stop
