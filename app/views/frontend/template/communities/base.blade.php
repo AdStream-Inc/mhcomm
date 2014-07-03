@@ -14,7 +14,7 @@ community
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('assets/frontend/images/logo-community.png') }}" /></a>
+          <a class="navbar-brand" href="{{ url('communities') }}"><img src="{{ asset('assets/frontend/images/logo-community.png') }}" /></a>
         </div>
         <div class="collapse navbar-collapse" id="main-navbar-collapse">
           <div class="navbar-form navbar-right">

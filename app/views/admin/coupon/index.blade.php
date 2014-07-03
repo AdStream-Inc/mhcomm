@@ -14,7 +14,7 @@
   <div class="well clearfix">
     {{ Form::open() }}
       {{ Form::bootwrapped('content', 'Coupon Content', function($name) use ($content) {
-          return Form::textarea($name, $content, array('class' => 'form-control', 'rows' => '4'));
+          return Form::textarea($name, $content, array('class' => 'form-control wysiwyg-image', 'rows' => '4'));
         })
       }}
       <hr />

@@ -33,6 +33,11 @@
       navigateByImgClick: true
     }
   });
+
+  $('.event-image-toggle').magnificPopup({
+    type: 'image'
+  });
+
   $('#state-filter').on('change', function() {
     var val = $(this).val();
 
@@ -41,12 +46,6 @@
     } else {
       window.location.href = URL.current + '?state_filter=' + val;
     }
-  });
-
-  $('.gallery-toggle').on('click', function(e) {
-    e.preventDefault();
-
-    $('#gallery').toggleClass('active');
   });
 
   $('#community-list tbody tr').on('click', function() {

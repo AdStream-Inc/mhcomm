@@ -148,23 +148,21 @@ class CommunitiesController extends BaseController {
         $activeManagers = $community->users()->lists('id');
         $events = $community->communityEvents;
 
-        $newslettersDir = public_path() . '/uploads/' . $community->id . '/';
+        $newslettersDir = public_path() . '/uploads/' . $community->id . '/newsletters';
         $allFiles = File::files($newslettersDir);
         $newsletters = array();
 
         foreach ($allFiles as $file) {
-            if (str_contains($file, 'newsletter-' . $community->slug)) {
-                $fullPathName = public_path() . '/uploads/' . $community->id . '/';
-                $fileName = substr($file, strlen($fullPathName) + 1);
-                $path = url('/') . '/uploads/' . $community->id . '/' . $fileName;
+            $fullPathName = public_path() . '/uploads/' . $community->id . '/newsletters/';
+            $fileName = substr($file, strlen($fullPathName));
+            $path = url('/') . '/uploads/' . $community->id . '/newsletters/' . $fileName;
 
-                if ($path != $community->newsletter) {
-                    $newsletters[] = array(
-                        'original' => $file,
-                        'name' => $fileName,
-                        'path' => $path
-                    );
-                }
+            if ($path != $community->newsletter) {
+                $newsletters[] = array(
+                    'original' => $file,
+                    'name' => $fileName,
+                    'path' => $path
+                );
             }
         }
 
@@ -275,6 +273,17 @@ class CommunitiesController extends BaseController {
         return url('uploads') . '/' . $community->id . '/' . $name;
     }
 
+    private function saveNewsletter($file, $name, $community)
+    {
+        $path = public_path() . '/uploads/' . $community->id . '/newsletters/';
+        $extension = $file->getClientOriginalExtension();
+        $extensionLength = strlen($extension) + 1;
+        $name = isset($name) ? substr($name, 0, -($extensionLength)) : Str::random() . '-' . date('Y-m-d');
+        $name = $name . '.' . $extension;
+        $file->move($path, $name);
+        return url('uploads') . '/' . $community->id . '/newsletters/' . $name;
+    }
+
     private function saveMainImage($community)
     {
         $mainImage = Input::file('main_image_file');
@@ -310,12 +319,13 @@ class CommunitiesController extends BaseController {
     {
         $newsletter = Input::file('newsletter_file');
         $extension = strtolower($newsletter->getClientOriginalExtension());
+        $name = $newsletter->getClientOriginalName();
 
         if ($extension != 'pdf') {
            return false;
         }
 
-        return $this->saveImage($newsletter, 'newsletter-' . $community->slug, $community);
+        return $this->saveNewsletter($newsletter, $name, $community);
     }
 
     private function updateCommunityImages()

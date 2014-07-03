@@ -29,7 +29,7 @@ class CommunityPages extends BaseRepository {
      * What table columns can be mass assigned
      * See http://laravel.com/docs/eloquent#mass-assignment
      */
-    protected $fillable = array('name', 'slug', 'template', 'enabled', 'auth_only', 'parent_id', 'community_id');
+    protected $fillable = array('name', 'slug', 'template', 'enabled', 'auth_only', 'parent_id', 'community_id', 'icon');
 
     /**
      * Auto validation rules
@@ -44,7 +44,7 @@ class CommunityPages extends BaseRepository {
 
         // send empty string if not found to prevent
         // php error from throwing
-        return $section ? $section->content : '';
+        return $section->content ?: '';
     }
 
     public function sections()

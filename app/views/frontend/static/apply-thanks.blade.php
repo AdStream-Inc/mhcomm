@@ -12,7 +12,11 @@
         <p>{{ $couponData['content'] }}</p>
         <p>This coupon is valid until the following date: <strong>{{ date('M d, Y', strtotime('+30 days')) }}</strong></p>
         <hr />
-        <a href="{{ url('/') }}" class="btn btn-primary">Go back home</a>
+        @if (Session::has('visited_community'))
+          <a href="{{ url('communities/' . Session::get('visited_community') . '.html') }}" class="btn btn-primary">Go back</a>
+        @else
+          <a href="{{ url('/') }}" class="btn btn-primary">Go back</a>
+        @endif
       </div>
     </div>
   </div>

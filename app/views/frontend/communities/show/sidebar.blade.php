@@ -2,10 +2,10 @@
     <div class="page-title-container clearfix">
         <h1 class="page-title">
           @if (isset($page))
-            {{ ucwords(str_replace('_', ' ', $page->name)) . ' <br /><span>' . $community->name . '</span>' }}
+            {{ '<span>' . $community->name . '</span><br />' . ucwords(str_replace('_', ' ', $page->name)) }}
           @else
               @if ($content != 'about')
-                {{ ucwords(str_replace('_', ' ', $content)) . ' <br /><span>' . $community->name . '</span>' }}
+                {{ '<span>' . $community->name . '</span><br />' . ucwords(str_replace('_', ' ', $content)) }}
               @else
                 {{ '<span>' . $community->name . '</span>' }}
               @endif
@@ -23,15 +23,43 @@
 
     <ul class="navigation list-unstyled">
         <li><h5>Information</h5></li>
-        <li>{{ link_to('communities/' . $community->slug . '.html', 'About', array('class' => $content == 'about' ? 'active' : '')) }}</li>
-        @if (count($community->images) < 2 && $community->main_image)
-            <li><a href="{{ $community->main_image }}" class="gallery-image-hidden">Gallery</a></li>
-        @endif
-        <li>{{ link_to('communities/' . $community->slug . '/map.html', 'Map', array('class' => $content == 'map' ? 'active' : '')) }}</li>
-        <li>{{ link_to('communities/' . $community->slug . '/apply.html', 'Apply Now', array('class' => Request::is('communities/' . $community->slug . '/apply.html') ? 'active' : '')) }}</li>
-        <li>{{ link_to('communities/' . $community->slug . '/contact.html', 'Contact', array('class' => $content == 'contact' ? 'active' : '')) }}</li>
+        <li>
+            <a @if ($content == 'about') class="active" @endif href="{{ url('communities/' . $community->slug . '.html') }}">
+                <span class="fa fa-question-circle sidebar-icon"></span>
+                About
+            </a>
+        </li>
+        <li>
+            <a href="{{ $community->main_image }}" class="gallery-image-hidden">
+                <span class="fa fa-photo sidebar-icon"></span>
+                Gallery
+            </a>
+        </li>
+        <li>
+            <a @if ($content == 'map') class="active" @endif href="{{ url('communities/' . $community->slug . '/map.html') }}">
+                <span class="fa fa-map-marker sidebar-icon"></span>
+                Map
+            </a>
+        </li>
+        <li>
+            <a @if ($content == 'apply') class="active" @endif href="{{ url('communities/' . $community->slug . '/apply.html') }}">
+                <span class="fa fa-file sidebar-icon"></span>
+                Apply
+            </a>
+        </li>
+        <li>
+            <a @if ($content == 'contact') class="active" @endif href="{{ url('communities/' . $community->slug . '/contact.html') }}">
+                <span class="fa fa-envelope sidebar-icon"></span>
+                Contact Us
+            </a>
+        </li>
         @if ($community->communityEvents)
-            <li>{{ link_to('communities/' . $community->slug . '/events.html', 'Events', array('class' => $content == 'events' ? 'active' : '')) }}</li>
+           <li>
+                <a @if ($content == 'events') class="active" @endif href="{{ url('communities/' . $community->slug . '/events.html') }}">
+                    <span class="fa fa-calendar sidebar-icon"></span>
+                    Events
+                </a>
+            </li>
         @endif
         @if ($pages = $community->getPages(0))
             <li class="push-top"><h5>Pages</h5></li>
@@ -44,16 +72,21 @@
         {{ nl2br($community->office_hours) }}
     </div>
     @if ($community->newsletter)
-        <a href="{{ $community->newsletter }}" target="_blank" class="btn btn-default btn-block push-bottom">
-            <span class="fa fa-file-pdf-o button-icon-nudge-right"></span>
-            View Newsletter
-        </a>
+        <div class="push-bottom">
+            <a href="{{ $community->newsletter }}" target="_blank" class="btn btn-default btn-block">
+                <span class="fa fa-file-pdf-o button-icon-nudge-right"></span>
+                View Newsletter
+            </a>
+            @if (count($newsletters))
+                <a href="{{ url('communities/' . $community->slug . '/newsletters.html') }}" class="small text-center btn-block text-primary">View Previous Newsletters</a>
+            @endif
+        </div>
     @endif
-    <a class="btn btn-default btn-block push-bottom" href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">
+    <a class="btn btn-primary btn-block push-bottom" href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">
         <span class="fa fa-credit-card button-icon-nudge-right"></span>
         Pay Online
     </a>
     @if ($community->license_number)
-        <p class="text-center small">Housing License # {{ $community->license_number }}</p>
+        <p class="text-center small">{{ $community->license_number }}</p>
     @endif
 </div>

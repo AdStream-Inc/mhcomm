@@ -23,6 +23,7 @@ class ApplyController extends BaseController {
   public function postIndex()
   {
     $fields = array_except(Input::all(), array('_token'));
+    $community = Communities::where('name', $fields['community'])->first();
 
     Mail::send('emails.apply', $fields, function($message) use ($fields) {
       $message
@@ -33,7 +34,7 @@ class ApplyController extends BaseController {
 
     $content = $this->coupon->first()->content;
     $couponData = array(
-      'phone' => $fields['phone'],
+      'phone' => $community->phone,
       'location' => $fields['community'],
       'content' => $content
     );

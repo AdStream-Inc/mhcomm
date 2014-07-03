@@ -43,6 +43,10 @@
       'select[name="template"]': {
         defaultVal: '1-col',
         ajaxKey: 'template'
+      },
+      'input[name="icon"]': {
+        defaultVal: '',
+        ajaxKey: 'icon'
       }
     };
 

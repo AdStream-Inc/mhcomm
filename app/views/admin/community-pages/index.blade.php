@@ -78,10 +78,20 @@
               return Form::text($name, $communityLastUpdated['name'] ?: null, array('class' => 'form-control'));
             })
           }}
-          {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $communityLastUpdated){
-              return Form::select($name, $pagesDropdown, $communityLastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
-            })
-          }}
+          <div class="row">
+            <div class="col-md-6">
+              {{ Form::bootwrapped('parent_id', 'Parent Page', function($name) use($pagesDropdown, $communityLastUpdated){
+                  return Form::select($name, $pagesDropdown, $communityLastUpdated['parent_id'] ?: null, array('class' => 'form-control'));
+                })
+              }}
+            </div>
+            <div class="col-md-6">
+              {{ Form::bootwrapped('icon', 'Page Icon - <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/" class="text-muted">Font Awesome</a>', function($name) use($communityLastUpdated){
+                  return Form::text($name, $communityLastUpdated['icon'] ?: null, array('class' => 'form-control', 'placeholder' => 'Example: fa-square'));
+                })
+              }}
+            </div>
+          </div>
 
           {{ Form::hidden('community_id', Input::get('community_id'), array('class' => 'form-control')) }}
 
