@@ -81,7 +81,12 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::resource('settings', 'SettingsController');
 
       /**
-       * Settings
+       * Applicants
+       */
+      Route::resource('applications', 'ApplicationsController');
+
+      /**
+       * Coupon
        */
       Route::resource('coupon', 'CouponController');
 

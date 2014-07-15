@@ -39,6 +39,18 @@ class ApplyController extends BaseController {
       'content' => $content
     );
 
+    $applicantFields = array(
+      'first_name' => $fields['first_name'],
+      'last_name' => $fields['last_name'],
+      'email' => $fields['email'],
+      'phone' => $fields['phone'],
+      'community' => $fields['community'],
+      'created_at' => date('Y-m-d H:i:s'),
+      'updated_at' => date('Y-m-d H:i:s')
+    );
+
+    $this->saveApplication($applicantFields);
+
     Mail::send('emails.coupon', $couponData, function($message) use ($fields) {
       $message
         ->from('test@mhcomm.com', 'MHCOMM - Application Coupon')

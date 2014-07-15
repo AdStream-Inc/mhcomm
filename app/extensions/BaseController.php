@@ -2,6 +2,7 @@
 
 use Config;
 use Sentry;
+use DB;
 
 class BaseController extends \Controller {
 
@@ -21,5 +22,13 @@ class BaseController extends \Controller {
       $this->isManager = $this->user->inGroup($managerGroup);
       $this->isSuperManager = $this->user->inGroup($superManagerGroup);
     }
+  }
+
+  public function saveApplication($data) {
+    DB::table('applicants')->insert($data);
+  }
+
+  public function getApplications($fromData, $toDate) {
+
   }
 }

@@ -124,6 +124,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Prologue\Alerts\AlertsServiceProvider',
 		'DaveJamesMiller\Breadcrumbs\ServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
 	),
 
 	/*
@@ -193,5 +194,6 @@ return array(
 		'Alert' 					=> 'Prologue\Alerts\Facades\Alert',
 		'Debugbar' 				=> 'Barryvdh\Debugbar\Facade',
 		'Breadcrumbs' 	  => 'DaveJamesMiller\Breadcrumbs\Facade',
+		'Excel' 					=> 'Maatwebsite\Excel\Facades\Excel',
 	),
 );

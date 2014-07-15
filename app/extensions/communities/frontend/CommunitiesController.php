@@ -21,6 +21,8 @@ class CommunitiesController extends BaseController {
 
   public function __construct(Communities $communities, CommunityPages $communityPages, Coupon $coupon)
   {
+    parent::__construct();
+
     $this->communities = $communities;
     $this->communityPages = $communityPages;
     $this->coupon = $coupon;
@@ -69,6 +71,18 @@ class CommunitiesController extends BaseController {
         ->to('brandon@adstreaminc.com')
         ->subject('Community Application Coupon');
     });
+
+    $applicantFields = array(
+      'first_name' => $fields['first_name'],
+      'last_name' => $fields['last_name'],
+      'email' => $fields['email'],
+      'phone' => $fields['phone'],
+      'community' => $fields['community'],
+      'created_at' => date('Y-m-d H:i:s'),
+      'updated_at' => date('Y-m-d H:i:s')
+    );
+
+    $this->saveApplication($applicantFields);
 
     return View::make('frontend.static.apply-thanks', compact('couponData'));
   }
