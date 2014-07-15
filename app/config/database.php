@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'mhcomm',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'pdZzq0TFIa',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
