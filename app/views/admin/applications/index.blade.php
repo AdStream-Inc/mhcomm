@@ -7,6 +7,13 @@
       {{ Alert::first('success') }}
     </div>
   @endif
+
+  @foreach (Alert::all() as $alert)
+    <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{ $alert }}
+    </div>
+  @endforeach
 @stop
 
 @section('content')

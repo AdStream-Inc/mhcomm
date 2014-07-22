@@ -118,11 +118,13 @@
                   <a href="{{ route($adminUrl . '.coupon.index') }}"><span class="fa fa-briefcase"></span> Coupon</a>
                 </li>
               @endif
+              {{--
               @if ($authUser->hasAccess('settings'))
                 <li @if(Request::is($adminUrl . '/applications*')) class="active" @endif>
                   <a href="{{ route($adminUrl . '.applications.index') }}"><span class="fa fa-briefcase"></span> Reports</a>
                 </li>
               @endif
+              --}}
             </ul>
             <ul class="nav navbar-nav navbar-right system-nav">
               @if ($authUser->hasAccess('settings'))

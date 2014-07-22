@@ -34,9 +34,9 @@ App::after(function($request, $response)
 */
 
 Route::filter('ssl', function(){
-	
+
 	if (!Request::secure() && App::environment('production')) return Redirect::secure(Request::getRequestUri());
-	
+
 });
 
 Route::filter('auth', function()
@@ -54,16 +54,22 @@ Route::filter('install', function() {
   if (!Config::get('site.installed')) return Redirect::to('installer');
 });
 
-Route::filter('permissions.users', function()
-{
+/**
+ * Users url filer
+ */
+Route::filter('permissions.users', function() {
 	$user = Sentry::getUser();
-	if (!$user->hasAnyAccess(array('users.create', 'users.delete'))) return Redirect::route(Config::get('site.admin_url') . '.users.index');
+	if (!$user->hasAnyAccess(array('users.create', 'users.delete', 'users.list', 'users.edit'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
 });
 
-Route::when(Config::get('site.admin_url') . '/users/create', 'permissions.users');
+Route::when(Config::get('site.admin_url') . '/users*', 'permissions.users');
 
-Route::filter('permissions.pages', function()
-{
+/**
+ * Pages url filer
+ */
+Route::filter('permissions.pages', function() {
 	$user = Sentry::getUser();
 	if (!$user->hasAnyAccess(array('pages.create', 'pages.delete', 'pages.edit', 'pages.list'))) {
 		return Redirect::to(Config::get('site.admin_url'));
@@ -72,8 +78,10 @@ Route::filter('permissions.pages', function()
 
 Route::when(Config::get('site.admin_url') . '/pages*', 'permissions.pages');
 
-Route::filter('permissions.jobs', function()
-{
+/**
+ * Jobs url filer
+ */
+Route::filter('permissions.jobs', function() {
 	$user = Sentry::getUser();
 	if (!$user->hasAnyAccess(array('jobs.create', 'jobs.delete', 'jobs.edit', 'jobs.list'))) {
 		return Redirect::to(Config::get('site.admin_url'));
@@ -81,6 +89,42 @@ Route::filter('permissions.jobs', function()
 });
 
 Route::when(Config::get('site.admin_url') . '/jobs*', 'permissions.jobs');
+
+/**
+ * Specials url filer
+ */
+Route::filter('permissions.specials', function() {
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('specials.edit', 'specials.list', 'specials.create', 'specials.delete'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
+});
+
+Route::when(Config::get('site.admin_url') . '/specials*', 'permissions.specials');
+
+/**
+ * Coupon url filer
+ */
+Route::filter('permissions.coupons', function() {
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('coupons'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
+});
+
+Route::when(Config::get('site.admin_url') . '/coupon', 'permissions.coupons');
+
+/**
+ * Reports url filer
+ */
+Route::filter('permissions.reports', function() {
+	$user = Sentry::getUser();
+	if (!$user->hasAnyAccess(array('reports'))) {
+		return Redirect::to(Config::get('site.admin_url'));
+	}
+});
+
+Route::when(Config::get('site.admin_url') . '/applications', 'permissions.reports');
 
 /*
 |--------------------------------------------------------------------------
