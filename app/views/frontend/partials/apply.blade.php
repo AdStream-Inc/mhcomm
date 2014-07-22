@@ -157,7 +157,6 @@
 
 
 @section('scripts')
-  @parent
   <script>
     var form = new ApplyForm();
   </script>
