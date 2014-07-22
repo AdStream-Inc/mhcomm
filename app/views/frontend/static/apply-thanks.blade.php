@@ -7,10 +7,11 @@
     <div class="well">
       <div class="jumbotron flush-bottom">
         <h2><strong>Thanks for applying to {{ $couponData['location'] }}!</strong></h2>
-        <p>As a token of our gratitude here is a coupon on behalf of {{ $couponData['location'] }}. For questions regarding this coupon please call {{ $couponData['location'] }} at {{ $couponData['phone'] }}</p>
+        <p>As a token of our gratitude here is a coupon on behalf of {{ $couponData['location'] }}.</p>
         <hr />
         <p>{{ $couponData['content'] }}</p>
         <p>This coupon is valid until the following date: <strong>{{ date('M d, Y', strtotime('+30 days')) }}</strong></p>
+        <p>For questions regarding this coupon please call {{ $couponData['location'] }} at {{ $couponData['phone'] }}</p>
         <hr />
         @if (Session::has('visited_community'))
           <a href="{{ url('communities/' . Session::get('visited_community') . '.html') }}" class="btn btn-primary">Go back</a>
