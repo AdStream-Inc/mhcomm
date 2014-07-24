@@ -51,10 +51,10 @@ class CommunitiesController extends BaseController {
     $fields = array_except(Input::all(), array('_token'));
     $community = Communities::where('name', $fields['community'])->first();
 
-    Mail::send('emails.apply', $fields, function($message) use ($fields) {
+    Mail::send('emails.apply', $fields, function($message) use ($fields, $community) {
       $message
-        ->from('test@mhcomm.com', 'MHCOMM - Community Application Form')
-        ->to('brandon@adstreaminc.com')
+        ->from('hello@mhcomm.com', 'MHCOMM - Community Application Form')
+        ->to(explode(',', $community->email))
         ->subject('Community Application Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
 
@@ -67,8 +67,8 @@ class CommunitiesController extends BaseController {
 
     Mail::send('emails.coupon', $couponData, function($message) use ($fields) {
       $message
-        ->from('test@mhcomm.com', 'MHCOMM - Application Coupon')
-        ->to('brandon@adstreaminc.com')
+        ->from('hello@mhcomm.com', 'MHCOMM - Application Coupon')
+        ->to($fields['email'])
         ->subject('Community Application Coupon');
     });
 
@@ -157,7 +157,7 @@ class CommunitiesController extends BaseController {
     Mail::send('emails.contact', $fields, function($message) use ($fields) {
       $sendTo = explode(',', $fields['send_to']);
       $message
-        ->from('test@mhcomm.com', 'MHCOMM - Community Contact Form')
+        ->from('hello@mhcomm.com', 'MHCOMM - Community Contact Form')
         ->to($sendTo)
         ->subject('Community Contact Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });

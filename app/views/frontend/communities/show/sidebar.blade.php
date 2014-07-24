@@ -82,7 +82,7 @@
             @endif
         </div>
     @endif
-    <a class="btn btn-primary btn-block push-bottom" href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">
+    <a target="_blank" class="btn btn-primary btn-block push-bottom" href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}">
         <span class="fa fa-credit-card button-icon-nudge-right"></span>
         Pay Online
     </a>

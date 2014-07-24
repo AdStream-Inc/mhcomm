@@ -31,7 +31,7 @@
                         <h2>About Us</h2>
                         <p>We are your source to find your next home. Please take some time to browse through our member communities. If you have any questions don’t hesitate to call the community office, they are ready to help you.</p>
                     </div>
-                    <a href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}" class="btn btn-primary btn-large col-xs-12 push-bottom">Pay Online</a>
+                    <a target="_blank" href="{{ url('https://www.paylease.com/index_out.php?pm_id=4849579') }}" class="btn btn-primary btn-large col-xs-12 push-bottom">Pay Online</a>
                     <div class="toll-free-line text-center">
                         <p class="flush-bottom">Toll Free Information Line:</p>
                         <span class="phone">1-866-9MHCOMM</span>

@@ -68,6 +68,10 @@
       </div>
     </div>
     <hr />
+    {{ Form::bootwrapped('type', 'Why are you reaching out to us?', function($name){
+        return Form::select($name, array('comment' => 'Comment', 'question' => 'Question', 'complaint' => 'Complaint', 'other' => 'Other'), null, array('class' => 'form-control'));
+      })
+    }}
     {{ Form::bootwrapped('comments', 'Questions or comments', function($name){
         return Form::textarea($name, null, array('class' => 'form-control', 'rows' => 6));
       })

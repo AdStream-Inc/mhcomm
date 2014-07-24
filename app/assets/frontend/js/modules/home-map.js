@@ -1,7 +1,7 @@
 (function($) {
 
     function HomeMap() {
-        this.map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 4});
+        this.map = new google.maps.Map(document.getElementById("map-canvas"), {zoom: 5});
         this.geocoder = new google.maps.Geocoder();
         this.ib = new InfoBox();
 

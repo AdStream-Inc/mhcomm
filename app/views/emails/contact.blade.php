@@ -15,6 +15,10 @@
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $community or 'MHCOMM' }}</td>
       </tr>
       <tr>
+        <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">Reason</td>
+        <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $type }}</td>
+      </tr>
+      <tr>
         <td style="padding: 10px; background-color: #eee; border-bottom: 1px solid #fff;" width="30%">First name</td>
         <td style="padding: 10px; border-bottom: 1px solid #ddd;">{{ $first_name }}</td>
       </tr>
