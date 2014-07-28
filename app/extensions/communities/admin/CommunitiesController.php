@@ -301,6 +301,9 @@ class CommunitiesController extends BaseController {
         foreach ($images as $key => $file) {
             if (isset($file)) {
                 $title = $titles[$key];
+                if (empty($title)) {
+                    $title = Str::random();
+                }
                 $slug = Str::slug($title);
                 $extension = strtolower($file->getClientOriginalExtension());
 
