@@ -49,10 +49,16 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
-	
-  //if (App::environment('production')) {
-    //return Response::view('errors.missing', array(), 404);
-  //}
+
+  if (App::environment('production')) {
+    switch ($code) {
+      case 404:
+        return Response::view('errors.missing', array(), 404);
+
+      case 500:
+        return Response::view('errors.error', array(), 500);
+    }
+  }
 });
 
 /*
