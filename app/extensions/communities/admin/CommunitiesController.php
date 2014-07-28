@@ -185,8 +185,11 @@ class CommunitiesController extends BaseController {
         }
 
         if ($community->save()) {
-            $community->users()->sync(Input::get('managers'));
-            if (Input::get('image_titles')) {
+            if (Input::has('managers')) {
+                $community->users()->sync(Input::get('managers'));
+            }
+
+            if (Input::has('image_titles')) {
                 $this->saveCommunityImages($community);
             }
 
