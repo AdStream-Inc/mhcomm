@@ -270,7 +270,7 @@ class CommunitiesController extends BaseController {
     {
         $path = public_path() . '/uploads/' . $community->id . '/';
         $extension = $file->getClientOriginalExtension();
-        $name = isset($name) ? $name . '-' . date('Y-m-d-H-m-s') : Str::random() . '-' . date('Y-m-d-H-m-s');
+        $name = !empty($name) ? $name . '-' . date('Y-m-d-H-m-s') : Str::random() . '-' . date('Y-m-d-H-m-s');
         $name = $name . '.' . $extension;
         $file->move($path, $name);
         return url('uploads') . '/' . $community->id . '/' . $name;
@@ -300,11 +300,7 @@ class CommunitiesController extends BaseController {
         $titles = Input::get('image_titles');
         foreach ($images as $key => $file) {
             if (isset($file)) {
-                $title = $titles[$key];
-
-                if (empty($title)) {
-                    $title = $file->getClientOriginalName();
-                }
+                $title = $titles[$key] ?: '';
 
                 $slug = Str::slug($title);
                 $extension = strtolower($file->getClientOriginalExtension());
