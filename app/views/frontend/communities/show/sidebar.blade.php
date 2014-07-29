@@ -30,7 +30,11 @@
             </a>
         </li>
         <li>
-            <a href="{{ $community->main_image }}" class="gallery-image-hidden">
+            @if ($community->main_image)
+                <a href="{{ $community->main_image }}" class="gallery-image-hidden">
+            @else
+                <a href="{{ $community->images->first()->path }}" class="gallery-image-hidden">
+            @endif
                 <span class="fa fa-photo sidebar-icon"></span>
                 Gallery
             </a>

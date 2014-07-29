@@ -37,7 +37,7 @@ class CommunitiesController extends BaseController {
       $communities = $this->communities->all()->sortBy('name');
     }
     $communityStates = $this->communities->lists('state', 'state');
-    array_unshift($communityStates, '[ Filter by State ]');
+    array_unshift($communityStates, '-- Filter by State --');
     return View::make('frontend.communities.index', compact('communities', 'communityStates'));
   }
 

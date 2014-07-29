@@ -15,6 +15,7 @@
 
         $.get(URL.current + '/home-map', function(res) {
             var markers = [];
+            var bounds = new google.maps.LatLngBounds ();
 
             $.each(res, function() {
                 var mapAddress = this['map_address'];
@@ -32,6 +33,8 @@
                 self.geocoder.geocode({ address: mapAddress }, function(res) {
                     if (res && res.length) {
                         var location = res[0].geometry.location;
+
+                        bounds.extend(location);
 
                         var marker = new google.maps.Marker({
                             map: self.map,
@@ -54,7 +57,7 @@
                         });
 
                         markers.push(location);
-                        self.map.setCenter(markers[0]);
+                        self.map.fitBounds(bounds);
                     }
                 });
             });
