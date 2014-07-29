@@ -107,7 +107,7 @@ Route::when(Config::get('site.admin_url') . '/specials*', 'permissions.specials'
  */
 Route::filter('permissions.coupons', function() {
 	$user = Sentry::getUser();
-	if (!$user->hasAnyAccess(array('coupons'))) {
+	if (!$user->hasAnyAccess(array('settings'))) {
 		return Redirect::to(Config::get('site.admin_url'));
 	}
 });
@@ -119,7 +119,7 @@ Route::when(Config::get('site.admin_url') . '/coupon', 'permissions.coupons');
  */
 Route::filter('permissions.reports', function() {
 	$user = Sentry::getUser();
-	if (!$user->hasAnyAccess(array('reports'))) {
+	if (!$user->hasAnyAccess(array('settings'))) {
 		return Redirect::to(Config::get('site.admin_url'));
 	}
 });
