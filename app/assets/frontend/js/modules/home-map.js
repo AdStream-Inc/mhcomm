@@ -18,8 +18,8 @@
             var bounds = new google.maps.LatLngBounds ();
 
             $.each(res, function() {
-                var mapAddress = this['map_address'];
-                var hours = this['office_hours'].replace(/(?:\r\n|\r|\n)/g, '<br />');
+                var mapAddress = this.map_address.replace(/\s+/g, '').split(',');
+                var hours = this.office_hours.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
                 var html = '<div class="inner">';
                 html += '<h4 class="ib-name flush-bottom">' + this['name'] + '</h4>';
@@ -30,37 +30,33 @@
                 html += '</div><hr />';
                 html += '<div class="ib-office-hours"><strong>Office Hours</strong><br />' + hours + '</div></div>';
 
-                self.geocoder.geocode({ address: mapAddress }, function(res) {
-                    if (res && res.length) {
-                        var location = res[0].geometry.location;
-
-                        bounds.extend(location);
-
-                        var marker = new google.maps.Marker({
-                            map: self.map,
-                            position: location,
-                            html: html
-                        });
-
-                        google.maps.event.addListener(marker, "click", function (e) {
-                            self.ib.close();
-                            self.ib.setOptions({
-                                content: this.html,
-                                pixelOffset: new google.maps.Size(-160, 0),
-                                boxStyle: {
-                                    background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.12/examples/tipbox.gif') no-repeat 20px 0"
-                                },
-                                closeBoxMargin: '10px 10px',
-                                infoBoxClearance: new google.maps.Size(1, 1)
-                            });
-                            self.ib.open(this.map, this);
-                        });
-
-                        markers.push(location);
-                        self.map.fitBounds(bounds);
-                    }
+                var latlng = new google.maps.LatLng(mapAddress[0], mapAddress[1]);
+                var marker = new google.maps.Marker({
+                    map: self.map,
+                    position: latlng,
+                    html: html
                 });
+
+                bounds.extend(latlng);
+
+                google.maps.event.addListener(marker, "click", function (e) {
+                    self.ib.close();
+                    self.ib.setOptions({
+                        content: this.html,
+                        pixelOffset: new google.maps.Size(-160, 0),
+                        boxStyle: {
+                            background: "url('http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.12/examples/tipbox.gif') no-repeat 20px 0"
+                        },
+                        closeBoxMargin: '10px 10px',
+                        infoBoxClearance: new google.maps.Size(1, 1)
+                    });
+                    self.ib.open(this.map, this);
+                });
+
+                markers.push(location);
             });
+
+            self.map.fitBounds(bounds);
         });
     };
 

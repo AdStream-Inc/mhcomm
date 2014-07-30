@@ -54,7 +54,7 @@
             </div>
           </div>
           {{ Form::bootwrapped('map_address', 'Map Display Address', function($name){
-              return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'The address that should be shown on the interactive map.'));
+              return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'Latitude follow by Longitude. Comma separated.'));
             })
           }}
           <hr />
