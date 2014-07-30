@@ -8,7 +8,7 @@
             @foreach ($community->specials as $key => $special)
                 <li class="flush-bottom">
                 	<h3>{{ $special->name }}</h3>
-                  <p>{{ strip_tags($special->content) }}</p>
+                  <p>{{ $special->content }}</p>
                   @if ($key != (count($community->specials) - 1))
                     <hr />
                   @endif
