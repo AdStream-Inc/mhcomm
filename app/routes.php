@@ -96,6 +96,13 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::get('/', 'DashboardController@getIndex');
     });
 
+  Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
+    Route::get('/', function($prefix) {
+      dd($prefix);
+    });
+  });
+
+
   Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {
 
     Route::get('/', 'CommunitiesController@index');

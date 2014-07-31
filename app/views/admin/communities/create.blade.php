@@ -10,10 +10,20 @@
   <div class="tab-content">
     <div class="tab-pane active" id="details">
       <div class="well clearfix">
-          {{ Form::bootwrapped('name', 'Community Name', function($name){
-              return Form::text($name, null, array('class' => 'form-control'));
-            })
-          }}
+        <div class="row">
+          <div class="col-md-8">
+            {{ Form::bootwrapped('name', 'Community Name', function($name){
+                return Form::text($name, null, array('class' => 'form-control'));
+              })
+            }}
+          </div>
+          <div class="col-md-4">
+            {{ Form::bootwrapped('subdomain', 'Subdomain Prefix', function($name){
+                return Form::text($name, null, array('class' => 'form-control'));
+              })
+            }}
+          </div>
+        </div>
           <div class="row">
             <div class="col-md-6">
               {{ Form::bootwrapped('main_image_file', 'Main Image (png, jpg, gif)', function($name){
