@@ -50,11 +50,12 @@ class CommunitiesController extends BaseController {
   {
     $fields = array_except(Input::all(), array('_token'));
     $community = Communities::where('name', $fields['community'])->first();
+    $to = $community->users->lists('email');
 
-    Mail::send('emails.apply', $fields, function($message) use ($fields, $community) {
+    Mail::send('emails.apply', $fields, function($message) use ($fields, $to) {
       $message
         ->from('hello@mhcomm.com', 'MHCOMM - Community Application Form')
-        ->to(explode(',', $community->email))
+        ->to($to)
         ->subject('Community Application Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
 
@@ -153,12 +154,21 @@ class CommunitiesController extends BaseController {
   public function contactSubmit()
   {
     $fields = array_except(Input::all(), array('_token'));
+    $community = Communities::where('name', $fields['community'])->first();
+    $to = array();
 
-    Mail::send('emails.contact', $fields, function($message) use ($fields) {
-      $sendTo = explode(',', $fields['send_to']);
+    if ($fields['type'] == 'Complaint') {
+      $to = explode(',', $community->area_manager);
+    } else {
+      $managers = $community->users->lists('email');
+      $areaManagers = explode(',', $community->area_manager);
+      $to = array_merge($managers, $areaManagers);
+    }
+
+    Mail::send('emails.contact', $fields, function($message) use ($fields, $to) {
       $message
         ->from('hello@mhcomm.com', 'MHCOMM - Community Contact Form')
-        ->to($sendTo)
+        ->to($to)
         ->subject('Community Contact Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
 

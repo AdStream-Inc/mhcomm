@@ -3,6 +3,7 @@
 use Adstream\Controllers\BaseController;
 use Adstream\Models\Communities;
 use Adstream\Models\Coupon;
+use Config;
 
 class ApplyController extends BaseController {
 
@@ -17,27 +18,46 @@ class ApplyController extends BaseController {
   public function getIndex()
   {
     $communities = $this->communities->lists('name', 'name');
+    array_unshift($communities, 'Im Not Sure');
     return View::make('frontend.static.apply', compact('communities'));
   }
 
   public function postIndex()
   {
     $fields = array_except(Input::all(), array('_token'));
-    $community = Communities::where('name', $fields['community'])->first();
 
-    Mail::send('emails.apply', $fields, function($message) use ($fields) {
+    // we can only send a coupon if a specified community is added
+    if ($fields['community'] != 'Im Not Sure') {
+      $community = Communities::where('name', $fields['community'])->first();
+      $content = $this->coupon->first()->content;
+      $couponData = array(
+        'phone' => $community->phone,
+        'location' => $fields['community'],
+        'content' => $content
+      );
+
+      Mail::send('emails.coupon', $couponData, function($message) use ($fields) {
+        $message
+          ->from('hello@mhcomm.com', 'MHCOMM - Application Coupon')
+          ->to($fields['email'])
+          ->subject('Community Application Coupon');
+      });
+    }
+
+    $to = array();
+    if ($fields['community'] == 'Im Not Sure') {
+      $to = explode(',', Config::get('site.generic_application'));
+    } else {
+      $community = Communities::where('name', $fields['community'])->first();
+      $to = $community->users->lists('email');
+    }
+
+    Mail::send('emails.apply', $fields, function($message) use ($fields, $to) {
       $message
-        ->from('test@mhcomm.com', 'MHCOMM - Community Application Form')
-        ->to('brandon@adstreaminc.com')
+        ->from($fields['email'], 'MHCOMM - Community Application Form')
+        ->to($to)
         ->subject('Community Application Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
-
-    $content = $this->coupon->first()->content;
-    $couponData = array(
-      'phone' => $community->phone,
-      'location' => $fields['community'],
-      'content' => $content
-    );
 
     $applicantFields = array(
       'first_name' => $fields['first_name'],
@@ -50,13 +70,6 @@ class ApplyController extends BaseController {
     );
 
     $this->saveApplication($applicantFields);
-
-    Mail::send('emails.coupon', $couponData, function($message) use ($fields) {
-      $message
-        ->from('test@mhcomm.com', 'MHCOMM - Application Coupon')
-        ->to('brandon@adstreaminc.com')
-        ->subject('Community Application Coupon');
-    });
 
     return View::make('frontend.static.apply-thanks', compact('couponData'));
   }

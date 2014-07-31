@@ -17,6 +17,16 @@
           return Form::text($name, $siteTitle, array('class' => 'form-control'));
         })
       }}
+
+      {{ Form::bootwrapped('generic_contact', 'Generic Contact Form Email', function($name) {
+          return Form::text($name, Config::get('site.generic_contact'), array('class' => 'form-control'));
+        })
+      }}
+
+      {{ Form::bootwrapped('generic_application', 'Generic Application Form Email', function($name) {
+          return Form::text($name, Config::get('site.generic_application'), array('class' => 'form-control'));
+        })
+      }}
       <!--
       {{ Form::bootwrapped('revision_emails', 'Recipient(s) for revision updates <span class="text-muted"> - comma separated</span>', function($name){
           return Form::text($name, Config::get('site.revision_emails'), array('class' => 'form-control'));

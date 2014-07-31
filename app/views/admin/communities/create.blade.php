@@ -96,6 +96,10 @@
               }}
             </div>
           </div>
+          {{ Form::bootwrapped('area_manager', 'Area Manager', function($name){
+              return Form::text($name, null, array('class' => 'form-control has-note', 'data-content' => 'Comma separated'));
+            })
+          }}
           <hr />
           {{ Form::bootwrapped('description', 'Description', function($name){
               return Form::textarea($name, null, array('class' => 'form-control wysiwyg-image', 'rows' => '6'));

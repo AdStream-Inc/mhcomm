@@ -96,23 +96,25 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  $subdomain = explode('.', $_SERVER['HTTP_HOST']);
-  if (count($subdomain) > 2) {
-    $subdomain = $subdomain[0];
-  } else {
-    $subdomain = null;
-  }
+  if (isset($_SERVER) && isset($_SERVER['HTTP_HOST'])) {
+    $subdomain = explode('.', $_SERVER['HTTP_HOST']);
+    if (count($subdomain) > 2) {
+      $subdomain = $subdomain[0];
+    } else {
+      $subdomain = null;
+    }
 
-  if ($subdomain && $subdomain != 'new') {
-    Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
-      Route::get('/', function($prefix) {
-        $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
+    if ($subdomain && $subdomain != 'new') {
+      Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
+        Route::get('/', function($prefix) {
+          $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
 
-        if ($community) {
-          return Redirect::to('communities/' . $community->slug . '.html', 301);
-        }
+          if ($community) {
+            return Redirect::to('communities/' . $community->slug . '.html', 301);
+          }
+        });
       });
-    });
+    }
   }
 
   Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {

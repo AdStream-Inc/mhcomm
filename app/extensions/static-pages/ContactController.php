@@ -25,7 +25,7 @@ class ContactController extends BaseController {
     Mail::send('emails.contact', $fields, function($message) use ($fields) {
       $message
         ->from('hello@mhcomm.com', 'MHCOMM - Contact Form')
-        ->to('gkauffmann@hfgnet.com', 'Glen Kauffmann')
+        ->to(Config::get('site.generic_contact'))
         ->subject('Contact Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
 
