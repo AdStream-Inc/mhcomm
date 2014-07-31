@@ -96,7 +96,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  $subdomain = array_shift(explode('.', $_SERVER['HTTP_HOST']));
+  $subdomain = explode('.', $_SERVER['HTTP_HOST']);
   if (count($subdomain) > 2) {
     $subdomain = $subdomain[0];
   } else {
