@@ -43,8 +43,7 @@ class Communities extends BaseRepository {
   	  'email' => 'required',
       'area_manager' => 'required',
   	  'description' => 'required',
-      'main_image_file' => 'mimes:jpeg,png,jpg,JPG',
-      'subdomain' => 'unique:communities,subdomain'
+      'main_image_file' => 'mimes:jpeg,png,jpg,JPG'
     );
 
 	public function specials()
