@@ -97,15 +97,15 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
     });
 
   Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
-    Route::get('/', function($prefix) {
-      if ($prefix != 'new') {
+    if ($prefix != 'new') {
+      Route::get('/', function($prefix) {
         $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
 
         if ($community) {
           return Redirect::to('communities/' . $community->slug . '.html', 301);
         }
-      }
-    });
+      });
+    }
   });
 
 
