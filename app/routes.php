@@ -96,7 +96,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
+  Route::group(array('domain' => '{prefix}.mhcomm.com'), function($prefix) {
     if ($prefix != 'new') {
       Route::get('/', function($prefix) {
         $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
