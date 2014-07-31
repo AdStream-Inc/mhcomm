@@ -96,8 +96,15 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       Route::get('/', 'DashboardController@getIndex');
     });
 
-  Route::group(array('domain' => '{prefix}.mhcomm.com'), function($prefix) {
-    if ($prefix != 'new') {
+  $subdomain = array_shift(explode('.', $_SERVER['HTTP_HOST']));
+  if (count($subdomain) > 2) {
+    $subdomain = $subdomain[0];
+  } else {
+    $subdomain = null;
+  }
+
+  if ($subdomain && $subdomain != 'new') {
+    Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
       Route::get('/', function($prefix) {
         $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
 
@@ -105,9 +112,8 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
           return Redirect::to('communities/' . $community->slug . '.html', 301);
         }
       });
-    }
-  });
-
+    });
+  }
 
   Route::group(array('prefix' => 'communities', 'namespace' => $frontendNs), function() {
 
