@@ -3,7 +3,6 @@
 use Adstream\Controllers\BaseController;
 use Adstream\Models\Communities;
 use Adstream\Models\Coupon;
-use Config;
 
 class ApplyController extends BaseController {
 
