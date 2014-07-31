@@ -157,7 +157,7 @@ class CommunitiesController extends BaseController {
     $community = Communities::where('name', $fields['community'])->first();
     $to = array();
 
-    if ($fields['type'] == 'Complaint') {
+    if ($fields['type'] == 'complaint') {
       $to = explode(',', $community->area_manager);
     } else {
       $managers = $community->users->lists('email');
