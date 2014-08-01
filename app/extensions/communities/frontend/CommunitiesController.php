@@ -8,6 +8,7 @@ use Input;
 use Mail;
 use Session;
 use File;
+use Config;
 use Adstream\Models\Communities;
 use Adstream\Models\CommunityPages;
 use Adstream\Controllers\BaseController;
@@ -51,6 +52,7 @@ class CommunitiesController extends BaseController {
     $fields = array_except(Input::all(), array('_token'));
     $community = Communities::where('name', $fields['community'])->first();
     $to = $community->users->lists('email');
+    array_push($to, Config::get('site.generic_application'));
 
     Mail::send('emails.apply', $fields, function($message) use ($fields, $to) {
       $message
