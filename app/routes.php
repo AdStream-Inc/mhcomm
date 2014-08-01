@@ -104,7 +104,7 @@ Route::group(array('before' => 'install'), function() use($adminNs, $frontendNs)
       $subdomain = null;
     }
 
-    if ($subdomain && in_array($subdomain, array('new', 'www'))) {
+    if ($subdomain && !in_array($subdomain, array('new', 'www'))) {
       Route::group(array('domain' => '{prefix}.mhcomm.com'), function() {
         Route::get('/', function($prefix) {
           $community = \Adstream\Models\Communities::where('subdomain', $prefix)->first();
