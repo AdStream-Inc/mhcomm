@@ -23,7 +23,7 @@ class ApplicationsController extends BaseController {
     $endDate = Input::get('end_date');
 
     $applications = DB::table('applicants')
-      ->select('first_name', 'last_name', 'email', 'phone', 'created_at')
+      ->select('first_name', 'last_name', 'email', 'phone', 'community', 'created_at')
       ->where('created_at', '>=', date('Y-m-d H:i:s', strtotime($startDate)))
       ->where('created_at', '<=', date('Y-m-d H:i:s', strtotime($endDate)))
       ->get();
@@ -31,7 +31,7 @@ class ApplicationsController extends BaseController {
     // this is super hacky...
     // converts a object to an assoc array since
     // Laravel's query builder does not have
-    // a toArray method
+    // a native toArray method built in
     $applications = json_encode($applications);
     $applications = json_decode($applications, true);
 
