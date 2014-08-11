@@ -3,7 +3,7 @@
         inlineMode: false,
         autosave: true,
         borderColor: '#dce4ec',
-        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'sep', 'html'],
+        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'table', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'sep', 'html'],
         height: 200,
         spellcheck: true,
         paragraphy: false
@@ -13,7 +13,7 @@
         inlineMode: false,
         autosave: true,
         borderColor: '#dce4ec',
-        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'insertImage', 'sep', 'html'],
+        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'table', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'insertImage', 'sep', 'html'],
         height: 200,
         spellcheck: true,
         paragraphy: false,

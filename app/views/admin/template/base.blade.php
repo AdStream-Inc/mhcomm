@@ -10,7 +10,7 @@
     <link rel="icon" href="{{ asset('assets/admin/images/favicon.ico') }}" type="image/x-icon">
 
     {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.1.1-1/css/flatly/bootstrap.min.css') }}
-    {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css') }}
+    {{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css') }}
     {{ HTML::style(asset('assets/admin/css/app.min.css')) }}
     @yield('styles')
 
@@ -24,7 +24,7 @@
 
        var isManager = {{ $isManager ? 1 : 0 }};
     </script>
-    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js') }}
+    {{ HTML::script('//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js') }}
   </head>
   <body>
     <div id="header">
