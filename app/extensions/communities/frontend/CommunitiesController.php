@@ -33,9 +33,9 @@ class CommunitiesController extends BaseController {
   public function index()
   {
     if (Input::get('state_filter')) {
-      $communities = $this->communities->where('state', Input::get('state_filter'))->get();
+      $communities = $this->communities->where('state', Input::get('state_filter'))->where('enabled', true)->get();
     } else {
-      $communities = $this->communities->all()->sortBy('name');
+      $communities = $this->communities->where('enabled', true)->get()->sortBy('name');
     }
     $communityStates = $this->communities->lists('state', 'state');
     array_unshift($communityStates, '-- Filter by State --');
