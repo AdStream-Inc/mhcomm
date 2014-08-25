@@ -120,7 +120,7 @@
     this.editors = $('.template-section-content').editable({
         inlineMode: false,
         borderColor: '#dce4ec',
-        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'table', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'insertImage', 'sep', 'html'],
+        buttons: ['undo', 'redo', 'sep', 'bold', 'italic', 'underline', 'color', 'formatBlock', 'sep', 'table', 'insertUnorderedList', 'insertOrderedList', 'createLink', 'insertImage', 'sep', 'html', 'save'],
         height: 150,
         spellcheck: true,
         paragraphy: false,
