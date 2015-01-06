@@ -50,7 +50,7 @@ class ApplyController extends BaseController {
     }
 
     $to = array();
-    if ($fields['community'] == 'Im Not Sure') {
+    if (!$fields['community']) {
       $to = explode(',', Config::get('site.generic_application'));
     } else {
       $community = Communities::where('name', $fields['community'])->first();
