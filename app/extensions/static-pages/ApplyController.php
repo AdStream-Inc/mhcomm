@@ -26,7 +26,7 @@ class ApplyController extends BaseController {
     $fields = array_except(Input::all(), array('_token'));
 
     // we can only send a coupon if a specified community is added
-    if ($fields['community'] != 'Im Not Sure') {
+    if ($fields['community']) {
       $community = Communities::where('name', $fields['community'])->first();
       $content = $this->coupon->first()->content;
       $phone = '';
