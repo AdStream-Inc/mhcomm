@@ -29,8 +29,14 @@ class ApplyController extends BaseController {
     if ($fields['community'] != 'Im Not Sure') {
       $community = Communities::where('name', $fields['community'])->first();
       $content = $this->coupon->first()->content;
+      $phone = '';
+
+      if (isset($community->phone)) {
+        $phone = $community->phone;
+      }
+
       $couponData = array(
-        'phone' => $community->phone,
+        'phone' => $phone,
         'location' => $fields['community'],
         'content' => $content
       );
@@ -73,4 +79,3 @@ class ApplyController extends BaseController {
     return View::make('frontend.static.apply-thanks', compact('couponData'));
   }
 }
-
