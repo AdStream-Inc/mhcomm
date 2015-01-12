@@ -24,6 +24,7 @@ class ApplyController extends BaseController {
   public function postIndex()
   {
     $fields = array_except(Input::all(), array('_token'));
+    $couponData = null;
 
     // we can only send a coupon if a specified community is added
     if ($fields['community']) {
@@ -64,18 +65,26 @@ class ApplyController extends BaseController {
         ->subject('Community Application Form Submission From ' . $fields['first_name'] . ' ' . $fields['last_name']);
     });
 
+    $alternateCommunity = $fields['community'] ?
+                          $fields['community'] :
+                          'No community selected';
+
     $applicantFields = array(
       'first_name' => $fields['first_name'],
       'last_name' => $fields['last_name'],
       'email' => $fields['email'],
       'phone' => $fields['phone'],
-      'community' => $fields['community'],
+      'community' => $alternateCommunity,
       'created_at' => date('Y-m-d H:i:s'),
       'updated_at' => date('Y-m-d H:i:s')
     );
 
     $this->saveApplication($applicantFields);
 
-    return View::make('frontend.static.apply-thanks', compact('couponData'));
+    if ($couponData) {
+      return View::make('frontend.static.apply-thanks', compact('couponData'));
+    } else {
+      return View::make('frontend.static.apply-thanks');
+    }
   }
 }
