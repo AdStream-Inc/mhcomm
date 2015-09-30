@@ -51,11 +51,11 @@ class ApplyController extends BaseController {
     }
 
     $to = array();
-    if (!$fields['community']) {
-      $to = explode(',', Config::get('site.generic_application'));
-    } else {
+    if (isset($fields['community']) && $fields['community']) {
       $community = Communities::where('name', $fields['community'])->first();
       $to = $community->users->lists('email');
+    } else {
+      $to = explode(',', Config::get('site.generic_application'));
     }
 
     Mail::send('emails.apply', $fields, function($message) use ($fields, $to) {
